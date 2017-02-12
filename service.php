@@ -1,14 +1,14 @@
 <?php
 
- use Goutte\Client; // UNCOMMENT TO USE THE CRAWLER OR DELETE
+ use Goutte\Client;
 
-class Bolita extends Service{	
+class Bolita extends Service {
 	/**
-	 * Queremos que el servicio muestre el fijo y los corridos, los números que salieron y el elemento de la charada que 
-	 * representan.También debe haber una lista con los resultados previos (solo números) de los resultados de la bolita de días 
+	 * Queremos que el servicio muestre el fijo y los corridos, los números que salieron y el elemento de la charada que
+	 * representan.También debe haber una lista con los resultados previos (solo números) de los resultados de la bolita de días
 	 * pasados.Hay dos sorteos diarios los cuales se mostrarán en el día en curso.
 	 * Function executed when the service is called
-	 * 
+	 *
 	 * @param Request
 	 * @return Response
 	 * */
@@ -27,13 +27,19 @@ class Bolita extends Service{
 		$tb_lang = 1;
 		$tb_ads_url = '';
 
-		// create a crawler
-		$crawler = $client->request('GET', 
-			"https://www.lotteryinformation.us/redirect.php?tb_state=".$tb_state."&tb_links=".$tb_links."&tb_country=".$tb_country."&tb_lang=".$tb_lang."&adsurl=".$tb_ads_url);
-		
-		$resultintext = $crawler->filter('div.roundbox:nth-child(7) > center:nth-child(1)')->text();
-		//tratar como texto y regexp y sale un arreglo manejable
-		
+		// load from cache if exists
+		$cacheFile = $this->utils->getTempDir() . date("Ymd") . "_bolita_today.tmp";
+		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
+		else
+		{
+			// create a crawler and get the text file
+			$crawler = $client->request('GET', "https://www.lotteryinformation.us/redirect.php?tb_state=".$tb_state."&tb_links=".$tb_links."&tb_country=".$tb_country."&tb_lang=".$tb_lang."&adsurl=".$tb_ads_url);
+			$resultintext = $crawler->filter('div.roundbox:nth-child(7) > center:nth-child(1)')->text();
+
+			// save cache file for today
+			file_put_contents($cacheFile, $resultintext);
+		}
+
 		//extraemos los resultados del mediodia en texto
 		$patternResultsMed = "/Med.{5}:{1}\s{1}.{3}\s{1}\d{1,2}\/\d{1,2}\/\d{4}\s{2}[\d{1}\s{1}]{3,}/u"; //mod u para tratar con utf8
 		$regexpmatch = preg_match_all($patternResultsMed, $resultintext, $matches);
@@ -46,7 +52,7 @@ class Bolita extends Service{
 
 			$numGan_Pick3Med = preg_replace('/[^0-9]+/', '', substr($result_Pick3Med,-7)); //eliminar todo lo que no sea numero de los ult 7 ca
 			$elFijoMed = substr($numGan_Pick3Med, 1); //despues del 1er car hasta el final, son tres, serian los ultimos 2
-			
+
 			$numGan_Pick4Med = preg_replace('/[^0-9]+/', '', substr($result_Pick4Med,-10));//eliminar todo lo que no sea numero de los ult 10 c
 			$elCorrido1Med = substr($numGan_Pick4Med, 0, 2); //desde el inicio, 2 caracteres
 			$elCorrido2Med = substr($numGan_Pick4Med, 2, 2); //desde el segundo caracter, 2 caracteres
@@ -56,7 +62,7 @@ class Bolita extends Service{
 			$fecha_Pick4Med = substr($result_Pick4Med, 0, 24);
 			$fecha_Pick4Med = preg_replace('/Mediodía/', 'Tarde', $fecha_Pick4Med); //cambiamos Mediodía por Tarde
 		}
-		
+
 		//extraemos los resultados de la tarde en texto
 		$patternResultsTar = "/Tar.{2}:{1}\s{1}.{3}\s{1}\d{1,2}\/\d{1,2}\/\d{4}\s{2}[\d{1}\s{1}]{3,}/u"; //mod u para tratar con utf8
 		$regexpmatch = preg_match_all($patternResultsTar, $resultintext, $matches);
@@ -68,7 +74,7 @@ class Bolita extends Service{
 			//extraemos los numeros ganadores
 			$numGan_Pick3Tar = preg_replace('/[^0-9]+/', '', substr($result_Pick3Tar,-7)); //eliminar todo lo que no sea numero de los ult 7 ca
 			$elFijoTar = substr($numGan_Pick3Tar, 1); //despues del 1er car hasta el final, son tres, serian los ultimos 2
-			
+
 			$numGan_Pick4Tar = preg_replace('/[^0-9]+/', '', substr($result_Pick4Tar,-10));//eliminar todo lo que no sea numero de los ult 10 c
 			$elCorrido1Tar = substr($numGan_Pick4Tar, 0, 2); //desde el inicio, 2 caracteres
 			$elCorrido2Tar = substr($numGan_Pick4Tar, 2, 2); //desde el segundo caracter, 2 caracteres
@@ -91,7 +97,7 @@ class Bolita extends Service{
 		}else{
 			$sigTir_Pick3Med = "error";
 		}
-				
+
 		// create a json object to send to the template
 		$responseContent = array(
 			"fecha_Pick3Med" => $fecha_Pick3Med,
@@ -128,7 +134,7 @@ class Bolita extends Service{
 		);
 
 		// get the images to embed into the email
-        $images = array(
+		$images = array(
 			"imgElFijoMed" => "{$this->pathToService}/images/$elFijoMed.png",
 			"imgCorrido1Med" => "{$this->pathToService}/images/$elCorrido1Med.png",
 			"imgCorrido2Med" => "{$this->pathToService}/images/$elCorrido2Med.png",
@@ -144,25 +150,31 @@ class Bolita extends Service{
 		return $response;
 	}
 
-	private function getCharadaText($numGan){
-		$laCharada = array("Autom&oacute;vil","Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San L&aacute;zaro","Pescadito","Lombriz","Gato Fino","Maj&aacute;","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Rat&oacute;n","Camar&oacute;n","Venado","Cochino","Tiñosa","Mono","Ara&ntilde;a","Cachimba","Brujer&iacute;a","Dinero","Conejo","Cura","Lagartija","Pato","Alacr&aacute;n","Año Del Cuero","Presidente","Humo Blanco","P&aacute;jaro","Cucaracha","Borracho","Polic&iacute;a","Soldado","Bicicleta","Luz El&eacute;ctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","R&iacute;o","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De S&aacute;n L&aacute;zaro","Sarc&oacute;fago","Coche","M&eacute;dico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Pl&aacute;tano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revoluci&oacute;n","Mariposa Grande","Perro Grande", "Escorpi&oacute;n", "Mosquito", "Bollo Grande", "Serrucho");
-		return ($laCharada[(int)$numGan]);
-	}
-
 	/**
 	 * Subservice BOLITA anteriores
 	 * */
-	function _anteriores(Request $request){
+	function _anteriores(Request $request)
+	{
 		// create a new client
 		$client = new Client();
 		$guzzle = $client->getClient();
 		$guzzle->setDefaultOption('verify', false);
 		$client->setClient($guzzle);
 
-		// create a crawler 
-		$crawler = $client->request('GET', "http://strictmath.com/info.php?P=LFBrowse&S=TOP:Results&V=8");
 
-		$resultintext = $crawler->filter("body > div:nth-child(1) > table:nth-child(1)")->text();
+		// load from cache if exists
+		$cacheFile = $this->utils->getTempDir() . date("Ymd") . "_bolita_anteriores.tmp";
+		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
+		else
+		{
+			// create a crawler
+			$crawler = $client->request('GET', "http://strictmath.com/info.php?P=LFBrowse&S=TOP:Results&V=8");
+			$resultintext = $crawler->filter("body > div:nth-child(1) > table:nth-child(1)")->text();
+
+			// save cache file for today
+			file_put_contents($cacheFile, $resultintext);
+		}
+
 		//preparamos el texto para dividir los resultados mas facil despues
 		$resultintext = str_replace(')', '~', $resultintext);
 		$resultintext = preg_replace('/[^0-9A-Za-z\s~\/]+/', '', $resultintext); //eliminar caracteres extraños
@@ -217,7 +229,6 @@ class Bolita extends Service{
 		}
 
 		$responseContent = array(
-			"title" => "Ultimos 7 Resultados",
 			"lastResultsP3" => $lastResultsP3,
 			"lastResultsP4" => $lastResultsP4
 		);
@@ -225,5 +236,11 @@ class Bolita extends Service{
 		$response->setResponseSubject("Resultados anteriores de la bolita.");
 		$response->createFromTemplate("anteriores.tpl", $responseContent);
 		return $response;
+	}
+
+	private function getCharadaText($numGan)
+	{
+		$laCharada = array("Autom&oacute;vil","Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San L&aacute;zaro","Pescadito","Lombriz","Gato Fino","Maj&aacute;","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Rat&oacute;n","Camar&oacute;n","Venado","Cochino","Tiñosa","Mono","Ara&ntilde;a","Cachimba","Brujer&iacute;a","Dinero","Conejo","Cura","Lagartija","Pato","Alacr&aacute;n","Año Del Cuero","Presidente","Humo Blanco","P&aacute;jaro","Cucaracha","Borracho","Polic&iacute;a","Soldado","Bicicleta","Luz El&eacute;ctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","R&iacute;o","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De S&aacute;n L&aacute;zaro","Sarc&oacute;fago","Coche","M&eacute;dico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Pl&aacute;tano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revoluci&oacute;n","Mariposa Grande","Perro Grande", "Escorpi&oacute;n", "Mosquito", "Bollo Grande", "Serrucho");
+		return ($laCharada[(int)$numGan]);
 	}
 }
