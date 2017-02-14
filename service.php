@@ -28,7 +28,7 @@ class Bolita extends Service {
 		$tb_ads_url = '';
 
 		// load from cache if exists
-		$cacheFile = $this->utils->getTempDir() . date("Ymd") . "_bolita_today.tmp";
+		$cacheFile = $this->utils->getTempDir() . date("YmdG") . "_bolita_today.tmp";
 		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
 		else
 		{
@@ -163,7 +163,7 @@ class Bolita extends Service {
 
 
 		// load from cache if exists
-		$cacheFile = $this->utils->getTempDir() . date("Ymd") . "_bolita_anteriores.tmp";
+		$cacheFile = $this->utils->getTempDir() . date("YmdG") . "_bolita_anteriores.tmp";
 		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
 		else
 		{
