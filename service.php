@@ -62,6 +62,13 @@ class Bolita extends Service {
 			$fecha_Pick3Med = preg_replace('/Mediodía/', 'Tarde', $fecha_Pick3Med); //cambiamos Mediodía por Tarde
 			$fecha_Pick4Med = substr($result_Pick4Med, 0, 24);
 			$fecha_Pick4Med = preg_replace('/Mediodía/', 'Tarde', $fecha_Pick4Med); //cambiamos Mediodía por Tarde
+		}else{
+			// Send an error advice to programmer
+			$response = new Response();
+			$response->setResponseEmail("jaikerkings@yahoo.es");
+			$response->setResponseSubject("Error al leer los resultados del mediodia p3 y p4!");
+			$response->createFromText($resultintext);
+			return $response;
 		}
 
 		//extraemos los resultados de la tarde en texto
@@ -84,6 +91,13 @@ class Bolita extends Service {
 			$fecha_Pick3Tar = preg_replace('/Tarde/', 'Noche', $fecha_Pick3Tar); //cambiamos Tarde por Noche
 			$fecha_Pick4Tar = substr($result_Pick4Tar, 0, 20);
 			$fecha_Pick4Tar = preg_replace('/Tarde/', 'Noche', $fecha_Pick4Tar); //cambiamos Tarde por Noche
+		}else{
+			// Send an error advice to programmer
+			$response = new Response();
+			$response->setResponseEmail("jaikerkings@yahoo.es");
+			$response->setResponseSubject("Error al leer los resultados de la tarde p3 y p4!");
+			$response->createFromText($resultintext);
+			return $response;
 		}
 
 		//extraemos las fechas de los siguientes sorteos en texto
