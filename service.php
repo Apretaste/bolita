@@ -28,7 +28,11 @@ class Bolita extends Service {
 		$tb_ads_url = '';
 
 		// load from cache if exists
-		$cacheFile = $this->utils->getTempDir() . date("YmdG") . "_bolita_today.tmp";
+		//$cacheFile = $this->utils->getTempDir() . date("YmdG") . "_bolita_today.tmp";
+		$di = \Phalcon\DI\FactoryDefault::getDefault();
+		$wwwroot = $di->get('path')['root'];
+
+		$cacheFile = "$wwwroot/temp/" . date("YmdG") . "_bolita_today.tmp";
 
 		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
 		else
@@ -63,12 +67,12 @@ class Bolita extends Service {
 			$fecha_Pick4Med = substr($result_Pick4Med, 0, 24);
 			$fecha_Pick4Med = preg_replace('/Mediodía/', 'Tarde', $fecha_Pick4Med); //cambiamos Mediodía por Tarde
 		}else{
-			// Send an error advice to programmer
+			// Send an error notice to programmer
 			$response = new Response();
 			$response->setResponseEmail("jaikerkings@yahoo.es");
 			$response->setResponseSubject("Error al leer los resultados del mediodia p3 y p4!");
 			$response->createFromText($resultintext);
-			return $response;
+			$responses[] = $response;
 		}
 
 		//extraemos los resultados de la tarde en texto
@@ -92,12 +96,12 @@ class Bolita extends Service {
 			$fecha_Pick4Tar = substr($result_Pick4Tar, 0, 20);
 			$fecha_Pick4Tar = preg_replace('/Tarde/', 'Noche', $fecha_Pick4Tar); //cambiamos Tarde por Noche
 		}else{
-			// Send an error advice to programmer
+			// Send an error notice to programmer
 			$response = new Response();
 			$response->setResponseEmail("jaikerkings@yahoo.es");
 			$response->setResponseSubject("Error al leer los resultados de la tarde p3 y p4!");
 			$response->createFromText($resultintext);
-			return $response;
+			$responses[] = $response;
 		}
 
 		//extraemos las fechas de los siguientes sorteos en texto
@@ -162,7 +166,8 @@ class Bolita extends Service {
 		$response = new Response();
 		$response->setResponseSubject("Resultados de la bolita hasta este momento.");
 		$response->createFromTemplate("actual.tpl", $responseContent, $images);
-		return $response;
+		$responses[] = $response;
+		return $responses;
 	}
 
 	/**
@@ -216,6 +221,13 @@ class Bolita extends Service {
 				$value = substr_replace($value, $aux, strlen($value), 0);
 				array_push($lastResultsP3, array('NumGanador' => $value, 'fijo' => $fijo, 'charada' => $charada));
 			}
+		}else{
+			// Send an error notice to programmer
+			$response = new Response();
+			$response->setResponseEmail("jaikerkings@yahoo.es");
+			$response->setResponseSubject("Error al leer los resultados pick3 anteriores!");
+			$response->createFromText($lastResultsP3inText);
+			$responses[] = $response;
 		}
 
 		//extraemos los resultados de pick4
@@ -241,6 +253,13 @@ class Bolita extends Service {
 				$value = substr_replace($value, $aux, strlen($value), 0);
 				array_push($lastResultsP4, array('NumGanador' => $value, 'corrido1' => $corrido1, 'charada1' => $charada1, 'corrido2' => $corrido2, 'charada2' => $charada2));
 			}
+		}else{
+			// Send an error notice to programmer
+			$response = new Response();
+			$response->setResponseEmail("jaikerkings@yahoo.es");
+			$response->setResponseSubject("Error al leer los resultados pick4 anteriores!");
+			$response->createFromText($lastResultsP4inText);
+			$responses[] = $response;
 		}
 
 		$responseContent = array(
@@ -250,7 +269,8 @@ class Bolita extends Service {
 		$response = new Response();
 		$response->setResponseSubject("Resultados anteriores de la bolita.");
 		$response->createFromTemplate("anteriores.tpl", $responseContent);
-		return $response;
+		$responses[] = $response;
+		return $responses;
 	}
 
 	private function getCharadaText($numGan)
