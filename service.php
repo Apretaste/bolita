@@ -29,12 +29,13 @@ class Bolita extends Service {
 
 		// load from cache if exists
 		$cacheFile = $this->utils->getTempDir() . date("YmdG") . "_bolita_today.tmp";
+
 		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
 		else
 		{
 			// create a crawler and get the text file
 			$crawler = $client->request('GET', "https://www.lotteryinformation.us/redirect.php?tb_state=".$tb_state."&tb_links=".$tb_links."&tb_country=".$tb_country."&tb_lang=".$tb_lang."&adsurl=".$tb_ads_url);
-			$resultintext = $crawler->filter('div.roundbox:nth-child(7) > center:nth-child(1)')->text();
+			$resultintext = $crawler->filter('div.roundbox:nth-child(8) > center:nth-child(1)')->text();
 
 			// save cache file for today
 			file_put_contents($cacheFile, $resultintext);
