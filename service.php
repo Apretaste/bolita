@@ -29,10 +29,6 @@ class Bolita extends Service {
 
 		// load from cache if exists
 		$cacheFile = $this->utils->getTempDir() . date("YmdG") . "_bolita_today.tmp";
-		//$di = \Phalcon\DI\FactoryDefault::getDefault();
-		//$wwwroot = $di->get('path')['root'];
-
-		//$cacheFile = "$wwwroot/temp/" . date("YmdG") . "_bolita_today.tmp";
 
 		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
 		else
@@ -41,8 +37,8 @@ class Bolita extends Service {
 
 			//https://www.lotteryinformation.us/redirect.php?tb_state=FL&tb_links=&tb_country=US&tb_lang=1&adsurl=
 			$crawler = $client->request('GET', "https://www.lotteryinformation.us/redirect.php?tb_state=".$tb_state."&tb_links=".$tb_links."&tb_country=".$tb_country."&tb_lang=".$tb_lang."&adsurl=".$tb_ads_url);
-			$resultintext = $crawler->filter('div.roundbox:nth-child(9) > center:nth-child(1)')->text();
-
+			$resultintext = $crawler->filter('tr:nth-child(1) > td:nth-child(1)')->text();
+			
 			// save cache file for today
 			file_put_contents($cacheFile, $resultintext);
 		}
