@@ -11,7 +11,7 @@ class Bolita extends Service {
 	 *
 	 * @param Request
 	 * @return Response
-	 * */
+	 */
 	public function _main(Request $request)
 	{
 		// create a new client
@@ -38,7 +38,7 @@ class Bolita extends Service {
 			//https://www.lotteryinformation.us/redirect.php?tb_state=FL&tb_links=&tb_country=US&tb_lang=1&adsurl=
 			$crawler = $client->request('GET', "https://www.lotteryinformation.us/redirect.php?tb_state=".$tb_state."&tb_links=".$tb_links."&tb_country=".$tb_country."&tb_lang=".$tb_lang."&adsurl=".$tb_ads_url);
 			$resultintext = $crawler->filter('tr:nth-child(1) > td:nth-child(1)')->text();
-			
+
 			// save cache file for today
 			file_put_contents($cacheFile, $resultintext);
 		}
@@ -170,7 +170,7 @@ class Bolita extends Service {
 
 	/**
 	 * Subservice BOLITA anteriores
-	 * */
+	 */
 	function _anteriores(Request $request)
 	{
 		// create a new client
@@ -195,7 +195,7 @@ class Bolita extends Service {
 
 		//preparamos el texto para dividir los resultados mas facil despues
 		$resultintext = str_replace(')', '~', $resultintext);
-		$resultintext = preg_replace('/[^0-9A-Za-z\s~\/]+/', '', $resultintext); //eliminar caracteres extraños
+		$resultintext = preg_replace('/[^0-9A-Za-z\s~\/]+/', '', $resultintext); //eliminar caracteres extra&ntilde;os
 
 		//extraemos los resultados de pick3
 		$patternLastResultsP3 = "/PICK\s3\sCOMBINED(\d{3}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3}~)+/u"; //mod u para tratar con utf8
@@ -273,7 +273,7 @@ class Bolita extends Service {
 
 	private function getCharadaText($numGan)
 	{
-		$laCharada = array("Autom&oacute;vil","Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San L&aacute;zaro","Pescadito","Lombriz","Gato Fino","Maj&aacute;","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Rat&oacute;n","Camar&oacute;n","Venado","Cochino","Tiñosa","Mono","Ara&ntilde;a","Cachimba","Brujer&iacute;a","Dinero","Conejo","Cura","Lagartija","Pato","Alacr&aacute;n","Año Del Cuero","Presidente","Humo Blanco","P&aacute;jaro","Cucaracha","Borracho","Polic&iacute;a","Soldado","Bicicleta","Luz El&eacute;ctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","R&iacute;o","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De S&aacute;n L&aacute;zaro","Sarc&oacute;fago","Coche","M&eacute;dico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Pl&aacute;tano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revoluci&oacute;n","Mariposa Grande","Perro Grande", "Escorpi&oacute;n", "Mosquito", "Bollo Grande", "Serrucho");
+		$laCharada = array("Autom&oacute;vil","Caballo","Mariposa","Ni&ntilde;ito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San L&aacute;zaro","Pescadito","Lombriz","Gato Fino","Maj&aacute;","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Rat&oacute;n","Camar&oacute;n","Venado","Cochino","Ti&ntilde;osa","Mono","Ara&ntilde;a","Cachimba","Brujer&iacute;a","Dinero","Conejo","Cura","Lagartija","Pato","Alacr&aacute;n","A&ntilde;o Del Cuero","Presidente","Humo Blanco","P&aacute;jaro","Cucaracha","Borracho","Polic&iacute;a","Soldado","Bicicleta","Luz El&eacute;ctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Pu&ntilde;alada","Cementerio","Relajo Grande","Coco","R&iacute;o","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De S&aacute;n L&aacute;zaro","Sarc&oacute;fago","Coche","M&eacute;dico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Pl&aacute;tano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revoluci&oacute;n","Mariposa Grande","Perro Grande", "Escorpi&oacute;n", "Mosquito", "Bollo Grande", "Serrucho");
 		return ($laCharada[(int)$numGan]);
 	}
 }

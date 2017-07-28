@@ -19,9 +19,9 @@
 		<td>Corrido 2</td>
 	</tr>
 	<tr>
-		<td>{img src="{$imgElFijoMed}" alt="Imagen Fijo" width="150px"}</td>
-		<td>{img src="{$imgCorrido1Med}" alt="Imagen Corrido1" width="150px"}</td>
-		<td>{img src="{$imgCorrido2Med}" alt="Imagen Corrido2" width="150px"}</td>
+		<td>{img src="{$imgElFijoMed}" alt="Imagen Fijo" width="100px"}</td>
+		<td>{img src="{$imgCorrido1Med}" alt="Imagen Corrido1" width="100px"}</td>
+		<td>{img src="{$imgCorrido2Med}" alt="Imagen Corrido2" width="100px"}</td>
 	<tr>
 		<td><font size="32"><b>{$elFijoMed}</b></font></td>
 		<td><font size="32"><b>{$elCorrido1Med}</b></font></td>
@@ -47,9 +47,9 @@
 		<td><p>Corrido 1</p></td>
 		<td><p>Corrido 2</p></td>
 	</tr>
-		<td>{img src="{$imgElFijoTar}" alt="Imagen Fijo" width="150px"}</td>
-		<td>{img src="{$imgCorrido1Tar}" alt="Imagen Corrido1" width="150px"}</td>
-		<td>{img src="{$imgCorrido2Tar}" alt="Imagen Corrido2" width="150px"}</td>
+		<td>{img src="{$imgElFijoTar}" alt="Imagen Fijo" width="100px"}</td>
+		<td>{img src="{$imgCorrido1Tar}" alt="Imagen Corrido1" width="100px"}</td>
+		<td>{img src="{$imgCorrido2Tar}" alt="Imagen Corrido2" width="100px"}</td>
 	<tr>
 		<td><font size="32"><b>{$elFijoTar}</b></font></td>
 		<td><font size="32"><b>{$elCorrido1Tar}</b></font></td>
