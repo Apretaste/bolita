@@ -66,11 +66,7 @@ class Bolita extends Service {
 			$fecha_Pick4Med = preg_replace('/Mediodía/', 'Tarde', $fecha_Pick4Med); //cambiamos Mediodía por Tarde
 		}else{
 			// Send an error notice to programmer
-			$response = new Response();
-			$response->setResponseEmail("jaikerkings@yahoo.es");
-			$response->setResponseSubject("Error al leer los resultados del mediodia p3 y p4!");
-			$response->createFromText($resultintext);
-			$responses[] = $response;
+			$this->utils->createAlert("BOLITA: Error al leer los resultados del mediodia p3 y p4", "ERROR");
 		}
 
 		//extraemos los resultados de la tarde en texto
@@ -95,11 +91,7 @@ class Bolita extends Service {
 			$fecha_Pick4Tar = preg_replace('/Tarde/', 'Noche', $fecha_Pick4Tar); //cambiamos Tarde por Noche
 		}else{
 			// Send an error notice to programmer
-			$response = new Response();
-			$response->setResponseEmail("jaikerkings@yahoo.es");
-			$response->setResponseSubject("Error al leer los resultados de la tarde p3 y p4!");
-			$response->createFromText($resultintext);
-			$responses[] = $response;
+			$this->utils->createAlert("BOLITA: Error al leer los resultados de la tarde p3 y p4", "ERROR");
 		}
 
 		//extraemos las fechas de los siguientes sorteos en texto
@@ -162,6 +154,7 @@ class Bolita extends Service {
 
 		// create the response
 		$response = new Response();
+		$response->setCache("day");
 		$response->setResponseSubject("Resultados de la bolita hasta este momento.");
 		$response->createFromTemplate("actual.tpl", $responseContent, $images);
 		$responses[] = $response;
@@ -178,7 +171,6 @@ class Bolita extends Service {
 		$guzzle = $client->getClient();
 		$guzzle->setDefaultOption('verify', false);
 		$client->setClient($guzzle);
-
 
 		// load from cache if exists
 		$cacheFile = $this->utils->getTempDir() . date("YmdG") . "_bolita_anteriores.tmp";
@@ -199,10 +191,10 @@ class Bolita extends Service {
 
 		//extraemos los resultados de pick3
 		$patternLastResultsP3 = "/PICK\s3\sCOMBINED(\d{3}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3}~)+/u"; //mod u para tratar con utf8
-
 		$regexpmatch = preg_match($patternLastResultsP3, $resultintext, $matches);
 
-		if (($regexpmatch != 0) && ($regexpmatch != false)){ //si no hubo problemas al encontrar la expresion regular
+		//si no hubo problemas al encontrar la expresion regular
+		if (($regexpmatch != 0) && ($regexpmatch != false)){
 			$lastResultsP3inText = $matches[0];
 			preg_match_all("/(\d{3}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3})/u", $lastResultsP3inText, $matches);
 			//$resultintext = implode(";", $matches[0]);
@@ -221,11 +213,7 @@ class Bolita extends Service {
 			}
 		}else{
 			// Send an error notice to programmer
-			$response = new Response();
-			$response->setResponseEmail("jaikerkings@yahoo.es");
-			$response->setResponseSubject("Error al leer los resultados pick3 anteriores!");
-			$response->createFromText($lastResultsP3inText);
-			$responses[] = $response;
+			$this->utils->createAlert("BOLITA: Error al leer los resultados pick3 anteriores", "ERROR");
 		}
 
 		//extraemos los resultados de pick4
@@ -233,7 +221,8 @@ class Bolita extends Service {
 		//$regexpmatch = preg_match_all($patternLastResultsP3, $resultintext, $matches);
 		$regexpmatch = preg_match($patternLastResultsP4, $resultintext, $matches);
 
-		if (($regexpmatch != 0) && ($regexpmatch != false)){ //si no hubo problemas al encontrar la expresion regular
+		//si no hubo problemas al encontrar la expresion regular
+		if (($regexpmatch != 0) && ($regexpmatch != false)){
 			$lastResultsP4inText = $matches[0];
 			preg_match_all("/(\d{4}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3})/u", $lastResultsP4inText, $matches);
 			$lastResultsP4 = array();
@@ -253,18 +242,16 @@ class Bolita extends Service {
 			}
 		}else{
 			// Send an error notice to programmer
-			$response = new Response();
-			$response->setResponseEmail("jaikerkings@yahoo.es");
-			$response->setResponseSubject("Error al leer los resultados pick4 anteriores!");
-			$response->createFromText($lastResultsP4inText);
-			$responses[] = $response;
+			$this->utils->createAlert("BOLITA: Error al leer los resultados pick4 anteriores", "ERROR");
 		}
 
 		$responseContent = array(
 			"lastResultsP3" => $lastResultsP3,
 			"lastResultsP4" => $lastResultsP4
 		);
+
 		$response = new Response();
+		$response->setCache("day");
 		$response->setResponseSubject("Resultados anteriores de la bolita.");
 		$response->createFromTemplate("anteriores.tpl", $responseContent);
 		$responses[] = $response;
