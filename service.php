@@ -134,22 +134,22 @@ class Bolita extends Service {
 			"elCorrido2Tar" => $elCorrido2Tar,
 			"charadaText2_Pick4Tar" => $this->getCharadaText($elCorrido2Tar),
 
-			"imgElFijoMed" => "{$this->pathToService}/images/$elFijoMed.png",
-			"imgCorrido1Med" => "{$this->pathToService}/images/$elCorrido1Med.png",
-			"imgCorrido2Med" => "{$this->pathToService}/images/$elCorrido2Med.png",
-			"imgElFijoTar" => "{$this->pathToService}/images/$elFijoTar.png",
-			"imgCorrido1Tar" => "{$this->pathToService}/images/$elCorrido1Tar.png",
-			"imgCorrido2Tar" => "{$this->pathToService}/images/$elCorrido2Tar.png"
+			"imgElFijoMed" => "{$this->pathToService}/images/$elFijoMed.jpg",
+			"imgCorrido1Med" => "{$this->pathToService}/images/$elCorrido1Med.jpg",
+			"imgCorrido2Med" => "{$this->pathToService}/images/$elCorrido2Med.jpg",
+			"imgElFijoTar" => "{$this->pathToService}/images/$elFijoTar.jpg",
+			"imgCorrido1Tar" => "{$this->pathToService}/images/$elCorrido1Tar.jpg",
+			"imgCorrido2Tar" => "{$this->pathToService}/images/$elCorrido2Tar.jpg"
 		);
 
 		// get the images to embed into the email
 		$images = array(
-			"imgElFijoMed" => "{$this->pathToService}/images/$elFijoMed.png",
-			"imgCorrido1Med" => "{$this->pathToService}/images/$elCorrido1Med.png",
-			"imgCorrido2Med" => "{$this->pathToService}/images/$elCorrido2Med.png",
-			"imgElFijoTar" => "{$this->pathToService}/images/$elFijoTar.png",
-			"imgCorrido1Tar" => "{$this->pathToService}/images/$elCorrido1Tar.png",
-			"imgCorrido2Tar" => "{$this->pathToService}/images/$elCorrido2Tar.png"
+			"imgElFijoMed" => "{$this->pathToService}/images/$elFijoMed.jpg",
+			"imgCorrido1Med" => "{$this->pathToService}/images/$elCorrido1Med.jpg",
+			"imgCorrido2Med" => "{$this->pathToService}/images/$elCorrido2Med.jpg",
+			"imgElFijoTar" => "{$this->pathToService}/images/$elFijoTar.jpg",
+			"imgCorrido1Tar" => "{$this->pathToService}/images/$elCorrido1Tar.jpg",
+			"imgCorrido2Tar" => "{$this->pathToService}/images/$elCorrido2Tar.jpg"
 		);
 
 		// create the response
