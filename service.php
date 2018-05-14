@@ -14,151 +14,196 @@ class Bolita extends Service {
 	 */
 	public function _main(Request $request)
 	{
-		// create a new client
-		$client = new Client();
-		$guzzle = $client->getClient();
-		$guzzle->setDefaultOption('verify', false);
-		$client->setClient($guzzle);
-
-		//variables para el servicio que provee los resultados
-		$tb_state = 'FL';
-		$tb_links = '';
-		$tb_country='US';
-		$tb_lang = 1;
-		$tb_ads_url = '';
 
 		// load from cache if exists
-		$cacheFile = $this->utils->getTempDir() . date("YmdG") . "_bolita_today.tmp";
-
-		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
+		$cacheFile = $this->utils->getTempDir() . date("Ymd") . "_bolita_today.tmp";
+		if(file_exists($cacheFile)){
+      $data = json_decode(file_get_contents($cacheFile),true); //Load the data in json format
+      if ($this->needUpdate($data['date'])) {
+        //Request the data
+        $data=$this->update();
+        // save cache file for today
+        file_put_contents($cacheFile, json_encode($data));
+      }
+    }
 		else
 		{
-			// create a crawler and get the text file
-
-			//https://www.lotteryinformation.us/redirect.php?tb_state=FL&tb_links=&tb_country=US&tb_lang=1&adsurl=
-			$crawler = $client->request('GET', "https://www.lotteryinformation.us/redirect.php?tb_state=".$tb_state."&tb_links=".$tb_links."&tb_country=".$tb_country."&tb_lang=".$tb_lang."&adsurl=".$tb_ads_url);
-			$resultintext = $crawler->filter('tr:nth-child(1) > td:nth-child(1)')->text();
-
+      $data=$this->update(); //Request the data
 			// save cache file for today
-			file_put_contents($cacheFile, $resultintext);
+			file_put_contents($cacheFile, json_encode($data));
 		}
+    $results=['fijoMid' => $data['pick3']['Midday'][2].$data['pick3']['Midday'][3],
+              'fijoEve' => $data['pick3']['Evening'][2].$data['pick3']['Evening'][3],
+              'centenaMid' => $data['pick3']['Midday'][1],
+              'centenaEve' => $data['pick3']['Evening'][1],
+              'Corrido1Mid' => $data['pick4']['Midday'][1].$data['pick4']['Midday'][2],
+              'Corrido1Eve' => $data['pick4']['Evening'][1].$data['pick4']['Evening'][2],
+              'Corrido2Mid' => $data['pick4']['Midday'][3].$data['pick4']['Midday'][4],
+              'Corrido2Eve' => $data['pick4']['Evening'][3].$data['pick4']['Evening'][4],
+              'fijoMidDate' => $this->dateToEsp($data['pick3']['Midday']['date']),
+              'fijoEveDate' => $this->dateToEsp($data['pick3']['Evening']['date']),
+              'Corrido1MidDate' => $this->dateToEsp($data['pick4']['Midday']['date']),
+              'Corrido1EveDate' => $this->dateToEsp($data['pick4']['Evening']['date']),
+              'Corrido2MidDate' => $this->dateToEsp($data['pick4']['Midday']['date']),
+              'Corrido2EveDate' => $this->dateToEsp($data['pick4']['Evening']['date']),
+              'fijoMidText' => $this->getCharadaText($data['pick3']['Midday'][2].$data['pick3']['Midday'][3]),
+              'fijoEveText' => $this->getCharadaText($data['pick3']['Evening'][2].$data['pick3']['Evening'][3]),
+              'Corrido1MidText' => $this->getCharadaText($data['pick4']['Midday'][1].$data['pick4']['Midday'][2]),
+              'Corrido1EveText' => $this->getCharadaText($data['pick4']['Evening'][1].$data['pick4']['Evening'][2]),
+              'Corrido2MidText' => $this->getCharadaText($data['pick4']['Midday'][3].$data['pick4']['Midday'][4]),
+              'Corrido2EveText' => $this->getCharadaText($data['pick4']['Evening'][3].$data['pick4']['Evening'][4])
+            ];
 
-		//extraemos los resultados del mediodia en texto
-		$patternResultsMed = "/Med.{5}:{1}\s{1}.{3}\s{1}\d{1,2}\/\d{1,2}\/\d{4}\s{2}[\d{1}\s{1}]{3,}/u"; //mod u para tratar con utf8
-		$regexpmatch = preg_match_all($patternResultsMed, $resultintext, $matches);
+    $images=['fijoMid' => $this->pathToService.'/images/'.$results['fijoMid'].'.jpg',
+             'fijoEve' => $this->pathToService.'/images/'.$results['fijoEve'].'.jpg',
+             'Corrido1Mid' => $this->pathToService.'/images/'.$results['Corrido1Mid'].'.jpg',
+             'Corrido1Eve' => $this->pathToService.'/images/'.$results['Corrido1Eve'].'.jpg',
+             'Corrido2Mid' => $this->pathToService.'/images/'.$results['Corrido2Mid'].'.jpg',
+             'Corrido2Eve' => $this->pathToService.'/images/'.$results['Corrido2Eve'].'.jpg'
+           ];
+    $response = new Response();
+    //$response->setCache(4);
+    $response->setResponseSubject('La Bolita');
+    $response->createFromTemplate('actual.tpl', array('results'=>$results,'images'=>$images));
+    return $response;
+	}
 
-		if (($regexpmatch != 0) && ($regexpmatch != false)){ //si no hubo problemas al encontrar la expresion regular
-			$result_Pick3Med = $matches[0][0];// texto completo del pick3 mediodia
-			$result_Pick4Med = $matches[0][1]; // texto completo del pick4 mediodia
+  /**
+   *
+   * @param String
+   * @return Boolean
+   */
 
-			//extraemos los numeros ganadores del medio dia
+  public function needUpdate(String $lastUpdate){
+    $date=substr($lastUpdate,0,8);
+    $h=substr($lastUpdate,9,2);
+    $m=substr($lastUpdate,12,2);
+    if ($date==date('Ymd')) {
+    switch (date('H')) {
+        case '13':
+          if ($h=='13') {
+            if (($m>=50) and ((date('i')-$m)>=5)) {
+              return true;
+            }
+            else return false;
+          }
+          else return true;
+          break;
+        case '14':
+          if ($h=='14') {
+            if ((date('i')-$m)>=5) {
+              return true;
+            }
+            else return false;
+          }
+          else return true;
+          break;
+        case '20':
+          if ($h=='20') {
+            if ((date('i')-$m)>=5) {
+              return true;
+            }
+            else return false;
+          }
+          else return true;
+          break;
+        default:
+          return false;
+          break;
+      }
+    }
+    else return true;
+  }
 
-			$numGan_Pick3Med = preg_replace('/[^0-9]+/', '', substr($result_Pick3Med,-7)); //eliminar todo lo que no sea numero de los ult 7 ca
-			$elFijoMed = substr($numGan_Pick3Med, 1); //despues del 1er car hasta el final, son tres, serian los ultimos 2
+  /**
+   *
+   * @return Array
+   */
 
-			$numGan_Pick4Med = preg_replace('/[^0-9]+/', '', substr($result_Pick4Med,-10));//eliminar todo lo que no sea numero de los ult 10 c
-			$elCorrido1Med = substr($numGan_Pick4Med, 0, 2); //desde el inicio, 2 caracteres
-			$elCorrido2Med = substr($numGan_Pick4Med, 2, 2); //desde el segundo caracter, 2 caracteres
+  public function update(){
 
-			$fecha_Pick3Med = substr($result_Pick3Med, 0, 24);
-			$fecha_Pick3Med = preg_replace('/Mediodía/', 'Tarde', $fecha_Pick3Med); //cambiamos Mediodía por Tarde
-			$fecha_Pick4Med = substr($result_Pick4Med, 0, 24);
-			$fecha_Pick4Med = preg_replace('/Mediodía/', 'Tarde', $fecha_Pick4Med); //cambiamos Mediodía por Tarde
-		}else{
-			// Send an error notice to programmer
-			$this->utils->createAlert("BOLITA: Error al leer los resultados del mediodia p3 y p4", "ERROR");
-		}
+    // create a new client
+    $client = new Client();
+    $guzzle = $client->getClient();
+    $client->setClient($guzzle);
 
-		//extraemos los resultados de la tarde en texto
-		$patternResultsTar = "/Tar.{2}:{1}\s{1}.{3}\s{1}\d{1,2}\/\d{1,2}\/\d{4}\s{2}[\d{1}\s{1}]{3,}/u"; //mod u para tratar con utf8
-		$regexpmatch = preg_match_all($patternResultsTar, $resultintext, $matches);
+    $crawler = $client->request('GET', 'http://flalottery.com/pick3');
+    $pick3 = ['Midday' => [1 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
+                           2 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
+                           3 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
+                           'date' => $crawler->filter('#gameContentLeft > div:nth-child(2) > p:nth-child(5)')->text()],
+              'Evening' => [1 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
+                            2 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
+                            3 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
+                            'date' => $crawler->filter('#gameContentLeft > div:nth-child(3) > p:nth-child(5)')->text()]
+                          ];
 
-		if (($regexpmatch != 0) && ($regexpmatch != false)){ //si no hubo problemas al encontrar la expresion regular
-			$result_Pick3Tar =  $matches[0][0];// texto completo del pick3 de la tarde
-			$result_Pick4Tar = $matches[0][1]; // texto completo del pick4 de la tarde
+    $crawler = $client->request('GET', 'http://flalottery.com/pick4');
+    $pick4 = ['Midday' => [1 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
+                           2 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
+                           3 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
+                           4 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(7)')->text(),
+                           'date' => $crawler->filter('#gameContentLeft > div:nth-child(2) > p:nth-child(5)')->text()],
+              'Evening' => [1 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
+                            2 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
+                            3 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
+                            4 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(7)')->text(),
+                            'date' => $crawler->filter('#gameContentLeft > div:nth-child(3) > p:nth-child(5)')->text()]
+                          ];
+    $data=['pick3' => $pick3,
+           'pick4' => $pick4,
+           'date' => date("Ymd H:i")];
+    return $data;
+  }
 
-			//extraemos los numeros ganadores
-			$numGan_Pick3Tar = preg_replace('/[^0-9]+/', '', substr($result_Pick3Tar,-7)); //eliminar todo lo que no sea numero de los ult 7 ca
-			$elFijoTar = substr($numGan_Pick3Tar, 1); //despues del 1er car hasta el final, son tres, serian los ultimos 2
+  /**
+	 *
+	 * @param Request
+	 * @return Response
+	 */
 
-			$numGan_Pick4Tar = preg_replace('/[^0-9]+/', '', substr($result_Pick4Tar,-10));//eliminar todo lo que no sea numero de los ult 10 c
-			$elCorrido1Tar = substr($numGan_Pick4Tar, 0, 2); //desde el inicio, 2 caracteres
-			$elCorrido2Tar = substr($numGan_Pick4Tar, 2, 2); //desde el segundo caracter, 2 caracteres
+  public function _charada(Request $request){
+    $laCharada = array("Autom&oacute;vil","Caballo","Mariposa","Ni&ntilde;ito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San L&aacute;zaro","Pescadito","Lombriz","Gato Fino","Maj&aacute;","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Rat&oacute;n","Camar&oacute;n","Venado","Cochino","Ti&ntilde;osa","Mono","Ara&ntilde;a","Cachimba","Brujer&iacute;a","Dinero","Conejo","Cura","Lagartija","Pato","Alacr&aacute;n","A&ntilde;o Del Cuero","Presidente","Humo Blanco","P&aacute;jaro","Cucaracha","Borracho","Polic&iacute;a","Soldado","Bicicleta","Luz El&eacute;ctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Pu&ntilde;alada","Cementerio","Relajo Grande","Coco","R&iacute;o","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De S&aacute;n L&aacute;zaro","Sarc&oacute;fago","Coche","M&eacute;dico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Pl&aacute;tano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revoluci&oacute;n","Mariposa Grande","Perro Grande", "Escorpi&oacute;n", "Mosquito", "Bollo Grande", "Serrucho");
+    $response = new Response();
+    $response->setCache('year');
+    $response->setResponseSubject('La Charada Cubana');
+    $response->createFromTemplate('charada.tpl', array('laCharada'=>$laCharada));
+    return $response;
+  }
 
-			$fecha_Pick3Tar = substr($result_Pick3Tar, 0, 20);
-			$fecha_Pick3Tar = preg_replace('/Tarde/', 'Noche', $fecha_Pick3Tar); //cambiamos Tarde por Noche
-			$fecha_Pick4Tar = substr($result_Pick4Tar, 0, 20);
-			$fecha_Pick4Tar = preg_replace('/Tarde/', 'Noche', $fecha_Pick4Tar); //cambiamos Tarde por Noche
-		}else{
-			// Send an error notice to programmer
-			$this->utils->createAlert("BOLITA: Error al leer los resultados de la tarde p3 y p4", "ERROR");
-		}
 
-		//extraemos las fechas de los siguientes sorteos en texto
-		$patternSigTirada = "/Sig.{13}:{1}\s{1}.{3}\s{1}\d{1,2}\/\d{1,2}/u"; //mod u para tratar con utf8
-		$regexpmatch = preg_match_all($patternSigTirada, $resultintext, $matches);
+  /**
+	 *
+	 * @param String
+	 * @return String
+	 */
 
-		if (($regexpmatch != 0) && ($regexpmatch != false)){ //si no hubo problemas al encontrar la expresion regular
-			$sigTir_Pick3Med =  $matches[0][0];// porción1
-			$sigTir_Pick4Med = $matches[0][1]; // porción2
-			$sigTir_Pick3Tar =  $matches[0][2];// porción3
-			$sigTir_Pick4Tar =  $matches[0][3];// porción4
-		}else{
-			$sigTir_Pick3Med = "error";
-		}
-
-		// create a json object to send to the template
-		$responseContent = array(
-			"fecha_Pick3Med" => $fecha_Pick3Med,
-			"numGan_Pick3Med" => $numGan_Pick3Med,
-			"sigTir_Pick3Med" => $sigTir_Pick3Med,
-			"elFijoMed" => $elFijoMed,
-			"charadaText_Pick3Med" => $this->getCharadaText($elFijoMed),
-			"fecha_Pick4Med" => $fecha_Pick4Med,
-			"numGan_Pick4Med" => $numGan_Pick4Med,
-			"sigTir_Pick4Med" => $sigTir_Pick4Med,
-			"elCorrido1Med" => $elCorrido1Med,
-			"charadaText1_Pick4Med" => $this->getCharadaText($elCorrido1Med),
-			"elCorrido2Med" => $elCorrido2Med,
-			"charadaText2_Pick4Med" => $this->getCharadaText($elCorrido2Med),
-			"fecha_Pick3Tar" => $fecha_Pick3Tar,
-			"numGan_Pick3Tar" => $numGan_Pick3Tar,
-			"sigTir_Pick3Tar" => $sigTir_Pick3Tar,
-			"elFijoTar" => $elFijoTar,
-			"charadaText_Pick3Tar" => $this->getCharadaText($elFijoTar),
-			"fecha_Pick4Tar" => $fecha_Pick4Tar,
-			"numGan_Pick4Tar" => $numGan_Pick4Tar,
-			"sigTir_Pick4Tar" => $sigTir_Pick4Tar,
-			"elCorrido1Tar" => $elCorrido1Tar,
-			"charadaText1_Pick4Tar" => $this->getCharadaText($elCorrido1Tar),
-			"elCorrido2Tar" => $elCorrido2Tar,
-			"charadaText2_Pick4Tar" => $this->getCharadaText($elCorrido2Tar),
-
-			"imgElFijoMed" => "{$this->pathToService}/images/$elFijoMed.jpg",
-			"imgCorrido1Med" => "{$this->pathToService}/images/$elCorrido1Med.jpg",
-			"imgCorrido2Med" => "{$this->pathToService}/images/$elCorrido2Med.jpg",
-			"imgElFijoTar" => "{$this->pathToService}/images/$elFijoTar.jpg",
-			"imgCorrido1Tar" => "{$this->pathToService}/images/$elCorrido1Tar.jpg",
-			"imgCorrido2Tar" => "{$this->pathToService}/images/$elCorrido2Tar.jpg"
-		);
-
-		// get the images to embed into the email
-		$images = array(
-			"imgElFijoMed" => "{$this->pathToService}/images/$elFijoMed.jpg",
-			"imgCorrido1Med" => "{$this->pathToService}/images/$elCorrido1Med.jpg",
-			"imgCorrido2Med" => "{$this->pathToService}/images/$elCorrido2Med.jpg",
-			"imgElFijoTar" => "{$this->pathToService}/images/$elFijoTar.jpg",
-			"imgCorrido1Tar" => "{$this->pathToService}/images/$elCorrido1Tar.jpg",
-			"imgCorrido2Tar" => "{$this->pathToService}/images/$elCorrido2Tar.jpg"
-		);
-
-		// create the response
-		$response = new Response();
-		$response->setCache("day");
-		$response->setResponseSubject("Resultados de la bolita hasta este momento.");
-		$response->createFromTemplate("actual.tpl", $responseContent, $images);
-		$responses[] = $response;
-		return $responses;
+   public function dateToEsp(String $text){
+		 $month=['Jan' => 'Enero',
+		    		 'Feb' => 'Febrero',
+		  			 'Mar' => 'Marzo',
+						 'Apr' => 'Abril',
+						 'May' => 'Mayo',
+						 'Jun' => 'Junio',
+						 'Jul' => 'Julio',
+						 'Aug' => 'Agosto',
+						 'Sep' => 'Septiembre',
+						 'Oct' => 'Octubre',
+						 'Nov' => 'Noviembre',
+						 'Dec' => 'Diciembre'];
+     $day=['Monday' => 'Lunes',
+           'Thursday' => 'Martes',
+           'Wednesday' => 'Miercoles',
+           'Thursday' => 'Jueves',
+           'Friday' => 'Viernes',
+           'Saturday' => 'Sabado',
+           'Sunday' => 'Domingo'];
+      $pos=strpos($text,',');
+      $d=substr($text,0,$pos);
+      $m=substr($text,$pos+2,3);
+      $m=$month[$m];
+      $d=$day[$d];
+      return ($d.', '.$m.' '.substr($text,$pos+6,2).' del '.substr($text,$pos+10,4));
 	}
 
 	/**
