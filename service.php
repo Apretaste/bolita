@@ -62,7 +62,7 @@ class Bolita extends Service {
              'Corrido2Eve' => $this->pathToService.'/images/'.$results['Corrido2Eve'].'.jpg'
            ];
     $response = new Response();
-    //$response->setCache(4);
+    $response->setCache(6);
     $response->setResponseSubject('La Bolita');
     $response->createFromTemplate('actual.tpl', array('results'=>$results,'images'=>$images));
     return $response;
