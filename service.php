@@ -64,7 +64,7 @@ class Bolita extends Service {
     $response = new Response();
     $response->setCache(6);
     $response->setResponseSubject('La Bolita');
-    $response->createFromTemplate('actual.tpl', array('results'=>$results,'images'=>$images));
+    $response->createFromTemplate('actual.tpl', array('results'=>$results,'images'=>$images),$images);
     return $response;
 	}
 
@@ -192,7 +192,7 @@ class Bolita extends Service {
 						 'Nov' => 'Noviembre',
 						 'Dec' => 'Diciembre'];
      $day=['Monday' => 'Lunes',
-           'Thursday' => 'Martes',
+           'Tuesday' => 'Martes',
            'Wednesday' => 'Miercoles',
            'Thursday' => 'Jueves',
            'Friday' => 'Viernes',
