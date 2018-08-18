@@ -100,6 +100,15 @@ class Bolita extends Service {
           break;
         case '20':
           if ($h=='20') {
+            if (($m>=45) and ((date('i')-$m)>=5)) {
+              return true;
+            }
+            else return false;
+          }
+          else return true;
+          break;
+        case '21':
+          if ($h=='21') {
             if ((date('i')-$m)>=5) {
               return true;
             }
@@ -203,7 +212,9 @@ class Bolita extends Service {
       $m=substr($text,$pos+2,3);
       $m=$month[$m];
       $d=$day[$d];
-      return ($d.', '.$m.' '.substr($text,$pos+6,2).' del '.substr($text,$pos+10,4));
+      $cant=(substr($text,$pos+10,1)==",")?1:2;
+      $pos2=($cant==1)?$pos+12:$pos+13;
+      return ($d.', '.$m.' '.substr($text,$pos+9,$cant).' del '.substr($text,$pos2,4));
 	}
 
 	/**
