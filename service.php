@@ -14,7 +14,7 @@ class Bolita extends Service {
 	 */
 	public function _main(Request $request)
 	{
-
+     date_default_timezone_set('America/Havana');
 		// load from cache if exists
 		$cacheFile = $this->utils->getTempDir() . date("Ymd") . "_bolita_today.tmp";
 		if(file_exists($cacheFile)){
@@ -75,6 +75,8 @@ class Bolita extends Service {
    */
 
   public function needUpdate(String $lastUpdate){
+    date_default_timezone_set('America/Havana');
+
     $date=substr($lastUpdate,0,8);
     $h=substr($lastUpdate,9,2);
     $m=substr($lastUpdate,12,2);
@@ -82,12 +84,14 @@ class Bolita extends Service {
     switch (date('H')) {
         case '13':
           if ($h=='13') {
-            if (($m>=50) and ((date('i')-$m)>=5)) {
+            if (($m>=30) and ((date('i')-$m)>=5)) {
               return true;
             }
             else return false;
           }
-          else return true;
+          else{
+            return true;
+          } 
           break;
         case '14':
           if ($h=='14') {
@@ -98,23 +102,30 @@ class Bolita extends Service {
           }
           else return true;
           break;
-        case '20':
-          if ($h=='20') {
-            if (($m>=45) and ((date('i')-$m)>=5)) {
-              return true;
-            }
-            else return false;
-          }
-          else return true;
-          break;
         case '21':
           if ($h=='21') {
-            if ((date('i')-$m)>=5) {
+            
+            if (($m>=45) and ((date('i')-$m)>=5)){
               return true;
             }
             else return false;
           }
-          else return true;
+          else{
+            return true;
+          } 
+          break;
+        case '22':
+          if ($h=='22') {
+            if ((date('i')-$m)>=5){
+              return true;
+            }
+            else return false;
+          }
+
+          else {
+            return true;
+            
+              }
           break;
         default:
           return false;
@@ -122,6 +133,7 @@ class Bolita extends Service {
       }
     }
     else return true;
+    
   }
 
   /**
@@ -130,7 +142,7 @@ class Bolita extends Service {
    */
 
   public function update(){
-
+    date_default_timezone_set('America/Havana');
     // create a new client
     $client = new Client();
     $guzzle = $client->getClient();
@@ -222,6 +234,7 @@ class Bolita extends Service {
 	 */
 	function _anteriores(Request $request)
 	{
+     date_default_timezone_set('America/Havana');
 		// create a new client
 		$client = new Client();
 		$guzzle = $client->getClient();

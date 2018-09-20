@@ -51,3 +51,6 @@
 </table>
 
 {space10}
+<center>
+	{button href="BOLITA" caption="Atras"}
+</center>
