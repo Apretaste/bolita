@@ -61,6 +61,7 @@ class Bolita extends Service {
              'Corrido2Mid' => $this->pathToService.'/images/'.$results['Corrido2Mid'].'.jpg',
              'Corrido2Eve' => $this->pathToService.'/images/'.$results['Corrido2Eve'].'.jpg'
            ];
+         
     $response = new Response();
     $response->setCache(6);
     $response->setResponseSubject('La Bolita');
@@ -219,14 +220,11 @@ class Bolita extends Service {
            'Friday' => 'Viernes',
            'Saturday' => 'Sabado',
            'Sunday' => 'Domingo'];
-      $pos=strpos($text,',');
-      $d=substr($text,0,$pos);
-      $m=substr($text,$pos+2,3);
-      $m=$month[$m];
-      $d=$day[$d];
-      $cant=(substr($text,$pos+10,1)==",")?1:2;
-      $pos2=($cant==1)?$pos+12:$pos+13;
-      return ($d.', '.$m.' '.substr($text,$pos+9,$cant).' del '.substr($text,$pos2,4));
+      $extractos= explode(",",$text);
+      $mes_dia=explode(" ",trim($extractos[1]));
+      $d=$day[$extractos[0]];
+      $m=$month[substr($mes_dia[0],0,3)];
+      return ($d.', '.$m.' '.$mes_dia[1].' del '.$extractos[2]);   
 	}
 
 	/**
