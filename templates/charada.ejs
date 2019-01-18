@@ -1,0 +1,21 @@
+<div class="center-align">
+  <h4>La Charada Cubana</h4>
+
+  <table class="col s10 offset-s1 centered">
+    <tr>
+      <%cont=0;%>
+    <%laCharada.forEach((charada) => {%>
+    <%if(cont % 2==0 && cont!=0){%>
+    </tr>
+    <tr>
+    <%}%>
+      <td><%if(cont<10){%>0<%}%><%=cont+'.- '+charada%></td>
+      <%cont+=1%>
+      <%});%>
+    </tr>
+  </table>
+
+  <div class="col s12 div5"></div>
+
+  <button class="btn waves-effect waves-light grey" onclick="apretaste.send({'command':'BOLITA'});">Atras</button>
+</div>

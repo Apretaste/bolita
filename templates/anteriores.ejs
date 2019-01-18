@@ -1,0 +1,43 @@
+<div class="center-align">
+	<h4>Últimos 7 Resultados</h4>
+
+	<table class="centered">
+		<tr>
+			<td colspan="2"><h5>El Fijo</h5></td>
+		</tr>
+		<tr>
+			<td><b>Sorteo Pick3</b></td>
+			<td><b>Fijo</b></td>
+		</tr>
+		<%lastResultsP3.forEach((resultadoP3) => {%>
+		<tr>
+			<td><%=resultadoP3.NumGanador%></td>
+			<td><%=resultadoP3.fijo+' - '+resultadoP3.charada%></td>
+		</tr>
+		<%});%>
+	</table>
+
+	<table class="centered">
+		<tr>
+			<td colspan="3"><h5>Corridos</h5></td>
+		</tr>
+
+		<tr>
+			<td><b>Sorteo Pick4</b></td>
+			<td><b>Corrido 1</b></td>
+			<td><b>Corrido 2</b></td>
+		</tr>
+
+		<%lastResultsP4.forEach((resultadoP4) => {%>
+		<tr>
+			<td><%=resultadoP4.NumGanador%></td>
+			<td><%=resultadoP4.corrido1+' - '+resultadoP4.charada1%></td>
+			<td><%=resultadoP4.corrido2+' - '+resultadoP4.charada2%></td>
+		</tr>
+		<%});%>
+	</table>
+
+	<div class="col s12 div5"></div>
+	
+	<button class="btn waves-effect waves-light grey" onclick="apretaste.send({'command':'BOLITA'});">Atras</button>
+</div>

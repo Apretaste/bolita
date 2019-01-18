@@ -1,0 +1,51 @@
+<div class="center-align">
+	<h3>La Bolita</h3>
+	<p>Resultados de la Bolita Cubana</p>
+	<h5 class="green-text"><b>Tarde: <%=results.fijoMidDate%></b></h5>
+
+	<div class="col s4">
+		<h5>Fijo</h5>
+		<img alt="<%=results.fijoMidText%>" src="{{APP_SERVICE_PATH}}/images/<%=images.fijoMid%>">
+		<h5><b><%=results.centenaMid+'-'+results.fijoMid%></b></h5>
+	</div>
+
+	<div class="col s4">
+		<h5>Corrido 1</h5>
+		<img alt="<%=results.Corrido1MidText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Mid%>">
+		<h5><b><%=results.Corrido1Mid%></b></h5>
+	</div>
+
+	<div class="col s4">
+		<h5>Corrido 2</h5>
+		<img alt="<%=results.Corrido2MidText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido2Mid%>">
+		<h5><b><%=results.Corrido2Mid%></b></h5>
+	</div>
+
+	<div class="col s12 divider div5"></div>
+	<h5 class="green-text"><b>Noche: <%=results.fijoEveDate%></b></h5>
+
+	<div class="col s4">
+		<h5>Fijo</h5>
+		<img alt="<%=results.fijoEveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.fijoEve%>">
+		<h5><b><%=results.centenaEve+'-'+results.fijoEve%></b></h5>
+	</div>
+
+	<div class="col s4">
+		<h5>Corrido 1</h5>
+		<img alt="<%=results.Corrido1EveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Eve%>">
+		<h5><b><%=results.Corrido1Eve%></b></h5>
+	</div>
+
+	<div class="col s4">
+		<h5>Corrido 2</h5>
+		<img alt="<%=results.Corrido2EveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido2Eve%>">
+		<h5><b><%=results.Corrido2Eve%></b></h5>
+	</div>
+	
+	<div class="col s12 div5"></div>
+
+	<button class="btn waves-effect waves-light green" onclick="apretaste.send({'command':'BOLITA ANTERIORES'});">Ver Anteriores</button>
+	<button class="btn waves-effect waves-light grey" onclick="apretaste.send({'command':'BOLITA CHARADA'});">La Charada</button>
+	
+	<p class="red-text">Las apuestas son ilegales en Cuba.<br>Este contenido se ofrece dentro de Cuba con fines educacionales.</p>
+</div>
