@@ -55,12 +55,12 @@ class Service {
               'Corrido2EveText' => $this->getCharadaText($data['pick4']['Evening'][3].$data['pick4']['Evening'][4])
             ];
 
-    $imgs = ['fijoMid' => $pathToService.'/images/'.$results['fijoMid'].'.jpg',
-             'fijoEve' => $pathToService.'/images/'.$results['fijoEve'].'.jpg',
-             'Corrido1Mid' => $pathToService.'/images/'.$results['Corrido1Mid'].'.jpg',
-             'Corrido1Eve' => $pathToService.'/images/'.$results['Corrido1Eve'].'.jpg',
-             'Corrido2Mid' => $pathToService.'/images/'.$results['Corrido2Mid'].'.jpg',
-             'Corrido2Eve' => $pathToService.'/images/'.$results['Corrido2Eve'].'.jpg'
+    $imgs = ['fijoMid' => $pathToService.'/images/'.$results['fijoMid'].'.png',
+             'fijoEve' => $pathToService.'/images/'.$results['fijoEve'].'.png',
+             'Corrido1Mid' => $pathToService.'/images/'.$results['Corrido1Mid'].'.png',
+             'Corrido1Eve' => $pathToService.'/images/'.$results['Corrido1Eve'].'.png',
+             'Corrido2Mid' => $pathToService.'/images/'.$results['Corrido2Mid'].'.png',
+             'Corrido2Eve' => $pathToService.'/images/'.$results['Corrido2Eve'].'.png'
             ];
     
     $images = [];
