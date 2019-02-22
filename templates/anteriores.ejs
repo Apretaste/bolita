@@ -1,41 +1,49 @@
-<div class="row center-align">
-	<h4>Últimos 7 Resultados</h4>
+<div class="row">
+	<div class="col s12">
+		<h1>Últimos 7 resultados</h1>
 
-	<table class="striped">
-		<tr>
-			<td colspan="2"><h5>El Fijo</h5></td>
-		</tr>
-		<tr>
-			<td><b>Sorteo Pick3</b></td>
-			<td><b>Fijo</b></td>
-		</tr>
-		<%lastResultsP3.forEach((resultadoP3) => {%>
-		<tr>
-			<td><%=resultadoP3.NumGanador%></td>
-			<td><%=resultadoP3.fijo+' - '+resultadoP3.charada%></td>
-		</tr>
-		<%});%>
-	</table>
+		<h2>El Fijo</h2>
+		<table class="striped">
+			<tr>
+				<th>Pick3</th>
+				<th>Fijo</th>
+			</tr>
+			<% lastResultsP3.forEach((resultadoP3) => { %>
+			<tr>
+				<td><%= resultadoP3.NumGanador %></td>
+				<td class="center-align">
+					<b><%= resultadoP3.fijo %></b><br>
+					<small><%= resultadoP3.charada %></small>
+				</td>
+			</tr>
+			<% }) %>
+		</table>
 
-	<table class="striped">
-		<tr>
-			<td colspan="3"><h5>Corridos</h5></td>
-		</tr>
+		<h2>Corridos</h2>
+		<table class="striped">
+			<tr>
+				<th>Pick4</th>
+				<th>Corrido 1</th>
+				<th>Corrido 2</th>
+			</tr>
 
-		<tr>
-			<td><b>Sorteo Pick4</b></td>
-			<td><b>Corrido 1</b></td>
-			<td><b>Corrido 2</b></td>
-		</tr>
+			<% lastResultsP4.forEach((resultadoP4) => { %>
+			<tr>
+				<td><%= resultadoP4.NumGanador %></td>
+				<td class="center-align">
+					<b><%=resultadoP4.corrido1 %></b><br>
+					<small><%= resultadoP4.charada1%></small>
+				</td>
+				<td class="center-align">
+					<b><%=resultadoP4.corrido2 %></b><br>
+					<small><%= resultadoP4.charada2%></small>
+				</td>
+			</tr>
+			<% }) %>
+		</table>
+	</div>
+</div>
 
-		<%lastResultsP4.forEach((resultadoP4) => {%>
-		<tr>
-			<td><%=resultadoP4.NumGanador%></td>
-			<td><%=resultadoP4.corrido1+' - '+resultadoP4.charada1%></td>
-			<td><%=resultadoP4.corrido2+' - '+resultadoP4.charada2%></td>
-		</tr>
-		<%});%>
-	</table>
-	
-	<button class="btn waves-effect waves-light grey" onclick="apretaste.send({'command':'BOLITA'});">Atras</button>
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large waves-effect waves-light green" href="#!" onclick="apretaste.send({'command':'BOLITA'})"><i class="material-icons">arrow_back</i></a>
 </div>

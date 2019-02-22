@@ -1,51 +1,87 @@
-<div class="row center-align">
-	<h3>La Bolita</h3>
-	<p>Resultados de la Bolita Cubana</p>
-	<h6><b>Tarde: <%=results.fijoMidDate%></b></h6>
-
-	<div class="col s4">
-		<h6>Fijo</h6>
-		<img class="responsive-img" alt="<%=results.fijoMidText%>" src="{{APP_SERVICE_PATH}}/images/<%=images.fijoMid%>">
-		<h6><b><%=results.centenaMid+'-'+results.fijoMid%></b></h6>
+<div class="row">
+	<div class="col s12">
+		<h1>La Bolita Cubana</h1>
+		<h2>Tarde: <%= results.fijoMidDate %></h2>
 	</div>
+</div>
 
+<div class="row">
 	<div class="col s4">
-		<h6>Corrido 1</h6>
-		<img class="responsive-img" alt="<%=results.Corrido1MidText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Mid%>">
-		<h6><b><%=results.Corrido1Mid%></b></h6>
+		<div class="card">
+			<div class="card-image">
+				<img alt="<%=results.fijoMidText%>" src="{{APP_SERVICE_PATH}}/images/<%=images.fijoMid%>">
+				<div class="card-content center-align">
+					<p>Fijo: <nobr><b><%= results.centenaMid %> - <%= results.fijoMid %></b></nobr></p>
+				</div>
+			</div>
+		</div>
 	</div>
-
 	<div class="col s4">
-		<h6>Corrido 2</h6>
-		<img class="responsive-img" alt="<%=results.Corrido2MidText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido2Mid%>">
-		<h6><b><%=results.Corrido2Mid%></b></h6>
+		<div class="card">
+			<div class="card-image">
+				<img alt="<%=results.Corrido1MidText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Mid%>">
+				<div class="card-content center-align">
+					<p>Corrido 1: <b><%= results.Corrido1Mid %></b></p>
+				</div>
+			</div>
+		</div>
 	</div>
-
-	<div class="col s12 divider div5"></div>
-	<h6><b>Noche: <%=results.fijoEveDate%></b></h6>
-
 	<div class="col s4">
-		<h6>Fijo</h6>
-		<img class="responsive-img" alt="<%=results.fijoEveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.fijoEve%>">
-		<h6><b><%=results.centenaEve+'-'+results.fijoEve%></b></h6>
+		<div class="card">
+			<div class="card-image">
+				<img alt="<%=results.Corrido2MidText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido2Mid%>">
+				<div class="card-content center-align">
+					<p>Corrido 2: <b><%= results.Corrido2Mid %></b></p>
+				</div>
+			</div>
+		</div>
 	</div>
+</div>
 
+<div class="row">
+	<div class="col s12">
+		<h2>Noche: <%=results.fijoEveDate%></h2>
+	</div>
+</div>
+
+<div class="row">
 	<div class="col s4">
-		<h6>Corrido 1</h6>
-		<img class="responsive-img" alt="<%=results.Corrido1EveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Eve%>">
-		<h6><b><%=results.Corrido1Eve%></b></h6>
+		<div class="card">
+			<div class="card-image">
+				<img alt="<%=results.fijoEveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.fijoEve%>">
+				<div class="card-content center-align">
+					<p>Fijo: <nobr><b><%= results.centenaEve %> - <%= results.fijoEve %></b></nobr></p>
+				</div>
+			</div>
+		</div>
 	</div>
-
 	<div class="col s4">
-		<h6>Corrido 2</h6>
-		<img class="responsive-img" alt="<%=results.Corrido2EveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido2Eve%>">
-		<h6><b><%=results.Corrido2Eve%></b></h6>
+		<div class="card">
+			<div class="card-image">
+				<img alt="<%=results.Corrido1EveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Eve%>">
+				<div class="card-content center-align">
+					<p>Corrido 1: <b><%= results.Corrido1Eve %></b></p>
+				</div>
+			</div>
+		</div>
 	</div>
-	
-	<div class="col s12 div5"></div>
+	<div class="col s4">
+		<div class="card">
+			<div class="card-image">
+				<img alt="<%=results.Corrido2EveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido2Eve%>">
+				<div class="card-content center-align">
+					<p>Corrido 2: <b><%= results.Corrido2Eve %></b></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-	<button class="btn waves-effect waves-light green" onclick="apretaste.send({'command':'BOLITA ANTERIORES'});">Ver Anteriores</button>
-	<button class="btn waves-effect waves-light grey" onclick="apretaste.send({'command':'BOLITA CHARADA'});">La Charada</button>
-	
-	<p class="red-text">Las apuestas son ilegales en Cuba.<br>Este contenido se ofrece dentro de Cuba con fines educacionales.</p>
+<div class="row">
+	<div class="col s12">
+		<button class="btn waves-effect waves-light green" onclick="apretaste.send({'command':'BOLITA ANTERIORES'});">Ver Anteriores</button>
+		<button class="btn waves-effect waves-light grey" onclick="apretaste.send({'command':'BOLITA CHARADA'});">La Charada</button>
+
+		<p class="red-text small">Las apuestas son ilegales en Cuba.<br>Este contenido se ofrece dentro de Cuba con fines educacionales.</p>
+	</div>
 </div>

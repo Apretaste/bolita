@@ -1,19 +1,25 @@
-<div class="row center-align">
-  <h4>La Charada Cubana</h4>
+<div class="row">
+	<div class="col s12">
+		<h1>La charada</h1>
 
-  <table class="striped">
-    <tr>
-      <%cont=0;%>
-    <%laCharada.forEach((charada) => {%>
-    <%if(cont % 2==0 && cont!=0){%>
-    </tr>
-    <tr>
-    <%}%>
-      <td><%if(cont<10){%>0<%}%><%=cont+'.- '+charada%></td>
-      <%cont+=1%>
-      <%});%>
-    </tr>
-  </table>
+		<table class="striped">
+			<tr>
+				<% cont=0; %>
+				<% laCharada.forEach((charada) => { %>
+				<% if(cont % 2==0 && cont!=0) { %>
+			</tr>
+			<tr>
+			<% } %>
+				<td class="center-align">
+					<b><%= cont %></b><br><%= charada %>
+				</td>
+				<% cont+=1 %>
+				<% }); %>
+			</tr>
+		</table>
+	</div>
+</div>
 
-  <button class="btn waves-effect waves-light grey" onclick="apretaste.send({'command':'BOLITA'});">Atras</button>
+<div class="fixed-action-btn">
+	<a class="btn-floating btn-large waves-effect waves-light green" href="#!" onclick="apretaste.send({'command':'BOLITA'})"><i class="material-icons">arrow_back</i></a>
 </div>
