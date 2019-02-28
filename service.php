@@ -274,7 +274,7 @@ class Service {
 
 		//preparamos el texto para dividir los resultados mas facil despues
 		$resultintext = str_replace(')', '~', $resultintext);
-		$resultintext = preg_replace('/[^0-9A-Za-z\s~\/]+/', '', $resultintext); //eliminar caracteres extra&ntilde;os
+		$resultintext = preg_replace('/[^0-9A-Za-z\s~\/]+/', '', $resultintext); //eliminar caracteres extraños
 
 		//extraemos los resultados de pick3
 		$patternLastResultsP3 = "/PICK\s3\sCOMBINED(\d{3}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3}~)+/u"; //mod u para tratar con utf8
