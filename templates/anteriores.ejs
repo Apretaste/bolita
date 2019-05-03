@@ -8,7 +8,7 @@
 				<th>Pick3</th>
 				<th class="center-align">Fijo</th>
 			</tr>
-			<% lastResultsP3.forEach((resultadoP3) => { %>
+			<% lastResultsP3.forEach(function(resultadoP3){ %>
 			<tr>
 				<td><%= resultadoP3.NumGanador %></td>
 				<td class="center-align">
@@ -27,7 +27,7 @@
 				<th class="center-align">Corrido 2</th>
 			</tr>
 
-			<% lastResultsP4.forEach((resultadoP4) => { %>
+			<% lastResultsP4.forEach(function(resultadoP4){ %>
 			<tr>
 				<td><%= resultadoP4.NumGanador %></td>
 				<td class="center-align">
