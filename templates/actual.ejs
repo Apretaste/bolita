@@ -1,15 +1,13 @@
 <div class="row">
 	<div class="col s12">
 		<h1>La Bolita</h1>
-		<h2 class="black-text">Tarde: <%= results.fijoMidDate %></h2>
+		<h2>Tarde: <%= results.fijoMidDate %></h2>
 	</div>
-</div>
 
-<div class="row">
 	<div class="col s4">
 		<div class="card">
 			<div class="card-image">
-				<img alt="<%=results.fijoMidText%>" src="{{APP_SERVICE_PATH}}/images/<%=images.fijoMid%>">
+				<img alt="<%= results.fijoMidText %>" src="{{APP_SERVICE_PATH}}/images/<%= images.fijoMid %>">
 				<div class="card-content center-align">
 					<p>Fijo: <nobr><b><%= results.centenaMid %> - <%= results.fijoMid %></b></nobr></p>
 				</div>
@@ -19,7 +17,7 @@
 	<div class="col s4">
 		<div class="card">
 			<div class="card-image">
-				<img alt="<%=results.Corrido1MidText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Mid%>">
+				<img alt="<%=results.Corrido1MidText %>"src="{{APP_SERVICE_PATH}}/images/<%= images.Corrido1Mid %>">
 				<div class="card-content center-align">
 					<p>Corrido 1: <b><%= results.Corrido1Mid %></b></p>
 				</div>
@@ -29,7 +27,7 @@
 	<div class="col s4">
 		<div class="card">
 			<div class="card-image">
-				<img alt="<%=results.Corrido2MidText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido2Mid%>">
+				<img alt="<%= results.Corrido2MidText %>"src="{{APP_SERVICE_PATH}}/images/<%= images.Corrido2Mid %>">
 				<div class="card-content center-align">
 					<p>Corrido 2: <b><%= results.Corrido2Mid %></b></p>
 				</div>
@@ -40,15 +38,13 @@
 
 <div class="row">
 	<div class="col s12">
-		<h2 class="black-text">Noche: <%=results.fijoEveDate%></h2>
+		<h2>Noche: <%=results.fijoEveDate %></h2>
 	</div>
-</div>
 
-<div class="row">
 	<div class="col s4">
 		<div class="card">
 			<div class="card-image">
-				<img alt="<%=results.fijoEveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.fijoEve%>">
+				<img alt="<%=results.fijoEveText %>"src="{{APP_SERVICE_PATH}}/images/<%= images.fijoEve %>">
 				<div class="card-content center-align">
 					<p>Fijo: <nobr><b><%= results.centenaEve %> - <%= results.fijoEve %></b></nobr></p>
 				</div>
@@ -58,7 +54,7 @@
 	<div class="col s4">
 		<div class="card">
 			<div class="card-image">
-				<img alt="<%=results.Corrido1EveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Eve%>">
+				<img alt="<%=results.Corrido1EveText %>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido1Eve %>">
 				<div class="card-content center-align">
 					<p>Corrido 1: <b><%= results.Corrido1Eve %></b></p>
 				</div>
@@ -68,7 +64,7 @@
 	<div class="col s4">
 		<div class="card">
 			<div class="card-image">
-				<img alt="<%=results.Corrido2EveText%>"src="{{APP_SERVICE_PATH}}/images/<%=images.Corrido2Eve%>">
+				<img alt="<%= results.Corrido2EveText %>"src="{{APP_SERVICE_PATH}}/images/<%= images.Corrido2Eve %>">
 				<div class="card-content center-align">
 					<p>Corrido 2: <b><%= results.Corrido2Eve %></b></p>
 				</div>

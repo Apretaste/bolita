@@ -1,6 +1,19 @@
-.col.s4{
-	padding: 0;
+h2 {
+	color: black;
 }
+
 .card{
 	box-shadow: none;
+}
+
+table h2 {
+	font-size: 40px;
+}
+
+table img {
+	width: 100%;
+}
+
+table td {
+	text-align: center;
 }

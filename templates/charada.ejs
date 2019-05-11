@@ -2,20 +2,18 @@
 	<div class="col s12">
 		<h1>La charada</h1>
 
-		<table class="striped">
+		<table class="striped" border="1">
+		<% for(var i=0; i<charada.length; i++) { %>
 			<tr>
-				<% cont=0; %>
-				<% laCharada.forEach(function(charada){ %>
-				<% if(cont % 2==0 && cont!=0) { %>
-			</tr>
-			<tr>
-			<% } %>
-				<td class="center-align">
-					<b><%= cont %></b><br><%= charada %>
+				<td width="100">
+					<img src="{{APP_SERVICE_PATH}}/images/<%= i+1 %>.png" alt="<%= charada[i] %>">
 				</td>
-				<% cont+=1 %>
-				<% }); %>
+				<td>
+					<h2>#<%= i+1 %></h2>
+					<%= charada[i] %>
+				</td>
 			</tr>
+		<% } %>
 		</table>
 	</div>
 </div>

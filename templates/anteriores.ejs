@@ -8,15 +8,15 @@
 				<th>Pick3</th>
 				<th class="center-align">Fijo</th>
 			</tr>
-			<% lastResultsP3.forEach(function(resultadoP3){ %>
+			<% for(var i=0; i<lastResultsP3.length; i++) { %>
 			<tr>
-				<td><%= resultadoP3.NumGanador %></td>
+				<td><%= lastResultsP3[i].NumGanador %></td>
 				<td class="center-align">
-					<b><%= resultadoP3.fijo %></b><br>
-					<small><%= resultadoP3.charada %></small>
+					<b><%= lastResultsP3[i].fijo %></b><br>
+					<small><%= lastResultsP3[i].charada %></small>
 				</td>
 			</tr>
-			<% }) %>
+			<% } %>
 		</table>
 
 		<h2>Corridos</h2>
@@ -27,19 +27,19 @@
 				<th class="center-align">Corrido 2</th>
 			</tr>
 
-			<% lastResultsP4.forEach(function(resultadoP4){ %>
+			<% for(var i=0; i<lastResultsP4.length; i++) { %>
 			<tr>
-				<td><%= resultadoP4.NumGanador %></td>
+				<td><%= lastResultsP4[i].NumGanador %></td>
 				<td class="center-align">
-					<b><%=resultadoP4.corrido1 %></b><br>
-					<small><%= resultadoP4.charada1%></small>
+					<b><%=lastResultsP4[i].corrido1 %></b><br>
+					<small><%= lastResultsP4[i].charada1%></small>
 				</td>
 				<td class="center-align">
-					<b><%=resultadoP4.corrido2 %></b><br>
-					<small><%= resultadoP4.charada2%></small>
+					<b><%=lastResultsP4[i].corrido2 %></b><br>
+					<small><%= lastResultsP4[i].charada2%></small>
 				</td>
 			</tr>
-			<% }) %>
+			<% } %>
 		</table>
 	</div>
 </div>

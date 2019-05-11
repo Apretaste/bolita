@@ -33,7 +33,7 @@ class Service {
 			// save cache file for today
 			file_put_contents($cacheFile, json_encode($data));
 		}
-
+print_r($data); exit;
 		$results = [
 			'fijoMid' => $data['pick3']['Midday'][2].$data['pick3']['Midday'][3],
 			'fijoEve' => $data['pick3']['Evening'][2].$data['pick3']['Evening'][3],
@@ -204,9 +204,10 @@ class Service {
 
 	public function _charada(Request $request, Response $response)
 	{
-		$laCharada = ["Automóvil","Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San Lázaro","Pescadito","Lombriz","Gato Fino","Majá","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Ratón","Camarón","Venado","Cochino","Tiñosa","Mono","Araña","Cachimba","Brujería","Dinero","Conejo","Cura","Lagartija","Pato","Alacrán","Año Del Cuero","Presidente","Humo Blanco","Pájaro","Cucaracha","Borracho","Policía","Soldado","Bicicleta","Luz Eléctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","Río","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De Sán Lázaro","Sarcófago","Coche","Médico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Plátano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revolución","Mariposa Grande","Perro Grande","Escorpión","Mosquito","Bollo Grande","Serrucho"];
+		$charada = ["Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San Lázaro","Pescadito","Lombriz","Gato Fino","Majá","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Ratón","Camarón","Venado","Cochino","Tiñosa","Mono","Araña","Cachimba","Brujería","Dinero","Conejo","Cura","Lagartija","Pato","Alacrán","Año Del Cuero","Presidente","Humo Blanco","Pájaro","Cucaracha","Borracho","Policía","Soldado","Bicicleta","Luz Eléctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","Río","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De Sán Lázaro","Sarcófago","Coche","Médico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Plátano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revolución","Mariposa Grande","Perro Grande","Escorpión","Mosquito","Bollo Grande","Serrucho","Automóvil"];
+
 		$response->setCache('year');
-		$response->setTemplate('charada.ejs', array('laCharada'=>$laCharada));
+		$response->setTemplate('charada.ejs', array('charada'=>$charada));
 	}
 
 	/**

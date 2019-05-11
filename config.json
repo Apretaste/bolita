@@ -1,8 +1,8 @@
 {
 	"name": "bolita",
-	"version": "3",
-	"description": "Le permite conocer los resultados de la loteria Cubana (La Bolita).",
+	"version": "4",
+	"description": "Le permite conocer los resultados de la lotería cubana (La Bolita).",
 	"category": "informativo",
-	"creator": "jaikerkings@yahoo.es",
+	"creator": "salvi@apretaste.org",
 	"listed": true
 }
