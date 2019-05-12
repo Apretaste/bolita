@@ -33,7 +33,7 @@ class Service {
 			// save cache file for today
 			file_put_contents($cacheFile, json_encode($data));
 		}
-print_r($data); exit;
+
 		$results = [
 			'fijoMid' => $data['pick3']['Midday'][2].$data['pick3']['Midday'][3],
 			'fijoEve' => $data['pick3']['Evening'][2].$data['pick3']['Evening'][3],
