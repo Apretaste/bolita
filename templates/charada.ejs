@@ -4,12 +4,13 @@
 
 		<table class="striped" border="1">
 		<% for(var i=0; i<charada.length; i++) { %>
+			<% var n = i < 9 ? "0"+(i+1) : (i+1); %>
 			<tr>
 				<td width="100">
-					<img src="{{APP_SERVICE_PATH}}/images/<%= i+1 %>.png" alt="<%= charada[i] %>">
+					<img src="{{APP_SERVICE_PATH}}/images/<%= n %>.png" alt="<%= charada[i] %>">
 				</td>
 				<td>
-					<h2>#<%= i+1 %></h2>
+					<h2>#<%= n %></h2>
 					<%= charada[i] %>
 				</td>
 			</tr>

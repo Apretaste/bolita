@@ -204,10 +204,16 @@ class Service {
 
 	public function _charada(Request $request, Response $response)
 	{
+		$images = [];
+		$pathToService = Utils::getPathToService($response->serviceName);
+		for($i=1; $i<=100; $i++){
+			$n = $i < 10 ? "0$i" : $i;
+			$images[] = "$pathToService/images/$n.png";
+		}
 		$charada = ["Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San Lázaro","Pescadito","Lombriz","Gato Fino","Majá","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Ratón","Camarón","Venado","Cochino","Tiñosa","Mono","Araña","Cachimba","Brujería","Dinero","Conejo","Cura","Lagartija","Pato","Alacrán","Año Del Cuero","Presidente","Humo Blanco","Pájaro","Cucaracha","Borracho","Policía","Soldado","Bicicleta","Luz Eléctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","Río","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De Sán Lázaro","Sarcófago","Coche","Médico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Plátano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revolución","Mariposa Grande","Perro Grande","Escorpión","Mosquito","Bollo Grande","Serrucho","Automóvil"];
 
 		$response->setCache('year');
-		$response->setTemplate('charada.ejs', array('charada'=>$charada));
+		$response->setTemplate('charada.ejs', array('charada'=>$charada), $images);
 	}
 
 	/**
