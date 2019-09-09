@@ -1,19 +1,68 @@
-h2 {
-	color: black;
+@font-face {
+	font-family: 'Roboto';
+	font-style: normal;
+	font-weight: 500;
+	font-display: swap;
+	src: local('Roboto'), local('Roboto-Medium'), url("{{APP_SERVICE_PATH}}/resources/Roboto-Medium.ttf") format("truetype");
 }
+
+body{
+	font-family: 'Roboto', sans-serif;
+	color: white;
+	background: #263238;
+}
+
+h1, h2 {
+	color: white;
+	text-align: center;
+}
+
+h1 {
+	font-size: 18px;
+	margin: 0;
+}
+
+h2 {
+	font-size: 16px;
+	margin-top: .5rem;
+}
+
+.name{ font-size: 13px }
+.number { font-size: 10px }
 
 .card{
 	box-shadow: none;
+	background: #455A64;
 }
 
-table h2 {
-	font-size: 40px;
+.card-image{ padding-top: 1px }
+.card-content { padding: 0 0 10% 0 !important }
+
+.img{
+	background-color: #FFA420;
+	border-radius: 50% !important;
 }
 
-table img {
+.card-image > .img{
+	margin: 10% auto;
+	width: 80%;
+}
+
+.charada-item .img{
+	width: 60px;
+	height: 60px;
+}
+
+.charada-item h1, .charada-item h2{
+	margin: 0;
+}
+
+.charada-item h1{ font-size: 2rem }
+.charada-item h2 { font-size: 1.5rem }
+
+.charada-item{
+	background-color: #455A64;
 	width: 100%;
-}
-
-table td {
-	text-align: center;
+	height: 100px;
+	margin-bottom: 20px;
 }

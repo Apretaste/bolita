@@ -57,20 +57,10 @@ class Service {
 			'Corrido2EveText' => $this->getCharadaText($data['pick4']['Evening'][3].$data['pick4']['Evening'][4])
 		];
 
-		$imgs = [
-			'fijoMid' => $results['fijoMid'].'.png',
-			'fijoEve' => $results['fijoEve'].'.png',
-			'Corrido1Mid' => $results['Corrido1Mid'].'.png',
-			'Corrido1Eve' => $results['Corrido1Eve'].'.png',
-			'Corrido2Mid' => $results['Corrido2Mid'].'.png',
-			'Corrido2Eve' => $results['Corrido2Eve'].'.png'
-		];
-
-		$images = [];
-		foreach($imgs as $img) $images[] = "$pathToService/images/$img";
+		$images = ["$pathToService/images/results.png"];
 
 		$response->setCache(360);
-		$response->setTemplate('actual.ejs', ['results'=>$results,'images'=>$imgs], $images);
+		$response->setTemplate('actual.ejs', ['results'=>$results], $images, $this->font());
 	}
 
 	/**
@@ -350,5 +340,10 @@ class Service {
 	{
 		$laCharada = ["Automóvil","Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San Lázaro","Pescadito","Lombriz","Gato Fino","Majá","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Ratón","Camarón","Venado","Cochino","Tiñosa","Mono","Araña","Cachimba","Brujería","Dinero","Conejo","Cura","Lagartija","Pato","Alacrán","Año Del Cuero","Presidente","Humo Blanco","Pájaro","Cucaracha","Borracho","Policía","Soldado","Bicicleta","Luz Eléctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","Río","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De Sán Lázaro","Sarcófago","Coche","Médico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Plátano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revolución","Mariposa Grande","Perro Grande","Escorpión","Mosquito","Bollo Grande","Serrucho"];
 		return ($laCharada[(int)$numGan]);
+	}
+
+	private function font()
+	{
+		return [Utils::getPathToService("escuela") . "/resources/Roboto-Medium.ttf"];
 	}
 }
