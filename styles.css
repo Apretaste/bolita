@@ -9,7 +9,27 @@
 body{
 	font-family: 'Roboto', sans-serif;
 	color: white;
+}
+
+body, .datepicker-container, .datepicker-container button:focus{
 	background: #263238;
+}
+
+.datepicker-table td.is-selected{
+	background: #FFA420;
+	border-radius: 0;
+}
+
+.confirmation-btns > button, .datepicker-table td.is-today{
+	color: #FFA420;
+}
+
+.selects-container input{
+	color: white;
+}
+
+.month-next, .month-before{
+	fill: white;
 }
 
 h1, h2 {
@@ -39,18 +59,33 @@ h2 {
 .card-content { padding: 0 0 10% 0 !important }
 
 .img{
-	background-color: #FFA420;
-	border-radius: 50% !important;
+	margin: auto;
 }
 
-.card-image > .img{
+.img-container{
+	border-radius: 50% !important;
+	background-color: #FFA420;
+	max-width: 150px;
+}
+
+.img-container, .charada-container > div{
+	display: flex;
+	align-items: center;
+}
+
+.card-image > .img-container{
 	margin: 10% auto;
-	width: 80%;
+	width: 70%;
+}
+
+.charada-item .img-container{
+	width: 65px;
+	height: 65px;
 }
 
 .charada-item .img{
-	width: 60px;
-	height: 60px;
+	width: 35px;
+	height: 35px;
 }
 
 .charada-item h1, .charada-item h2{
@@ -58,11 +93,22 @@ h2 {
 }
 
 .charada-item h1{ font-size: 2rem }
-.charada-item h2 { font-size: 1.5rem }
+.charada-item h2{ font-size: 1.5rem }
+
+.charada-item i{
+	position: relative;
+	top: -20px;
+	right: -5px;
+}
+
+.charada-container, .charada-container > div{
+	height: inherit;
+}
 
 .charada-item{
 	background-color: #455A64;
 	width: 100%;
-	height: 100px;
+	height: 90px;
 	margin-bottom: 20px;
+	border-radius: 8px;
 }

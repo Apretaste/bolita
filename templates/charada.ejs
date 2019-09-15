@@ -2,17 +2,34 @@
     <div class="col s12">
         <% for(var i = 0; i < charada.length; i++) { %>
             <% var n = i < 9 ? "0" + (i + 1) : (i + 1); %>
-            <div class="charada-item valign-wrapper left-align">
-                <div class="col s3">
-                    <div class="img" style="<%= getImage(n-1, "{{APP_SERVICE_PATH}}/images", 60) %>"></div>
+            <div class="charada-item left-align">
+                <div class="charada-container">
+                    <div class="front">
+                        <div class="col s3">
+                            <div class="img-container">
+                                <div class="img" style="<%= getImage(n-1, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+                            </div>
+                        </div>
+                        <div class="col s4">
+                            <h1>#<%= n %></h1>
+                        </div>
+                        <div class="col s4">
+                            <h2><%= charada[i] %></h2>
+                        </div>
+
+                        <div class="col s1">
+                            <i class="material-icons right">more_vert</i>
+                        </div>
+                    </div>
+                    <div class="back" style="display: none;">
+                        <div class="col s11">
+                            <p><%=charadaDescription[i]%></p>
+                        </div>
+                        <div class="col s1">
+                            <i class="material-icons right">more_vert</i>
+                        </div>
+                    </div>
                 </div>
-                <div class="col s4">
-                    <h1>#<%= n %></h1>
-                </div>
-                <div class="col s4">
-					<h2><%= charada[i] %></h2>
-				</div>
-                <div class="col s1"></div>
             </div>
         <% } %>
     </div>

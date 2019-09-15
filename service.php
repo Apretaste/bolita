@@ -12,6 +12,10 @@ class Service {
 	 * @param Request
 	 * @param Response
 	 */
+
+	public const CHARADA = ["Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Tigre","Perro","Toro","San Lázaro","Pescadito","Lombriz","Gato Fino","Majá","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Ratón","Camarón","Venado","Cochino","Tiñosa","Mono","Araña","Cachimba","Brujería","Dinero","Conejo","Cura","Lagartija","Pato","Alacrán","Año Del Cuero","Tiburón","Humo Blanco","Pájaro","Cucaracha","Borracho","Policía","Soldado","Bicicleta","Luz Eléctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","Río","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De Sán Lázaro","Sarcófago","Tren de carga","Médicos","Teatro","Madre","Tragedia","Sangre","Reloj","Tijeras","Plátano","Espejuelos","Agua","Viejo","Limosnero","Globo alto","Sortija","Machete","Guerra","Reto","Mosquito","Piano","Serrucho", "Motel"];
+
+
 	public function _main(Request $request, Response $response)
 	{
 		date_default_timezone_set('America/Havana');
@@ -23,39 +27,18 @@ class Service {
 			$data = json_decode(file_get_contents($cacheFile),true); //Load the data in json format
 			if ($this->needUpdate($data['date'])) {
 				//Request the data
-				$data=$this->update();
+				$data = $this->update();
 
 				// save cache file for today
 				file_put_contents($cacheFile, json_encode($data));
 			}
 		} else {
-			$data=$this->update(); //Request the data
+			$data = $this->update(); //Request the data
 			// save cache file for today
 			file_put_contents($cacheFile, json_encode($data));
 		}
 
-		$results = [
-			'fijoMid' => $data['pick3']['Midday'][2].$data['pick3']['Midday'][3],
-			'fijoEve' => $data['pick3']['Evening'][2].$data['pick3']['Evening'][3],
-			'centenaMid' => $data['pick3']['Midday'][1],
-			'centenaEve' => $data['pick3']['Evening'][1],
-			'Corrido1Mid' => $data['pick4']['Midday'][1].$data['pick4']['Midday'][2],
-			'Corrido1Eve' => $data['pick4']['Evening'][1].$data['pick4']['Evening'][2],
-			'Corrido2Mid' => $data['pick4']['Midday'][3].$data['pick4']['Midday'][4],
-			'Corrido2Eve' => $data['pick4']['Evening'][3].$data['pick4']['Evening'][4],
-			'fijoMidDate' => $this->dateToEsp($data['pick3']['Midday']['date']),
-			'fijoEveDate' => $this->dateToEsp($data['pick3']['Evening']['date']),
-			'Corrido1MidDate' => $this->dateToEsp($data['pick4']['Midday']['date']),
-			'Corrido1EveDate' => $this->dateToEsp($data['pick4']['Evening']['date']),
-			'Corrido2MidDate' => $this->dateToEsp($data['pick4']['Midday']['date']),
-			'Corrido2EveDate' => $this->dateToEsp($data['pick4']['Evening']['date']),
-			'fijoMidText' => $this->getCharadaText($data['pick3']['Midday'][2].$data['pick3']['Midday'][3]),
-			'fijoEveText' => $this->getCharadaText($data['pick3']['Evening'][2].$data['pick3']['Evening'][3]),
-			'Corrido1MidText' => $this->getCharadaText($data['pick4']['Midday'][1].$data['pick4']['Midday'][2]),
-			'Corrido1EveText' => $this->getCharadaText($data['pick4']['Evening'][1].$data['pick4']['Evening'][2]),
-			'Corrido2MidText' => $this->getCharadaText($data['pick4']['Midday'][3].$data['pick4']['Midday'][4]),
-			'Corrido2EveText' => $this->getCharadaText($data['pick4']['Evening'][3].$data['pick4']['Evening'][4])
-		];
+		$results = $this->resultsFromData($data);
 
 		$images = ["$pathToService/images/results.png"];
 
@@ -200,19 +183,20 @@ class Service {
 			$n = $i < 10 ? "0$i" : $i;
 			$images[] = "$pathToService/images/$n.png";
 		}
-		$charada = ["Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San Lázaro","Pescadito","Lombriz","Gato Fino","Majá","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Ratón","Camarón","Venado","Cochino","Tiñosa","Mono","Araña","Cachimba","Brujería","Dinero","Conejo","Cura","Lagartija","Pato","Alacrán","Año Del Cuero","Presidente","Humo Blanco","Pájaro","Cucaracha","Borracho","Policía","Soldado","Bicicleta","Luz Eléctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","Río","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De Sán Lázaro","Sarcófago","Coche","Médico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Plátano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revolución","Mariposa Grande","Perro Grande","Escorpión","Mosquito","Bollo Grande","Serrucho","Automóvil"];
 
 		$response->setCache('year');
-		$response->setTemplate('charada.ejs', array('charada'=>$charada), $images);
+		$response->setTemplate('charada.ejs', array('charada'=>self::CHARADA), $images);
 	}
 
 	/**
 	 *
-	 * @param String
-	 * @return String
+	 * @param String|array
+	 * @return String|array
 	 */
-	 public function dateToEsp(String $text)
+	 public function dateToEsp($text)
 	 {
+	 	if(is_array($text)) return $text;
+
 		 $month = [
 		 	'Jan' => 'Enero',
 			'Feb' => 'Febrero',
@@ -242,104 +226,146 @@ class Service {
 		$mes_dia=explode(" ",trim($extractos[1]));
 		$d=$day[$extractos[0]];
 		$m=$month[substr($mes_dia[0],0,3)];
-		return ($d.', '.$m.' '.$mes_dia[1].' del '.$extractos[2]);	 
+		return ($d.', '.$m.' '.$mes_dia[1].' del '.$extractos[2]);
 	}
 
 	/**
 	 * Subservice BOLITA anteriores
+	 * @param Request $request
+	 * @param Response $response
 	 */
-	function _anteriores(Request $request, Response $response)
+	public function _anteriores(Request $request, Response $response)
 	{
-		date_default_timezone_set('America/Havana');
+		$date = $request->input->data->date ?? false;
+		if ($date) {
+			$cacheFile = Utils::getTempDir() . "results_" . str_replace('/', '-', $date) . "bolita.tmp";
+			if (file_exists($cacheFile)) $data = json_decode(file_get_contents($cacheFile), true);
+			else {
+				$date = explode('/', $date);
+				if(strlen($date[0]) < 2) $date[0] = '0'.$date[0];
+				if(strlen($date[1]) < 2) $date[1] = '0'.$date[1];
 
-		// create a new client
-		$client = new Client();
-		$guzzle = $client->getClient();
-		$client->setClient($guzzle);
+				$crawler = (new Client())->request('GET', "https://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$date[0]}%2F{$date[1]}%2F{$date[2]}");
 
-		// load from cache if exists
-		$cacheFile = Utils::getTempDir() . date("YmdG") . "_bolita_anteriores.tmp";
-		if(file_exists($cacheFile)) $resultintext = file_get_contents($cacheFile);
-		else {
-			// create a crawler
-			$crawler = $client->request('GET', "http://strictmath.com/info.php?P=LFBrowse&S=TOP:Results&V=8");
-			$resultintext = $crawler->filter("body > div:nth-child(1) > table:nth-child(1)")->text();
+				$data = [
+					'pick3' => [
+						'Midday' => false,
+						'Evening' => false
+					],
+					'pick4' => [
+						'Midday' => false,
+						'Evening' => false
+					],
+					'date' => $date
+				];
 
-			// save cache file for today
-			file_put_contents($cacheFile, $resultintext);
-		}
+				$crawler->filter('td[colspan="2"]')->each(function ($item) use ($date, &$data) {
+					if ($item->filter('.balls')->count() == 3) {
+						if ($item->filter('img[alt="Midday"]')->count() == 1) {
+							$data['pick3']['Midday'] = [
+								1 => $item->filter('.balls:nth-child(2)')->text(),
+								2 => $item->filter('.balls:nth-child(4)')->text(),
+								3 => $item->filter('.balls:nth-child(6)')->text(),
+								'date' => $date
+							];
+						} else {
+							$data['pick3']['Evening'] = [
+								1 => $item->filter('.balls:nth-child(2)')->text(),
+								2 => $item->filter('.balls:nth-child(4)')->text(),
+								3 => $item->filter('.balls:nth-child(6)')->text(),
+								'date' => $date
+							];
+						}
+					} else if ($item->filter('.balls')->count() == 4) {
+						if ($item->filter('img[alt="Midday"]')->count() == 1) {
+							$data['pick4']['Midday'] = [
+								1 => $item->filter('.balls:nth-child(2)')->text(),
+								2 => $item->filter('.balls:nth-child(4)')->text(),
+								3 => $item->filter('.balls:nth-child(6)')->text(),
+								4 => $item->filter('.balls:nth-child(8)')->text(),
+								'date' => $date
+							];
+						} else {
+							$data['pick4']['Evening'] = [
+								1 => $item->filter('.balls:nth-child(2)')->text(),
+								2 => $item->filter('.balls:nth-child(4)')->text(),
+								3 => $item->filter('.balls:nth-child(6)')->text(),
+								4 => $item->filter('.balls:nth-child(8)')->text(),
+								'date' => $date
+							];
+						}
+					}
+				});
 
-		//preparamos el texto para dividir los resultados mas facil despues
-		$resultintext = str_replace(')', '~', $resultintext);
-		$resultintext = preg_replace('/[^0-9A-Za-z\s~\/]+/', '', $resultintext); //eliminar caracteres extraños
+				if(!$data['pick3']['Midday']){
+					$crawler->filter('.winningNumbers')->each(function ($item) use ($date, &$data) {
+						if ($item->filter('.balls')->count() == 3) {
+							$data['pick3']['Midday'] = [
+								1 => $item->filter('.balls:nth-child(1)')->text(),
+								2 => $item->filter('.balls:nth-child(3)')->text(),
+								3 => $item->filter('.balls:nth-child(5)')->text(),
+								'date' => $date
+							];
+						} else if ($item->filter('.balls')->count() == 4) {
+							$data['pick4']['Midday'] = [
+								1 => $item->filter('.balls:nth-child(1)')->text(),
+								2 => $item->filter('.balls:nth-child(3)')->text(),
+								3 => $item->filter('.balls:nth-child(5)')->text(),
+								4 => $item->filter('.balls:nth-child(7)')->text(),
+								'date' => $date
+							];
+						}
+					});
+				}
 
-		//extraemos los resultados de pick3
-		$patternLastResultsP3 = "/PICK\s3\sCOMBINED(\d{3}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3}~)+/u"; //mod u para tratar con utf8
-		$regexpmatch = preg_match($patternLastResultsP3, $resultintext, $matches);
-
-		//si no hubo problemas al encontrar la expresion regular
-		if (($regexpmatch != 0) && ($regexpmatch != false)) {
-			$lastResultsP3inText = $matches[0];
-			preg_match_all("/(\d{3}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3})/u", $lastResultsP3inText, $matches);
-
-			$lastResultsP3 = [];
-			foreach ($matches[0] as $value) {
-				$value = preg_replace('/Mid/', 'Tarde ', $value); //traducimos a pie
-				$value = preg_replace('/Eve/', 'Noche ', $value); //traducimos a pie
-				$fijo = substr($value, 1, 2);
-				$charada = $this->getCharadaText($fijo);
-				//$value = substr_replace($value, '</span>', 3, 0); //para colocar los primeros 3 caract en rojo
-				//$value = substr_replace($value, '<span style="color:red;">', 0, 0); //para colocar los primeros 3 caract en rojo
-				$aux = substr($value, 0, 3); // numenro ganador
-				$value = substr_replace($value, '', 0, 4);
-				$value = substr_replace($value, $aux, strlen($value), 0);
-				array_push($lastResultsP3, array('NumGanador' => $value, 'fijo' => $fijo, 'charada' => $charada));
+				file_put_contents($cacheFile, json_encode($data));
 			}
-		} else {
-			// Send an error notice to programmer
-			Utils::createAlert("BOLITA: Error al leer los resultados pick3 anteriores", "ERROR");
+
+			$results = $this->resultsFromData($data);
 		}
 
-		//extraemos los resultados de pick4
-		$patternLastResultsP4 = "/PICK\s4\sCOMBINED(\d{4}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3}~)+/u"; //mod u para tratar con utf8
+		$pathToService = Utils::getPathToService($response->serviceName);
+		$images = ["$pathToService/images/results.png"];
 
-		//$regexpmatch = preg_match_all($patternLastResultsP3, $resultintext, $matches);
-		$regexpmatch = preg_match($patternLastResultsP4, $resultintext, $matches);
-
-		//si no hubo problemas al encontrar la expresion regular
-		if (($regexpmatch != 0) && ($regexpmatch != false)) {
-			$lastResultsP4inText = $matches[0];
-			preg_match_all("/(\d{4}\s{1,}\d{1,2}\/\d{1,2}\/\d{4}\s.{3})/u", $lastResultsP4inText, $matches);
-			$lastResultsP4 = [];
-
-			foreach ($matches[0] as $value) {
-				$value = preg_replace('/Mid/', 'Tarde ', $value); //traducimos a pie
-				$value = preg_replace('/Eve/', 'Noche ', $value); //traducimos a pie
-				$corrido1 = substr($value, 0, 2);
-				$corrido2 = substr($value, 2, 2);
-				$charada1 = $this->getCharadaText($corrido1);
-				$charada2 = $this->getCharadaText($corrido2);
-				//$value = substr_replace($value, '</span>', 4, 0); //para colocar los primeros 4 caract en rojo
-				//$value = substr_replace($value, '<span style="color:red;">', 0, 0); //para colocar los primeros 4 caract en rojo
-				$aux = substr($value, 0, 4); // numenro ganador
-				$value = substr_replace($value, '', 0, 5);
-				$value = substr_replace($value, $aux, strlen($value), 0);
-				array_push($lastResultsP4, array('NumGanador' => $value, 'corrido1' => $corrido1, 'charada1' => $charada1, 'corrido2' => $corrido2, 'charada2' => $charada2));
-			}
-		} else {
-			// Send an error notice to programmer
-			Utils::createAlert("BOLITA: Error al leer los resultados pick4 anteriores", "ERROR");
-		}
-
-		$responseContent = array("lastResultsP3" => $lastResultsP3, "lastResultsP4" => $lastResultsP4);
-		$response->setCache("day");
-		$response->setTemplate("anteriores.ejs", $responseContent);
+		$response->setCache(360);
+		$response->setTemplate('anteriores.ejs', ['results' => $results ?? false, 'date' => $date ?? false], $images, $this->font());
 	}
 
-	private function getCharadaText($numGan)
-	{
-		$laCharada = ["Automóvil","Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Cementerio","Perro","Toro","San Lázaro","Pescadito","Lombriz","Gato Fino","Majá","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Ratón","Camarón","Venado","Cochino","Tiñosa","Mono","Araña","Cachimba","Brujería","Dinero","Conejo","Cura","Lagartija","Pato","Alacrán","Año Del Cuero","Presidente","Humo Blanco","Pájaro","Cucaracha","Borracho","Policía","Soldado","Bicicleta","Luz Eléctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","Río","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De Sán Lázaro","Sarcófago","Coche","Médico","Teatro","Madre","Tragedia","Sangre","Espejo","Tijeras","Plátano","Muerto Vivo","Agua","Viejo","Limosnero","Puerco Gordo","Revolución","Mariposa Grande","Perro Grande","Escorpión","Mosquito","Bollo Grande","Serrucho"];
-		return ($laCharada[(int)$numGan]);
+	private function resultsFromData($data){
+		$results = [];
+		if($data['pick3']['Midday']){
+			$results['fijoMid'] = $data['pick3']['Midday'][2].$data['pick3']['Midday'][3];
+			$results['centenaMid'] = $data['pick3']['Midday'][1];
+			$results['fijoMidDate'] = $this->dateToEsp($data['pick3']['Midday']['date']);
+			$results['fijoMidText'] = self::CHARADA[$data['pick3']['Midday'][2].$data['pick3']['Midday'][3]];
+		}
+
+		if($data['pick4']['Midday']){
+			$results['Corrido1Mid'] = $data['pick4']['Midday'][1].$data['pick4']['Midday'][2];
+			$results['Corrido2Mid'] = $data['pick4']['Midday'][3].$data['pick4']['Midday'][4];
+			$results['Corrido1MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
+			$results['Corrido2MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
+			$results['Corrido1MidText'] = self::CHARADA[$data['pick4']['Midday'][1].$data['pick4']['Midday'][2]];
+			$results['Corrido2MidText'] = self::CHARADA[$data['pick4']['Midday'][3].$data['pick4']['Midday'][4]];
+		}
+
+		if($data['pick3']['Evening']){
+			$results['fijoEve'] = $data['pick3']['Evening'][2].$data['pick3']['Evening'][3];
+			$results['centenaEve'] = $data['pick3']['Evening'][1];
+			$results['fijoEveDate'] = $this->dateToEsp($data['pick3']['Evening']['date']);
+			$results['fijoEveText'] = self::CHARADA[$data['pick3']['Evening'][2].$data['pick3']['Evening'][3]];
+		}
+
+		if($data['pick4']['Evening']){
+			$results['Corrido1Eve'] = $data['pick4']['Evening'][1].$data['pick4']['Evening'][2];
+			$results['Corrido2Eve'] = $data['pick4']['Evening'][3].$data['pick4']['Evening'][4];
+			$results['Corrido1EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
+			$results['Corrido2EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
+			$results['Corrido1EveText'] = self::CHARADA[$data['pick4']['Evening'][1].$data['pick4']['Evening'][2]];
+			$results['Corrido2EveText'] = self::CHARADA[$data['pick4']['Evening'][3].$data['pick4']['Evening'][4]];
+		}
+
+		return $results;
 	}
 
 	private function font()
