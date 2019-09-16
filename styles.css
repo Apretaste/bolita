@@ -6,6 +6,14 @@
 	src: local('Roboto'), local('Roboto-Medium'), url("{{APP_SERVICE_PATH}}/resources/Roboto-Medium.ttf") format("truetype");
 }
 
+.bolita-color.acent{
+	background: #455A64;
+}
+
+.bolita-color{
+	background: #263238;
+}
+
 body{
 	font-family: 'Roboto', sans-serif;
 	color: white;

@@ -1,0 +1,58 @@
+<%
+if (typeof menuicon == 'undefined') menuicon = '';
+var menu = [
+    {link: '', icon: 'star', caption: 'Tiradas'},
+    {link: 'ANTERIORES', icon: 'alarm', caption: 'Anteriores'},
+    {link: 'CHARADA', icon: 'casino', caption: 'Charada'},
+    {link: 'SUERTE', icon: 'toys', caption: 'Suerte'},
+    {link: 'NOTIFICACIONES', icon: 'notifications', caption: 'Notificaciones'}];
+%>
+
+<!-- MENU -->
+<div class="row">
+    <div class="navbar hide-on-small-only hide-on-unique">
+        <nav>
+            <div class="nav-wrapper bolita-color acent">
+                <a class="brand-logo left" style="margin-left: 1rem;">
+                    <i class="waves-effect waves-light hide-on-large-only material-icons" onclick="openMenu();">menu</i>
+                    <%= typeof title != 'undefined' ? title : 'Tiradas' %>
+                </a>
+                <!-- ICONS ON THE MENU -->
+                <ul class="right hide-on-med-only">
+                    <% menu.forEach(function(e) { %>
+                        <li class="<%= e.icon == menuicon ? 'active' : '' %>">
+                            <a
+                               onclick="apretaste.send({'command':'BOLITA <%= e.link %>'})">
+                                <i class="material-icons white-text"><%= e.icon %></i>
+                            </a>
+                        </li>
+                    <% }); %>
+                </ul>
+            </div>
+        </nav>
+    </div>
+
+    <!-- FLOATING MOBILE BTN -->
+    <a id="btnFloatingMenu" href="#"
+       class="btn-floating waves-effect waves-light hide-on-med-and-up hide-on-unique"
+       onclick="openMenu();">
+        <i class="material-icons"><%= menuicon %></i>
+    </a>
+
+    <!-- SIDE BAR TO BE OPENED ON MOBILE -->
+    <ul class="sidenav hide-on-large-only bolita-color white-text">
+        <% menu.forEach(function(e) { %>
+            <li class="<%= e.icon == menuicon ? 'active' : '' %>">
+                <a class="grey-text text-lighten-2"
+                   onclick="apretaste.send({'command':'BOLITA <%= e.link %>'})">
+                    <i class="material-icons grey-text text-lighten-2"><%= e.icon %></i> <%= e.caption %>
+                </a>
+            </li>
+        <% }); %>
+    </ul>
+</div>
+
+<!-- CONTENT -->
+<div class="row">
+    {{APP_TEMPLATE_CODE}}
+</div>

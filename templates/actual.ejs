@@ -1,77 +1,87 @@
-<div class="row">
-	<div class="col s12">
-		<h1>Tarde:</h1>
-		<h2><%= results.fijoMidDate %></h2>
-	</div>
-
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container"><div class="img" data-index="<%=results.fijoMid%>"></div></div>
-				<div class="card-content center-align">
-					<span class="name">Fijo</span><br><span class="result"><%= results.centenaMid %>-<%= results.fijoMid %></span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container"><div class="img" data-index="<%=results.Corrido1Mid%>"></div></div>
-				<div class="card-content center-align">
-					<span class="name">Corrido 1:</span><br><span class="result"><%= results.Corrido1Mid %></span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container"><div class="img" data-index="<%=results.Corrido2Mid%>"></div></div>
-				<div class="card-content center-align">
-					<span class="name">Corrido 2:</span><br><span class="result"><%= results.Corrido2Mid %></span>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="col s12">
+    <h1>Tarde:</h1>
+    <h2><%= results.fijoMidDate %></h2>
 </div>
 
-<div class="row">
-	<div class="col s12">
-		<h1>Noche:</h1>
-		<h2><%=results.fijoEveDate %></h2>
-	</div>
+<div class="col s4">
+    <div class="card">
+        <div class="card-image">
+            <div class="img-container">
+                <div class="img" data-index="<%= results.fijoMid %>"></div>
+            </div>
+            <div class="card-content center-align">
+                <span class="name">Fijo</span><br><span
+                        class="result"><%= results.centenaMid %>-<%= results.fijoMid %></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col s4">
+    <div class="card">
+        <div class="card-image">
+            <div class="img-container">
+                <div class="img" data-index="<%= results.Corrido1Mid %>"></div>
+            </div>
+            <div class="card-content center-align">
+                <span class="name">Corrido 1:</span><br><span class="result"><%= results.Corrido1Mid %></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col s4">
+    <div class="card">
+        <div class="card-image">
+            <div class="img-container">
+                <div class="img" data-index="<%= results.Corrido2Mid %>"></div>
+            </div>
+            <div class="card-content center-align">
+                <span class="name">Corrido 2:</span><br><span class="result"><%= results.Corrido2Mid %></span>
+            </div>
+        </div>
+    </div>
+</div>
 
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container"><div class="img" data-index="<%=results.fijoEve%>"></div></div>
-				<div class="card-content center-align">
-					<span class="name">Fijo</span><br><span class="result"><%= results.centenaEve %>-<%= results.fijoEve %></span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container"><div class="img" data-index="<%=results.Corrido1Eve%>"></div></div>
-				<div class="card-content center-align">
-					<span class="name">Corrido 1:</span><br><span class="result"><%= results.Corrido1Eve %></span>
-				</div>
-			</div>
-		</div>
-	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container"><div class="img" data-index="<%=results.Corrido2Eve%>"></div></div>
-				<div class="card-content center-align">
-					<span class="name">Corrido 2:</span><br><span class="result"><%= results.Corrido2Eve %></span>
-				</div>
-			</div>
-		</div>
-	</div>
+<div class="col s12">
+    <h1>Noche:</h1>
+    <h2><%= results.fijoEveDate %></h2>
+</div>
+
+<div class="col s4">
+    <div class="card">
+        <div class="card-image">
+            <div class="img-container">
+                <div class="img" data-index="<%= results.fijoEve %>"></div>
+            </div>
+            <div class="card-content center-align">
+                <span class="name">Fijo</span><br><span
+                        class="result"><%= results.centenaEve %>-<%= results.fijoEve %></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col s4">
+    <div class="card">
+        <div class="card-image">
+            <div class="img-container">
+                <div class="img" data-index="<%= results.Corrido1Eve %>"></div>
+            </div>
+            <div class="card-content center-align">
+                <span class="name">Corrido 1:</span><br><span class="result"><%= results.Corrido1Eve %></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col s4">
+    <div class="card">
+        <div class="card-image">
+            <div class="img-container">
+                <div class="img" data-index="<%= results.Corrido2Eve %>"></div>
+            </div>
+            <div class="card-content center-align">
+                <span class="name">Corrido 2:</span><br><span class="result"><%= results.Corrido2Eve %></span>
+            </div>
+        </div>
+    </div>
 </div>
 
 <%- '<serviceImgPath data="{{APP_SERVICE_PATH}}/images"></serviceImgPath>' %>
