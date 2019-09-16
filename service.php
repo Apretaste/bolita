@@ -424,7 +424,7 @@ class Service
 	private static function img(): array
 	{
 		$pathToService = Utils::getPathToService("bolita");
-		return ["$pathToService/images/results.png", "$pathToService/images/logo.png"];
+		return ["$pathToService/images/results.png", "$pathToService/images/logo.png", "$pathToService/images/esfera-suerte.png"];
 	}
 
 	private static function font(): array

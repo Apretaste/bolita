@@ -41,7 +41,7 @@ var charadaDescription = ['Es posible que gane una suma importante de dinero y d
 	'Indica que algo o alguien le está manipulando, con el fin de conseguir sus fines.',
 	'Sin causa aparente representa un riesgo de caer en actitudes indebidas y hasta peligrosas.',
 	'Fidelidad en el amor y una gran amistad. Éxito en los negocios.',
-	'Problemas con jueces, abogados ... Y debe desconfiar de algún amigo que se ofrezca a ayudar.',
+	'Problemas con jueces, abogados... Y debe desconfiar de algún amigo que se ofrezca a ayudar.',
 	'Te está diciendo que tengas cuidado con la gente que no conoces.',
 	'Viajes felices. Logros económicos o buena cosecha. Matrimonio y hijos en un nuevo hogar.',
 	'Problemas sentimentales, ya que éstos están relacionados con sentimientos, pensamientos o palabras destructivas.',
@@ -147,6 +147,12 @@ $(function () {
 	});
 });
 
+function toggleSuerte(){
+	$('#esfera').fadeOut(2000, function () {
+		$('#suerte').fadeIn(2000)
+	});
+}
+
 function messageLengthValidate(max) {
 	var message = $('#message').val().trim();
 
@@ -203,9 +209,7 @@ function resizeImages() {
 
 		var index = parseInt(element.attr("data-index")) - 1;
 		if (index === -1) index = 99;
-		var fullsize = size * 10;
-		var x = index % 10 * size;
-		var y = Math.floor(index / 10) * size;
+		var x = index * size;
 
 		element.parent().css({
 			'height': parentSize + 'px',
@@ -215,17 +219,15 @@ function resizeImages() {
 			'width': size + 'px',
 			'height': size + 'px',
 			"background-image": "url(" + serviceImgPath + "/results.png)",
-			"background-size": fullsize + "px " + fullsize + "px",
-			"background-position": "-" + x + "px -" + y + "px"
+			"background-size": size*100 + "px " + size + "px",
+			"background-position": "-" + x + "px 0"
 		});
 	});
 }
 
 function getImage(index, serviceImgPath, size) {
-	var fullsize = size * 10;
-	var x = index % 10 * size;
-	var y = Math.floor(index / 10) * size;
-	return "background-image: url(" + serviceImgPath + "/results.png);" + "background-size: " + fullsize + "px " + fullsize + "px;" + "background-position: -" + x + "px -" + y + "px;";
+	var x = index * size;
+	return "background-image: url(" + serviceImgPath + "/results.png);" + "background-size: " + size*100 + "px " + size + "px;" + "background-position: -" + x + "px 0;";
 }
 
 function showToast(text) {
