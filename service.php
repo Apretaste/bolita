@@ -147,7 +147,7 @@ class Service
 	{
 		$response->setCache('year');
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('charada.ejs', [], self::img(), self::font());
+		$response->setTemplate('charada.ejs', ['title' => "Charada"], self::img(), self::font());
 	}
 
 	/**
@@ -286,9 +286,14 @@ class Service
 			$results = $this->resultsFromData($data);
 		}
 
+		$content = [
+			'results' => $results ?? false, '
+			date' => $date ?? false,
+			'title' => "Anteriores"];
+
 		$response->setCache(360);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('anteriores.ejs', ['results' => $results ?? false, 'date' => $date ?? false], self::img(), self::font());
+		$response->setTemplate('anteriores.ejs', $content, self::img(), self::font());
 	}
 
 	public function _suerte(Request $request, Response $response)
@@ -309,7 +314,8 @@ class Service
 			'fijo' => $nums[1] . $nums[2],
 			'centena' => $nums[0],
 			'corrido1' => $nums[4] . $nums[5],
-			'corrido2' => $nums[6] . $nums[7]
+			'corrido2' => $nums[6] . $nums[7],
+			'title' => "Suerte"
 		];
 
 		$response->setCache(60);
@@ -354,6 +360,59 @@ class Service
 		}
 
 		return $results;
+	}
+
+	/**
+	 * Show a list of notifications
+	 *
+	 * @author salvipascual
+	 * @param Request
+	 * @param Response
+	 */
+	public function _notificaciones (Request $request, Response $response)
+	{
+		// get all unread notifications
+		$notifications = Connection::query("
+			SELECT id,icon,`text`,link,inserted
+			FROM notification
+			WHERE `to` = {$request->person->id} 
+			AND service = 'bolita'
+			AND `hidden` = 0
+			ORDER BY inserted DESC");
+
+		// if no notifications, let the user know
+		if(empty($notifications)) {
+			$content = [
+				"header"=>"Nada por leer",
+				"icon"=>"notifications_off",
+				"text" => "Por ahora usted no tiene ninguna notificación por leer.",
+				'title' => "Notificaciones"
+			];
+
+			$response->setLayout('bolita.ejs');
+			return $response->setTemplate('message.ejs', $content, [], self::font());
+		}
+
+		foreach($notifications as $noti) $noti->inserted = strtoupper(date('d/m/Y h:ia', strtotime(($noti->inserted))));
+
+		// prepare content for the view
+		$content = [
+			"notifications" => $notifications,
+			"title" => "Notificaciones"
+		];
+
+		// build the response
+		$response->setLayout('bolita.ejs');
+		$response->setTemplate('notifications.ejs', $content);
+	}
+
+	public function _soporte(Request $request, Response $response)
+	{
+		$chat = Social::getSupportConversation($request->person->email);
+
+		// send data to the view
+		$response->setLayout('bolita.ejs');
+		$response->setTemplate('soporte.ejs',['messages' => $chat, "myusername" => $request->person->username, "title" => "Soporte"], [], self::font());
 	}
 
 	private static function charada($number)

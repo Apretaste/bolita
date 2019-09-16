@@ -1,6 +1,6 @@
 "use strict";
 
-var charada = ["Caballo","Mariposa","Niñito","Gato","Monja","Tortuga","Caracol","Muerto","Elefante","Pescadote","Gallo","Mujer Santa","Pavo Real","Tigre","Perro","Toro","San Lázaro","Pescadito","Lombriz","Gato Fino","Majá","Sapo","Vapor","Paloma","Piedra Fina","Anguila","Avispa","Chivo","Ratón","Camarón","Venado","Cochino","Tiñosa","Mono","Araña","Cachimba","Brujería","Dinero","Conejo","Cura","Lagartija","Pato","Alacrán","Año Del Cuero","Tiburón","Humo Blanco","Pájaro","Cucaracha","Borracho","Policía","Soldado","Bicicleta","Luz Eléctrica","Flores","Cangrejo","Merengue","Cama","Retrato","Loco","Huevo","Caballote","Matrimonio","Asesino","Muerto Grande","Comida","Par De Yeguas","Puñalada","Cementerio","Relajo Grande","Coco","Río","Collar","Maleta","Papalote","Perro Mediano","Bailarina","Muleta De Sán Lázaro","Sarcófago","Tren de carga","Médicos","Teatro","Madre","Tragedia","Sangre","Reloj","Tijeras","Plátano","Espejuelos","Agua","Viejo","Limosnero","Globo alto","Sortija","Machete","Guerra","Reto","Mosquito","Piano","Serrucho", "Motel"];
+var charada = ["Caballo", "Mariposa", "Niñito", "Gato", "Monja", "Tortuga", "Caracol", "Muerto", "Elefante", "Pescadote", "Gallo", "Mujer Santa", "Pavo Real", "Tigre", "Perro", "Toro", "San Lázaro", "Pescadito", "Lombriz", "Gato Fino", "Majá", "Sapo", "Vapor", "Paloma", "Piedra Fina", "Anguila", "Avispa", "Chivo", "Ratón", "Camarón", "Venado", "Cochino", "Tiñosa", "Mono", "Araña", "Cachimba", "Brujería", "Dinero", "Conejo", "Cura", "Lagartija", "Pato", "Alacrán", "Año Del Cuero", "Tiburón", "Humo Blanco", "Pájaro", "Cucaracha", "Borracho", "Policía", "Soldado", "Bicicleta", "Luz Eléctrica", "Flores", "Cangrejo", "Merengue", "Cama", "Retrato", "Loco", "Huevo", "Caballote", "Matrimonio", "Asesino", "Muerto Grande", "Comida", "Par De Yeguas", "Puñalada", "Cementerio", "Relajo Grande", "Coco", "Río", "Collar", "Maleta", "Papalote", "Perro Mediano", "Bailarina", "Muleta De Sán Lázaro", "Sarcófago", "Tren de carga", "Médicos", "Teatro", "Madre", "Tragedia", "Sangre", "Reloj", "Tijeras", "Plátano", "Espejuelos", "Agua", "Viejo", "Limosnero", "Globo alto", "Sortija", "Machete", "Guerra", "Reto", "Mosquito", "Piano", "Serrucho", "Motel"];
 
 var charadaDescription = ['Es posible que gane una suma importante de dinero y disfrutar una vida feliz y próspera.',
 	'Habla de ciertas indecisiones y humor inconstante, así como posible infidelidad afectiva o amistosa.',
@@ -108,25 +108,26 @@ $(function () {
 	serviceImgPath = $('serviceImgPath').attr('data');
 	resizeImages();
 	$(window).resize(resizeImages);
-	
+
 	$('.charada-item i').click(function (e) {
 		var item = $(e.target).parent().parent().parent();
 		var front = item.children('.front');
 		var back = item.children('.back')
 
-		if(front.css('display') !== 'none'){
+		if (front.css('display') !== 'none') {
 			front.fadeToggle(function () {
 				back.fadeToggle()
 			});
-		}
-		else{
+		} else {
 			back.fadeToggle(function () {
 				front.fadeToggle()
 			});
 		}
 	});
 
-	var initDate = date ? new Date(date) : new Date();
+	var initDate = typeof date != "undefined" ? new Date(date) : new Date();
+	var yesterday = new Date();
+	yesterday.setDate(yesterday.getDate() - 1);
 
 	$('.datepicker').datepicker({
 		autoClose: true,
@@ -134,17 +135,60 @@ $(function () {
 		defaultDate: initDate,
 		setDefaultDate: true,
 		yearRange: [1990, (new Date()).getFullYear()],
-		maxDate: new Date(),
+		maxDate: yesterday,
 		onSelect: function (value) {
 			apretaste.send({
 				command: 'BOLITA ANTERIORES',
 				data: {
-					'date': (value.getMonth()+1)+'/'+value.getDate()+'/'+value.getFullYear()
+					'date': (value.getMonth() + 1) + '/' + value.getDate() + '/' + value.getFullYear()
 				}
 			})
 		}
 	});
 });
+
+function messageLengthValidate(max) {
+	var message = $('#message').val().trim();
+
+	if (message.length <= max) {
+		$('.helper-text').html('Restante: ' + (max - message.length));
+	} else {
+		$('.helper-text').html('Limite excedido');
+	}
+}
+
+function sendMessage() {
+	var message = $('#message').val().trim();
+
+	if (message.length >= 30) {
+		apretaste.send({
+			'command': "SOPORTE ESCRIBIR",
+			'data': {
+				'message': message
+			},
+			'redirect': false,
+			'callback': {
+				'name': 'sendMessageCallback',
+				'data': message
+			}
+		});
+	} else {
+		showToast("Por favor describanos mejor su solicitud");
+	}
+}
+
+function sendMessageCallback(message) {
+	if (messages.length === 0) {
+		// Jquery Bug, fixed in 1.9, insertBefore or After deletes the element and inserts nothing
+		// $('#messageField').insertBefore("<div class=\"chat\"></div>");
+		$('#nochats').remove();
+		$('#chat-row').append("<div class=\"chat\"></div>");
+	}
+
+	$('.chat').append("<div class=\"bubble me\" id=\"last\">" + message + "<br>" + "<small>" + new Date().toLocaleString('es-ES') + "</small>" + "</div>");
+
+	$('#message').val('');
+}
 
 function openMenu() {
 	$('.sidenav').sidenav();
@@ -152,24 +196,24 @@ function openMenu() {
 }
 
 function resizeImages() {
-	$('.card-image > .img-container > .img').each(function(){
+	$('.card-image > .img-container > .img').each(function () {
 		var element = $(this)
-		var size = element.parent().width()*0.7;
+		var size = element.parent().width() * 0.7;
 		var parentSize = element.parent().width();
 
-		var index = parseInt(element.attr("data-index"))-1;
-		if(index === -1) index = 99;
+		var index = parseInt(element.attr("data-index")) - 1;
+		if (index === -1) index = 99;
 		var fullsize = size * 10;
 		var x = index % 10 * size;
 		var y = Math.floor(index / 10) * size;
 
 		element.parent().css({
-			'height': parentSize+'px',
+			'height': parentSize + 'px',
 		});
 
 		element.css({
-			'width': size+'px',
-			'height': size+'px',
+			'width': size + 'px',
+			'height': size + 'px',
 			"background-image": "url(" + serviceImgPath + "/results.png)",
 			"background-size": fullsize + "px " + fullsize + "px",
 			"background-position": "-" + x + "px -" + y + "px"
@@ -182,6 +226,35 @@ function getImage(index, serviceImgPath, size) {
 	var x = index % 10 * size;
 	var y = Math.floor(index / 10) * size;
 	return "background-image: url(" + serviceImgPath + "/results.png);" + "background-size: " + fullsize + "px " + fullsize + "px;" + "background-position: -" + x + "px -" + y + "px;";
+}
+
+function showToast(text) {
+	M.toast({
+		html: text
+	});
+}
+
+function deleteNotification(id) {
+	// delete from the backend
+	apretaste.send({
+		command: 'NOTIFICACIONES LEER',
+		data: {
+			id: id
+		},
+		redirect: false
+	}); // remove from the view
+
+	$('#' + id).fadeOut(function () {
+		$(this).remove(); // show message if all notifications were deleted
+
+		var count = $("ul.collection li").length;
+
+		if (count <= 0) {
+			var parent = $('#noti-list').parent();
+			$('ul.collection').remove();
+			parent.append("<div class=\"col s12 center\"><h1 class=\"white-text\">Nada por leer</h1><i class=\"material-icons large\">notifications_off</i><p>Por ahora usted no tiene ninguna notificaci\xF3n por leer.</p></div>");
+		}
+	});
 }
 
 // POLYFILL

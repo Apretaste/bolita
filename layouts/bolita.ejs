@@ -5,7 +5,8 @@ var menu = [
     {link: 'ANTERIORES', icon: 'alarm', caption: 'Anteriores'},
     {link: 'CHARADA', icon: 'casino', caption: 'Charada'},
     {link: 'SUERTE', icon: 'toys', caption: 'Suerte'},
-    {link: 'NOTIFICACIONES', icon: 'notifications', caption: 'Notificaciones'}];
+    {link: 'NOTIFICACIONES', icon: 'notifications', caption: 'Notificaciones'},
+    {link: 'SOPORTE', icon: 'help', caption: 'Soporte'}];
 %>
 
 <!-- MENU -->
@@ -20,7 +21,7 @@ var menu = [
                 <!-- ICONS ON THE MENU -->
                 <ul class="right hide-on-med-only">
                     <% menu.forEach(function(e) { %>
-                        <li class="<%= e.icon == menuicon ? 'active' : '' %>">
+                        <li>
                             <a
                                onclick="apretaste.send({'command':'BOLITA <%= e.link %>'})">
                                 <i class="material-icons white-text"><%= e.icon %></i>
@@ -34,15 +35,15 @@ var menu = [
 
     <!-- FLOATING MOBILE BTN -->
     <a id="btnFloatingMenu" href="#"
-       class="btn-floating waves-effect waves-light hide-on-med-and-up hide-on-unique"
+       class="btn-floating waves-effect waves-light hide-on-med-and-up hide-on-unique right bolita-color"
        onclick="openMenu();">
-        <i class="material-icons"><%= menuicon %></i>
+        <i class="material-icons">menu</i>
     </a>
 
     <!-- SIDE BAR TO BE OPENED ON MOBILE -->
     <ul class="sidenav hide-on-large-only bolita-color white-text">
         <% menu.forEach(function(e) { %>
-            <li class="<%= e.icon == menuicon ? 'active' : '' %>">
+            <li>
                 <a class="grey-text text-lighten-2"
                    onclick="apretaste.send({'command':'BOLITA <%= e.link %>'})">
                     <i class="material-icons grey-text text-lighten-2"><%= e.icon %></i> <%= e.caption %>
