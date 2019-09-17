@@ -1,5 +1,5 @@
 <div class="col s12">
-    <% for(var i = 0; i < charada.length; i++) { %>
+    <% for(var i = 0; i < charadaList.length; i++) { %>
         <% var n = i < 9 ? "0" + (i + 1) : (i + 1); %>
         <div class="charada-item left-align">
             <div class="charada-container">
@@ -13,7 +13,7 @@
                         <h1>#<%= n %></h1>
                     </div>
                     <div class="col s4">
-                        <h2><%- charada[i] %></h2>
+                        <h2><%- charada(i) %></h2>
                     </div>
 
                     <div class="col s1">
@@ -22,7 +22,7 @@
                 </div>
                 <div class="back" style="display: none;">
                     <div class="col s11">
-                        <p><b><%- charada[i] %></b>: <%- charadaDescription[i] %></p>
+                        <p><b><%- charada(i) %></b>: <%- charadaDescription(i) %></p>
                     </div>
                     <div class="col s1">
                         <i class="material-icons right">more_vert</i>

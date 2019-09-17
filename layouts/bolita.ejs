@@ -5,7 +5,7 @@ var menu = [
     {link: 'ANTERIORES', icon: 'alarm', caption: 'Anteriores'},
     {link: 'CHARADA', icon: 'casino', caption: 'Charada'},
     {link: 'SUERTE', icon: 'toys', caption: 'Suerte'},
-    //{link: 'NOTIFICACIONES', icon: 'notifications', caption: 'Notificaciones'},
+    /*{link: 'NOTIFICACIONES', icon: 'notifications', caption: 'Notificaciones'}*/,
     {link: 'SOPORTE', icon: 'help', caption: 'Soporte'}];
 %>
 
@@ -34,12 +34,14 @@ var menu = [
     </div>
 
     <!-- FLOATING MOBILE BTN -->
+    <%if(title != "Soporte") {%>
     <div class="fixed-action-btn">
         <a class="btn-floating btn-large waves-effect waves-light hide-on-med-and-up hide-on-unique right bolita-color acent"
            onclick="openMenu();">
             <i class="material-icons">menu</i>
         </a>
     </div>
+    <%}%>
 
     <!-- SIDE BAR TO BE OPENED ON MOBILE -->
     <ul class="sidenav hide-on-large-only bolita-color white-text">

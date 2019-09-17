@@ -198,98 +198,97 @@ class Service
 	 */
 	public function _anteriores(Request $request, Response $response)
 	{
-		$date = $request->input->data->date ?? false;
-		if ($date) {
-			$cacheFile = Utils::getTempDir() . "results_" . str_replace('/', '-', $date) . "bolita.tmp";
-			if (file_exists($cacheFile)) $data = json_decode(file_get_contents($cacheFile), true);
-			else {
-				$date = explode('/', $date);
-				if (strlen($date[0]) < 2) $date[0] = '0' . $date[0];
-				if (strlen($date[1]) < 2) $date[1] = '0' . $date[1];
+		$date = $request->input->data->date ?? date("m/d/Y", strtotime("-1 day"));
+		$cacheFile = Utils::getTempDir() . "results_" . str_replace('/', '-', $date) . "bolita.tmp";
+		if (file_exists($cacheFile)) $data = json_decode(file_get_contents($cacheFile), true);
+		else {
+			$date = explode('/', $date);
+			if (strlen($date[0]) < 2) $date[0] = '0' . $date[0];
+			if (strlen($date[1]) < 2) $date[1] = '0' . $date[1];
 
-				$crawler = (new Client())->request('GET', "https://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$date[0]}%2F{$date[1]}%2F{$date[2]}");
+			$crawler = (new Client())->request('GET', "https://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$date[0]}%2F{$date[1]}%2F{$date[2]}");
 
-				$data = [
-					'pick3' => [
-						'Midday' => false,
-						'Evening' => false
-					],
-					'pick4' => [
-						'Midday' => false,
-						'Evening' => false
-					],
-					'date' => $date
-				];
+			$data = [
+				'pick3' => [
+					'Midday' => false,
+					'Evening' => false
+				],
+				'pick4' => [
+					'Midday' => false,
+					'Evening' => false
+				],
+				'date' => $date
+			];
 
-				$crawler->filter('td[colspan="2"]')->each(function ($item) use ($date, &$data) {
+			$crawler->filter('td[colspan="2"]')->each(function ($item) use ($date, &$data) {
+				if ($item->filter('.balls')->count() == 3) {
+					if ($item->filter('img[alt="Midday"]')->count() == 1) {
+						$data['pick3']['Midday'] = [
+							1 => $item->filter('.balls:nth-child(2)')->text(),
+							2 => $item->filter('.balls:nth-child(4)')->text(),
+							3 => $item->filter('.balls:nth-child(6)')->text(),
+							'date' => $date
+						];
+					} else {
+						$data['pick3']['Evening'] = [
+							1 => $item->filter('.balls:nth-child(2)')->text(),
+							2 => $item->filter('.balls:nth-child(4)')->text(),
+							3 => $item->filter('.balls:nth-child(6)')->text(),
+							'date' => $date
+						];
+					}
+				} else if ($item->filter('.balls')->count() == 4) {
+					if ($item->filter('img[alt="Midday"]')->count() == 1) {
+						$data['pick4']['Midday'] = [
+							1 => $item->filter('.balls:nth-child(2)')->text(),
+							2 => $item->filter('.balls:nth-child(4)')->text(),
+							3 => $item->filter('.balls:nth-child(6)')->text(),
+							4 => $item->filter('.balls:nth-child(8)')->text(),
+							'date' => $date
+						];
+					} else {
+						$data['pick4']['Evening'] = [
+							1 => $item->filter('.balls:nth-child(2)')->text(),
+							2 => $item->filter('.balls:nth-child(4)')->text(),
+							3 => $item->filter('.balls:nth-child(6)')->text(),
+							4 => $item->filter('.balls:nth-child(8)')->text(),
+							'date' => $date
+						];
+					}
+				}
+			});
+
+			if (!$data['pick3']['Midday']) {
+				$crawler->filter('.winningNumbers')->each(function ($item) use ($date, &$data) {
 					if ($item->filter('.balls')->count() == 3) {
-						if ($item->filter('img[alt="Midday"]')->count() == 1) {
-							$data['pick3']['Midday'] = [
-								1 => $item->filter('.balls:nth-child(2)')->text(),
-								2 => $item->filter('.balls:nth-child(4)')->text(),
-								3 => $item->filter('.balls:nth-child(6)')->text(),
-								'date' => $date
-							];
-						} else {
-							$data['pick3']['Evening'] = [
-								1 => $item->filter('.balls:nth-child(2)')->text(),
-								2 => $item->filter('.balls:nth-child(4)')->text(),
-								3 => $item->filter('.balls:nth-child(6)')->text(),
-								'date' => $date
-							];
-						}
+						$data['pick3']['Midday'] = [
+							1 => $item->filter('.balls:nth-child(1)')->text(),
+							2 => $item->filter('.balls:nth-child(3)')->text(),
+							3 => $item->filter('.balls:nth-child(5)')->text(),
+							'date' => $date
+						];
 					} else if ($item->filter('.balls')->count() == 4) {
-						if ($item->filter('img[alt="Midday"]')->count() == 1) {
-							$data['pick4']['Midday'] = [
-								1 => $item->filter('.balls:nth-child(2)')->text(),
-								2 => $item->filter('.balls:nth-child(4)')->text(),
-								3 => $item->filter('.balls:nth-child(6)')->text(),
-								4 => $item->filter('.balls:nth-child(8)')->text(),
-								'date' => $date
-							];
-						} else {
-							$data['pick4']['Evening'] = [
-								1 => $item->filter('.balls:nth-child(2)')->text(),
-								2 => $item->filter('.balls:nth-child(4)')->text(),
-								3 => $item->filter('.balls:nth-child(6)')->text(),
-								4 => $item->filter('.balls:nth-child(8)')->text(),
-								'date' => $date
-							];
-						}
+						$data['pick4']['Midday'] = [
+							1 => $item->filter('.balls:nth-child(1)')->text(),
+							2 => $item->filter('.balls:nth-child(3)')->text(),
+							3 => $item->filter('.balls:nth-child(5)')->text(),
+							4 => $item->filter('.balls:nth-child(7)')->text(),
+							'date' => $date
+						];
 					}
 				});
-
-				if (!$data['pick3']['Midday']) {
-					$crawler->filter('.winningNumbers')->each(function ($item) use ($date, &$data) {
-						if ($item->filter('.balls')->count() == 3) {
-							$data['pick3']['Midday'] = [
-								1 => $item->filter('.balls:nth-child(1)')->text(),
-								2 => $item->filter('.balls:nth-child(3)')->text(),
-								3 => $item->filter('.balls:nth-child(5)')->text(),
-								'date' => $date
-							];
-						} else if ($item->filter('.balls')->count() == 4) {
-							$data['pick4']['Midday'] = [
-								1 => $item->filter('.balls:nth-child(1)')->text(),
-								2 => $item->filter('.balls:nth-child(3)')->text(),
-								3 => $item->filter('.balls:nth-child(5)')->text(),
-								4 => $item->filter('.balls:nth-child(7)')->text(),
-								'date' => $date
-							];
-						}
-					});
-				}
-
-				file_put_contents($cacheFile, json_encode($data));
 			}
 
-			$results = $this->resultsFromData($data);
+			file_put_contents($cacheFile, json_encode($data));
 		}
 
+		$results = $this->resultsFromData($data);
+
 		$content = [
-			'results' => $results ?? false, '
-			date' => $date ?? false,
-			'title' => "Anteriores"];
+			'results' => $results,
+			'date' => $date,
+			'title' => "Anteriores"
+		];
 
 		$response->setCache(360);
 		$response->setLayout('bolita.ejs');
@@ -365,11 +364,11 @@ class Service
 	/**
 	 * Show a list of notifications
 	 *
-	 * @author salvipascual
 	 * @param Request
 	 * @param Response
+	 * @author salvipascual
 	 */
-	public function _notificaciones (Request $request, Response $response)
+	public function _notificaciones(Request $request, Response $response)
 	{
 		// get all unread notifications
 		$notifications = Connection::query("
@@ -381,10 +380,10 @@ class Service
 			ORDER BY inserted DESC");
 
 		// if no notifications, let the user know
-		if(empty($notifications)) {
+		if (empty($notifications)) {
 			$content = [
-				"header"=>"Nada por leer",
-				"icon"=>"notifications_off",
+				"header" => "Nada por leer",
+				"icon" => "notifications_off",
 				"text" => "Por ahora usted no tiene ninguna notificación por leer.",
 				'title' => "Notificaciones"
 			];
@@ -393,7 +392,7 @@ class Service
 			return $response->setTemplate('message.ejs', $content, [], self::font());
 		}
 
-		foreach($notifications as $noti) $noti->inserted = strtoupper(date('d/m/Y h:ia', strtotime(($noti->inserted))));
+		foreach ($notifications as $noti) $noti->inserted = strtoupper(date('d/m/Y h:ia', strtotime(($noti->inserted))));
 
 		// prepare content for the view
 		$content = [
@@ -412,7 +411,7 @@ class Service
 
 		// send data to the view
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('soporte.ejs',['messages' => $chat, "myusername" => $request->person->username, "title" => "Soporte"], [], self::font());
+		$response->setTemplate('soporte.ejs', ['messages' => $chat, "myusername" => $request->person->username, "title" => "Soporte"], [], self::font());
 	}
 
 	private static function charada($number)

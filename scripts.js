@@ -1,8 +1,8 @@
 "use strict";
 
-var charada = ["Caballo", "Mariposa", "Niñito", "Gato", "Monja", "Tortuga", "Caracol", "Muerto", "Elefante", "Pescadote", "Gallo", "Mujer Santa", "Pavo Real", "Tigre", "Perro", "Toro", "San Lázaro", "Pescadito", "Lombriz", "Gato Fino", "Majá", "Sapo", "Vapor", "Paloma", "Piedra Fina", "Anguila", "Avispa", "Chivo", "Ratón", "Camarón", "Venado", "Cochino", "Tiñosa", "Mono", "Araña", "Cachimba", "Brujería", "Dinero", "Conejo", "Cura", "Lagartija", "Pato", "Alacrán", "Año Del Cuero", "Tiburón", "Humo Blanco", "Pájaro", "Cucaracha", "Borracho", "Policía", "Soldado", "Bicicleta", "Luz Eléctrica", "Flores", "Cangrejo", "Merengue", "Cama", "Retrato", "Loco", "Huevo", "Caballote", "Matrimonio", "Asesino", "Muerto Grande", "Comida", "Par De Yeguas", "Puñalada", "Cementerio", "Relajo Grande", "Coco", "Río", "Collar", "Maleta", "Papalote", "Perro Mediano", "Bailarina", "Muleta De Sán Lázaro", "Sarcófago", "Tren de carga", "Médicos", "Teatro", "Madre", "Tragedia", "Sangre", "Reloj", "Tijeras", "Plátano", "Espejuelos", "Agua", "Viejo", "Limosnero", "Globo alto", "Sortija", "Machete", "Guerra", "Reto", "Mosquito", "Piano", "Serrucho", "Motel"];
+var charadaList = ["Caballo", "Mariposa", "Niñito", "Gato", "Monja", "Tortuga", "Caracol", "Muerto", "Elefante", "Pescadote", "Gallo", "Mujer Santa", "Pavo Real", "Tigre", "Perro", "Toro", "San Lázaro", "Pescadito", "Lombriz", "Gato Fino", "Majá", "Sapo", "Vapor", "Paloma", "Piedra Fina", "Anguila", "Avispa", "Chivo", "Ratón", "Camarón", "Venado", "Cochino", "Tiñosa", "Mono", "Araña", "Cachimba", "Brujería", "Dinero", "Conejo", "Cura", "Lagartija", "Pato", "Alacrán", "Año Del Cuero", "Tiburón", "Humo Blanco", "Pájaro", "Cucaracha", "Borracho", "Policía", "Soldado", "Bicicleta", "Luz Eléctrica", "Flores", "Cangrejo", "Merengue", "Cama", "Retrato", "Loco", "Huevo", "Caballote", "Matrimonio", "Asesino", "Muerto Grande", "Comida", "Par De Yeguas", "Puñalada", "Cementerio", "Relajo Grande", "Coco", "Río", "Collar", "Maleta", "Papalote", "Perro Mediano", "Bailarina", "Muleta De Sán Lázaro", "Sarcófago", "Tren de carga", "Médicos", "Teatro", "Madre", "Tragedia", "Sangre", "Reloj", "Tijeras", "Plátano", "Espejuelos", "Agua", "Viejo", "Limosnero", "Globo alto", "Sortija", "Machete", "Guerra", "Reto", "Mosquito", "Piano", "Serrucho", "Motel"];
 
-var charadaDescription = ['Es posible que gane una suma importante de dinero y disfrutar una vida feliz y próspera.',
+var charadaDescriptionList = ['Es posible que gane una suma importante de dinero y disfrutar una vida feliz y próspera.',
 	'Habla de ciertas indecisiones y humor inconstante, así como posible infidelidad afectiva o amistosa.',
 	'Nuevas oportunidades o un síntoma de inocencia. Si en tu sueño aparece un niño llorando significa enfermedad.',
 	'Si le ataca en el sueño representa sus enemigos. Si logra ganar, superará en la vida real grandes obstáculos y logrará fortuna y fama.',
@@ -257,6 +257,38 @@ function deleteNotification(id) {
 			parent.append("<div class=\"col s12 center\"><h1 class=\"white-text\">Nada por leer</h1><i class=\"material-icons large\">notifications_off</i><p>Por ahora usted no tiene ninguna notificaci\xF3n por leer.</p></div>");
 		}
 	});
+}
+
+function charadaDescription(i) {
+	return htmlEncode(charadaDescriptionList[i])
+}
+
+function charada(i){
+	return htmlEncode(charadaList[i])
+}
+
+function htmlEncode(s){
+	if(s === null || s === "") return "";
+
+	var a = [];
+	var l = s.length;
+
+	for (var i=0;i<l;i++){
+		var c = s.charAt(i);
+		if (c < " " || c > "~"){
+			a.push("&#");
+			a.push(c.charCodeAt()); //numeric value of code point
+			a.push(";");
+		}else{
+			a.push(c);
+		}
+	}
+
+	s = a.join("");
+
+	// replace any malformed entities
+	s = s.replace(/&#\d*([^\d;]|$)/g, "$1");
+	return s;
 }
 
 // POLYFILL
