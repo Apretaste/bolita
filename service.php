@@ -1,5 +1,4 @@
 <?php
-
 use Goutte\Client;
 
 class Service
@@ -321,6 +320,11 @@ class Service
 		$response->setLayout('bolita.ejs');
 		$response->setTemplate('suerte.ejs', $nums, self::img(), self::font());
 
+	}
+
+	public function _reglas(Request $request, Response $response){
+		$response->setLayout('bolita.ejs');
+		$response->setTemplate('reglas.ejs', ['title' => 'Reglas'], [], self::font());
 	}
 
 	private function resultsFromData($data)
