@@ -62,16 +62,16 @@ class Service
 		if ($date == date('Ymd')) {
 			switch (date('H')) {
 				case '13':
-					return ($h == '13') ? (($m >= 30) and ((date('i') - $m) >= 5)) : true;
+					return ($h == '13') ? (($m >= 30) and ((date('i') - $m) >= 2)) : true;
 					break;
 				case '14':
 					return ($h == '14') ? ((date('i') - $m) >= 5) : true;
 					break;
 				case '21':
-					return ($h == '21') ? (($m >= 45) and ((date('i') - $m) >= 5)) : true;
+					return ($h == '21') ? (($m >= 45) and ((date('i') - $m) >= 2)) : true;
 					break;
 				case '22':
-					return ($h == '22') ? ((date('i') - $m) >= 5) : true;
+					return ($h == '22') ? ((date('i') - $m) >= 2) : true;
 					break;
 				default:
 					return false;

@@ -52,6 +52,12 @@ body, .datepicker-container, .datepicker-container button:focus{
 	fill: white;
 }
 
+@media screen and (max-width: 420px){
+	.sidenav{
+		max-width: 240px;
+	}
+}
+
 h1, h2 {
 	color: white;
 	text-align: center;
