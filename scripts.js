@@ -230,6 +230,10 @@ function getImage(index, serviceImgPath, size) {
 	return "background-image: url(" + serviceImgPath + "/results.png);" + "background-size: " + size*100 + "px " + size + "px;" + "background-position: -" + x + "px 0;";
 }
 
+function parseResult(number){
+	return parseInt(number == '00' ? '100' :  number);
+}
+
 function showToast(text) {
 	M.toast({
 		html: text
