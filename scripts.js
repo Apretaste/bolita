@@ -109,6 +109,8 @@ $(function () {
 	resizeImages();
 	$(window).resize(resizeImages);
 
+	$('.modal').modal();
+
 	$('.charada-item i').click(function (e) {
 		var item = $(e.target).parent().parent().parent();
 		var front = item.children('.front');
@@ -147,7 +149,7 @@ $(function () {
 	});
 });
 
-function toggleSuerte(){
+function toggleSuerte() {
 	$('#esfera').fadeOut(2000, function () {
 		$('#suerte').fadeIn(2000)
 	});
@@ -219,7 +221,7 @@ function resizeImages() {
 			'width': size + 'px',
 			'height': size + 'px',
 			"background-image": "url(" + serviceImgPath + "/results.png)",
-			"background-size": size*100 + "px " + size + "px",
+			"background-size": size * 100 + "px " + size + "px",
 			"background-position": "-" + x + "px 0"
 		});
 	});
@@ -227,11 +229,34 @@ function resizeImages() {
 
 function getImage(index, serviceImgPath, size) {
 	var x = index * size;
-	return "background-image: url(" + serviceImgPath + "/results.png);" + "background-size: " + size*100 + "px " + size + "px;" + "background-position: -" + x + "px 0;";
+	return "background-image: url(" + serviceImgPath + "/results.png);" + "background-size: " + size * 100 + "px " + size + "px;" + "background-position: -" + x + "px 0;";
 }
 
-function parseResult(number){
-	return parseInt(number == '00' ? '100' :  number);
+function parseResult(number) {
+	return parseInt(number == '00' ? '100' : number);
+}
+
+function luckyNumbers() {
+	if (paid) toggleSuerte()
+	else $('#modal').modal('open')
+}
+
+function buyLuckyNumbers() {
+	if (credit < 0.3) {
+		showToast("Credito insuficiente");
+		return;
+	}
+
+	apretaste.send({
+		command: 'BOLITA SUERTE',
+		data: {
+			'purchase': true
+		},
+		redirect: false,
+		'callback': {
+			'name': 'toggleSuerte'
+		}
+	});
 }
 
 function showToast(text) {

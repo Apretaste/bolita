@@ -296,7 +296,7 @@ class Service
 
 	public function _suerte(Request $request, Response $response)
 	{
-		$nums = q("SELECT numbers FROM _bolita_suerte WHERE id_person='{$request->person->id}' AND DATE(`date`)=DATE(NOW())");
+		$nums = q("SELECT numbers, paid FROM _bolita_suerte WHERE id_person='{$request->person->id}' AND DATE(`date`)=DATE(NOW())");
 		if (!$nums) {
 			$pick3 = [rand(0, 9), rand(0, 9), rand(0, 9)];
 			$pick4 = [rand(0, 9), rand(0, 9), rand(0, 9), rand(0, 9)];
@@ -305,15 +305,26 @@ class Service
 			$pick4 = implode($pick4);
 
 			$nums = "$pick3 $pick4";
+			$paid = false;
 			q("INSERT INTO _bolita_suerte(id_person, numbers) VALUES('{$request->person->id}', '$nums')");
-		} else $nums = $nums[0]->numbers;
+		} else {
+			$paid = $nums[0]->paid == '1';
+			$nums = $nums[0]->numbers;
+		}
+
+		if($request->input->data->purchase ?? false && !$paid){
+			MoneyNew::buy($request->person->id, 'SUERTE');
+			return;
+		}
 
 		$nums = [
 			'fijo' => $nums[1] . $nums[2],
 			'centena' => $nums[0],
 			'corrido1' => $nums[4] . $nums[5],
 			'corrido2' => $nums[6] . $nums[7],
-			'title' => "Suerte"
+			'title' => "Suerte",
+			'credit' => $request->person->credit,
+			'paid' => $paid
 		];
 
 		$response->setCache(60);
