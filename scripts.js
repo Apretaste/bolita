@@ -151,7 +151,7 @@ $(function () {
 
 function toggleSuerte() {
 	$('#esfera').fadeOut(2000, function () {
-		$('#suerte').fadeIn(2000)
+		$('#suerte').fadeIn(2000);
 	});
 }
 
@@ -237,8 +237,8 @@ function parseResult(number) {
 }
 
 function luckyNumbers() {
-	if (paid) toggleSuerte()
-	else $('#modal').modal('open')
+	if (paid) toggleSuerte();
+	else $('#modal').modal('open');
 }
 
 function buyLuckyNumbers() {
@@ -248,14 +248,9 @@ function buyLuckyNumbers() {
 	}
 
 	apretaste.send({
-		command: 'BOLITA SUERTE',
-		data: {
-			'purchase': true
-		},
+		command: 'BOLITA PAY',
 		redirect: false,
-		'callback': {
-			'name': 'toggleSuerte'
-		}
+		callback: {name: 'toggleSuerte'}
 	});
 }
 
