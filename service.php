@@ -7,8 +7,8 @@ class Service
 	public const CHARADA = ["Caballo", "Mariposa", "Niñito", "Gato", "Monja", "Tortuga", "Caracol", "Muerto", "Elefante", "Pescadote", "Gallo", "Mujer Santa", "Pavo Real", "Tigre", "Perro", "Toro", "San Lázaro", "Pescadito", "Lombriz", "Gato Fino", "Majá", "Sapo", "Vapor", "Paloma", "Piedra Fina", "Anguila", "Avispa", "Chivo", "Ratón", "Camarón", "Venado", "Cochino", "Tiñosa", "Mono", "Araña", "Cachimba", "Brujería", "Dinero", "Conejo", "Cura", "Lagartija", "Pato", "Alacrán", "Año Del Cuero", "Tiburón", "Humo Blanco", "Pájaro", "Cucaracha", "Borracho", "Policía", "Soldado", "Bicicleta", "Luz Eléctrica", "Flores", "Cangrejo", "Merengue", "Cama", "Retrato", "Loco", "Huevo", "Caballote", "Matrimonio", "Asesino", "Muerto Grande", "Comida", "Par De Yeguas", "Puñalada", "Cementerio", "Relajo Grande", "Coco", "Río", "Collar", "Maleta", "Papalote", "Perro Mediano", "Bailarina", "Muleta De Sán Lázaro", "Sarcófago", "Tren de carga", "Médicos", "Teatro", "Madre", "Tragedia", "Sangre", "Reloj", "Tijeras", "Plátano", "Espejuelos", "Agua", "Viejo", "Limosnero", "Globo alto", "Sortija", "Machete", "Guerra", "Reto", "Mosquito", "Piano", "Serrucho", "Motel"];
 
 	/**
-	 * Get results for la bolita 
-	 * 
+	 * Get results for la bolita
+	 *
 	 * @param String
 	 * @return Boolean
 	 */
@@ -41,6 +41,8 @@ class Service
 		$response->setCache(360);
 		$response->setLayout('bolita.ejs');
 		$response->setTemplate('actual.ejs', ['results' => $results], self::img(), self::font());
+
+		Challenges::complete("view-bolita", $request->person->id);
 	}
 
 	/**
@@ -161,8 +163,8 @@ class Service
 	}
 
 	/**
-	 * Get lucky numbers 
-	 * 
+	 * Get lucky numbers
+	 *
 	 * @param String
 	 * @return Boolean
 	 */
@@ -207,7 +209,7 @@ class Service
 	/**
 	 * ASYNC Pay for the lucky numbers
 	 * TODO currently if there is an error paying, still shows the lucky numbers
-	 * 
+	 *
 	 * @param Request $request
 	 * @param Response $response
 	 */
@@ -234,7 +236,7 @@ class Service
 
 	/**
 	 * Display the rules of the game
-	 * 
+	 *
 	 * @param String
 	 * @return Boolean
 	 */
@@ -289,7 +291,7 @@ class Service
 
 	/**
 	 * Show the soporte to ask questions
-	 * 
+	 *
 	 * @param Request $request
 	 * @param Response $response
 	 */
@@ -432,7 +434,7 @@ class Service
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private function resultsFromData($data)
 	{
@@ -473,7 +475,7 @@ class Service
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static function charada($number)
 	{
@@ -482,7 +484,7 @@ class Service
 	}
 
 	/**
-	 * 
+	 *
 	 */
 	private static function img(): array
 	{
