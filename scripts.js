@@ -242,7 +242,7 @@ function luckyNumbers() {
 }
 
 function buyLuckyNumbers() {
-	if (credit < 0.3) {
+	if (credit < 0.05) {
 		showToast("Credito insuficiente");
 		return;
 	}
