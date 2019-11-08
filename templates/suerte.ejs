@@ -1,6 +1,6 @@
 <div id="esfera">
 	<div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 center-align">
-		<div id="esfera-out" onclick="return luckyNumbers()">
+		<div id="esfera-out" onclick="return luckyNumbers(<%= paid %>)">
 			<div id="esfera-in">
 				<img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
 			</div>
@@ -11,8 +11,8 @@
 	</div>
 </div>
 
-<div id="suerte" style="display: none;">
-	<div class="col s6 offset-s3 m4 offset-m4 l2 offset-l5 center-align" style="margin-bottom: 2rem">
+<div id="suerte" style="display:none;">
+	<div class="col s6 offset-s3 m4 offset-m4 l2 offset-l5 center-align" style="margin-bottom:2rem">
 		<div id="esfera-in">
 			<img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
 		</div>
@@ -51,8 +51,7 @@
 				<div class="front">
 					<div class="col s3">
 						<div class="img-container">
-							<div class="img"
-								 style="<%= getImage(corrido1 - 1, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+							<div class="img" style="<%= getImage(corrido1 - 1, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
 						</div>
 					</div>
 					<div class="col s8">
@@ -106,10 +105,10 @@
 
 <div id="modal" class="modal">
 	<div class="modal-content bolita-color">
-		<p>Ver tus números de hoy tiene un costo de §0.05, si ya pagaste anteriormente no te serán descontados de nuevo.</p>
+		<p>Para ver tus números de hoy debes canjear §0.05. Estos números serán válidos por lo que resta de día.</p>
 	</div>
 	<div class="modal-footer bolita-color">
 		<a href="#!" class="modal-close waves-effect waves-light btn-flat bolita-yellow-text">Cancelar</a>
-		<a onclick="buyLuckyNumbers()" class="modal-close waves-effect btn-flat bolita-yellow-text">Canjear</a>
+		<a onclick="buyLuckyNumbers(<%= paid %>)" class="modal-close waves-effect btn-flat bolita-yellow-text">Canjear</a>
 	</div>
 </div>

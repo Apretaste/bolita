@@ -236,7 +236,7 @@ function parseResult(number) {
 	return parseInt(number == '00' ? '100' : number);
 }
 
-function luckyNumbers() {
+function luckyNumbers(paid) {
 	if (paid) toggleSuerte();
 	else $('#modal').modal('open');
 }

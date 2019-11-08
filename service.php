@@ -177,33 +177,31 @@ class Service
 			// if no numbers, create them
 			$pick3 = [rand(0, 9), rand(0, 9), rand(0, 9)];
 			$pick4 = [rand(0, 9), rand(0, 9), rand(0, 9), rand(0, 9)];
-
 			$pick3 = implode($pick3);
 			$pick4 = implode($pick4);
-
 			$nums = "$pick3 $pick4";
-			$paid = false;
+			$paid = 0;
 
 			// save numbers in the db
-			Connection::query("INSERT INTO _bolita_suerte(id_person, numbers) VALUES('{$request->person->id}', '$nums')");
+			Connection::query("INSERT INTO _bolita_suerte (id_person, numbers) VALUES('{$request->person->id}', '$nums')");
 		} else {
-			$paid = $nums[0]->paid == '1';
+			$paid = $nums[0]->paid;
 			$nums = $nums[0]->numbers;
 		}
 
-		$nums = [
+		$content = [
+			'title' => "Suerte",
 			'fijo' => $nums[1] . $nums[2],
 			'centena' => $nums[0],
 			'corrido1' => $nums[4] . $nums[5],
 			'corrido2' => $nums[6] . $nums[7],
-			'title' => "Suerte",
 			'credit' => $request->person->credit,
 			'paid' => $paid
 		];
 
 		$response->setCache(60);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('suerte.ejs', $nums, self::img(), self::font());
+		$response->setTemplate('suerte.ejs', $content, self::img(), self::font());
 	}
 
 	/**
