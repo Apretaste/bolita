@@ -170,7 +170,7 @@ function sendMessage() {
 
 	if (message.length >= 30) {
 		apretaste.send({
-			'command': "SOPORTE ESCRIBIR",
+			'command': "AYUDA ESCRIBIR",
 			'data': {
 				'message': message
 			},
