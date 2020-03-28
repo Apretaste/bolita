@@ -11,7 +11,108 @@ use Goutte\Client;
 class Service
 {
 	// charada
-	public const CHARADA = ["Caballo", "Mariposa", "Niñito", "Gato", "Monja", "Tortuga", "Caracol", "Muerto", "Elefante", "Pescadote", "Gallo", "Mujer Santa", "Pavo Real", "Tigre", "Perro", "Toro", "San Lázaro", "Pescadito", "Lombriz", "Gato Fino", "Majá", "Sapo", "Vapor", "Paloma", "Piedra Fina", "Anguila", "Avispa", "Chivo", "Ratón", "Camarón", "Venado", "Cochino", "Tiñosa", "Mono", "Araña", "Cachimba", "Brujería", "Dinero", "Conejo", "Cura", "Lagartija", "Pato", "Alacrán", "Año Del Cuero", "Tiburón", "Humo Blanco", "Pájaro", "Cucaracha", "Borracho", "Policía", "Soldado", "Bicicleta", "Luz Eléctrica", "Flores", "Cangrejo", "Merengue", "Cama", "Retrato", "Loco", "Huevo", "Caballote", "Matrimonio", "Asesino", "Muerto Grande", "Comida", "Par De Yeguas", "Puñalada", "Cementerio", "Relajo Grande", "Coco", "Río", "Collar", "Maleta", "Papalote", "Perro Mediano", "Bailarina", "Muleta De Sán Lázaro", "Sarcófago", "Tren de carga", "Médicos", "Teatro", "Madre", "Tragedia", "Sangre", "Reloj", "Tijeras", "Plátano", "Espejuelos", "Agua", "Viejo", "Limosnero", "Globo alto", "Sortija", "Machete", "Guerra", "Reto", "Mosquito", "Piano", "Serrucho", "Motel"];
+	public const CHARADA = [
+	  'Caballo',
+	  'Mariposa',
+	  'Niñito',
+	  'Gato',
+	  'Monja',
+	  'Tortuga',
+	  'Caracol',
+	  'Muerto',
+	  'Elefante',
+	  'Pescadote',
+	  'Gallo',
+	  'Mujer Santa',
+	  'Pavo Real',
+	  'Tigre',
+	  'Perro',
+	  'Toro',
+	  'San Lázaro',
+	  'Pescadito',
+	  'Lombriz',
+	  'Gato Fino',
+	  'Majá',
+	  'Sapo',
+	  'Vapor',
+	  'Paloma',
+	  'Piedra Fina',
+	  'Anguila',
+	  'Avispa',
+	  'Chivo',
+	  'Ratón',
+	  'Camarón',
+	  'Venado',
+	  'Cochino',
+	  'Tiñosa',
+	  'Mono',
+	  'Araña',
+	  'Cachimba',
+	  'Brujería',
+	  'Dinero',
+	  'Conejo',
+	  'Cura',
+	  'Lagartija',
+	  'Pato',
+	  'Alacrán',
+	  'Año Del Cuero',
+	  'Tiburón',
+	  'Humo Blanco',
+	  'Pájaro',
+	  'Cucaracha',
+	  'Borracho',
+	  'Policía',
+	  'Soldado',
+	  'Bicicleta',
+	  'Luz Eléctrica',
+	  'Flores',
+	  'Cangrejo',
+	  'Merengue',
+	  'Cama',
+	  'Retrato',
+	  'Loco',
+	  'Huevo',
+	  'Caballote',
+	  'Matrimonio',
+	  'Asesino',
+	  'Muerto Grande',
+	  'Comida',
+	  'Par De Yeguas',
+	  'Puñalada',
+	  'Cementerio',
+	  'Relajo Grande',
+	  'Coco',
+	  'Río',
+	  'Collar',
+	  'Maleta',
+	  'Papalote',
+	  'Perro Mediano',
+	  'Bailarina',
+	  'Muleta De Sán Lázaro',
+	  'Sarcófago',
+	  'Tren de carga',
+	  'Médicos',
+	  'Teatro',
+	  'Madre',
+	  'Tragedia',
+	  'Sangre',
+	  'Reloj',
+	  'Tijeras',
+	  'Plátano',
+	  'Espejuelos',
+	  'Agua',
+	  'Viejo',
+	  'Limosnero',
+	  'Globo alto',
+	  'Sortija',
+	  'Machete',
+	  'Guerra',
+	  'Reto',
+	  'Mosquito',
+	  'Piano',
+	  'Serrucho',
+	  'Motel'
+	];
 
 	/**
 	 * Get results for la bolita
@@ -27,31 +128,19 @@ class Service
 		$pathToService = SERVICE_PATH . $response->service;
 
 		// load from cache if exists
-		$cacheFile = TEMP_PATH . date("Ymd") . "_bolita_today.tmp";
-		if (file_exists($cacheFile)) {
-			$data = json_decode(file_get_contents($cacheFile), true); //Load the data in json format
-			if ($this->needUpdate($data['date'])) {
-				//Request the data
-				$data = $this->update();
-
-				// save cache file for today
-				file_put_contents($cacheFile, json_encode($data));
-			}
-		} else {
-			$data = $this->update(); //Request the data
-			// save cache file for today
-			file_put_contents($cacheFile, json_encode($data));
+		$data = self::loadCache('today');
+		if ($data === null || $this->needUpdate($data['date'] ?? '1900-01-01')) {
+			$data = $this->update();
+			self::saveCache('today', $data);
 		}
 
 		$results = $this->resultsFromData($data);
-
-		$images = ["$pathToService/images/results.png", "$pathToService/images/logo.png"];
 
 		$response->setCache(360);
 		$response->setLayout('bolita.ejs');
 		$response->setTemplate('actual.ejs', ['results' => $results], self::img(), self::font());
 
-		Challenges::complete("view-bolita", $request->person->id);
+		Challenges::complete('view-bolita', $request->person->id);
 	}
 
 	/**
@@ -84,7 +173,9 @@ class Service
 					return false;
 					break;
 			}
-		} else return true;
+		} else {
+			return true;
+		}
 	}
 
 	/**
@@ -135,7 +226,7 @@ class Service
 		$data = [
 			'pick3' => $pick3,
 			'pick4' => $pick4,
-			'date' => date("Ymd H:i")
+			'date' => date('Ymd H:i')
 		];
 		return $data;
 	}
@@ -188,7 +279,9 @@ class Service
 	 */
 	public function dateToEsp($text)
 	{
-		if (is_array($text)) return $text;
+		if (is_array($text)) {
+			return $text;
+		}
 
 		$month = [
 			'Jan' => 'Enero',
@@ -215,8 +308,8 @@ class Service
 			'Sunday' => 'Domingo'
 		];
 
-		$extractos = explode(",", $text);
-		$mes_dia = explode(" ", trim($extractos[1]));
+		$extractos = explode(',', $text);
+		$mes_dia = explode(' ', trim($extractos[1]));
 		$d = $day[$extractos[0]];
 		$m = $month[substr($mes_dia[0], 0, 3)];
 		return ($d . ', ' . $m . ' ' . $mes_dia[1] . ' del ' . $extractos[2]);
@@ -227,7 +320,7 @@ class Service
 	 */
 	private static function charada($number)
 	{
-		$number = $number == "00" ? 99 : ((int)$number) - 1;
+		$number = $number == '00' ? 99 : ((int) $number) - 1;
 		return self::CHARADA[$number];
 	}
 
@@ -245,19 +338,22 @@ class Service
 	 */
 	private static function font(): array
 	{
-		return [SERVICE_PATH . 'bolita' . "/resources/Roboto-Medium.ttf"];
+		return [SERVICE_PATH . 'bolita'.'/resources/Roboto-Medium.ttf'];
 	}
 
 	/**
+	 * Charada
 	 *
-	 * @param Request
-	 * @param Response
+	 * @param  Request
+	 * @param  Response
+	 *
+	 * @throws \Framework\Alert
 	 */
 	public function _charada(Request $request, Response $response)
 	{
 		$response->setCache('year');
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('charada.ejs', ['title' => "Charada"], self::img(), self::font());
+		$response->setTemplate('charada.ejs', ['title' => 'Charada'], self::img(), self::font());
 	}
 
 	/**
@@ -269,13 +365,20 @@ class Service
 	 */
 	public function _anteriores(Request $request, Response $response)
 	{
-		$date = $request->input->data->date ?? date("m/d/Y", strtotime("-1 day"));
-		$cacheFile = TEMP_PATH . "results_" . str_replace('/', '-', $date) . "bolita.tmp";
-		if (file_exists($cacheFile)) $data = json_decode(file_get_contents($cacheFile), true);
-		else {
+		$date = $request->input->data->date ?? date('m/d/Y', strtotime('-1 day'));
+		$cacheName = 'results_'.str_replace('/', '-', $date);
+		$data = self::loadCache($cacheName);
+
+		if ($data === null) {
 			$date = explode('/', $date);
-			if (strlen($date[0]) < 2) $date[0] = '0' . $date[0];
-			if (strlen($date[1]) < 2) $date[1] = '0' . $date[1];
+
+			if (strlen($date[0]) < 2) {
+				$date[0] = '0' . $date[0];
+			}
+
+			if (strlen($date[1]) < 2) {
+				$date[1] = '0' . $date[1];
+			}
 
 			$crawler = (new Client())->request('GET', "https://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$date[0]}%2F{$date[1]}%2F{$date[2]}");
 
@@ -308,8 +411,8 @@ class Service
 							'date' => $date
 						];
 					}
-				} else if ($item->filter('.balls')->count() == 4) {
-					if ($item->filter('img[alt="Midday"]')->count() == 1) {
+				} elseif ($item->filter('.balls')->count() === 4) {
+					if ($item->filter('img[alt="Midday"]')->count() === 1) {
 						$data['pick4']['Midday'] = [
 							1 => $item->filter('.balls:nth-child(2)')->text(),
 							2 => $item->filter('.balls:nth-child(4)')->text(),
@@ -338,7 +441,7 @@ class Service
 							3 => $item->filter('.balls:nth-child(5)')->text(),
 							'date' => $date
 						];
-					} else if ($item->filter('.balls')->count() == 4) {
+					} elseif ($item->filter('.balls')->count() == 4) {
 						$data['pick4']['Midday'] = [
 							1 => $item->filter('.balls:nth-child(1)')->text(),
 							2 => $item->filter('.balls:nth-child(3)')->text(),
@@ -350,7 +453,7 @@ class Service
 				});
 			}
 
-			file_put_contents($cacheFile, json_encode($data));
+			self::saveCache($cacheName, $data);
 		}
 
 		$results = $this->resultsFromData($data);
@@ -358,7 +461,7 @@ class Service
 		$content = [
 			'results' => $results,
 			'date' => $date,
-			'title' => "Anteriores"
+			'title' => 'Anteriores'
 		];
 
 		$response->setCache(360);
@@ -396,7 +499,7 @@ class Service
 		}
 
 		$content = [
-			'title' => "Suerte",
+			'title' => 'Suerte',
 			'fijo' => $nums[1] . $nums[2],
 			'centena' => $nums[0],
 			'corrido1' => $nums[4] . $nums[5],
@@ -469,27 +572,69 @@ class Service
 		// if no notifications, let the user know
 		if (empty($notifications)) {
 			$content = [
-				"header" => "Nada por leer",
-				"icon" => "notifications_off",
-				"text" => "Por ahora usted no tiene ninguna notificación por leer.",
-				'title' => "Notificaciones"
+				'header' => 'Nada por leer',
+				'icon' => 'notifications_off',
+				'text' => 'Por ahora usted no tiene ninguna notificación por leer.',
+				'title' => 'Notificaciones'
 			];
 
 			$response->setLayout('bolita.ejs');
 			return $response->setTemplate('message.ejs', $content, [], self::font());
 		}
 
-		foreach ($notifications as $noti) $noti->inserted = strtoupper(date('d/m/Y h:ia', strtotime(($noti->inserted))));
+		foreach ($notifications as $noti) {
+			$noti->inserted = strtoupper(date('d/m/Y h:ia', strtotime(($noti->inserted))));
+		}
 
 		// prepare content for the view
 		$content = [
-			"notifications" => $notifications,
-			"title" => "Notificaciones"
+			'notifications' => $notifications,
+			'title' => 'Notificaciones'
 		];
 
 		// build the response
 		$response->setLayout('bolita.ejs');
 		$response->setTemplate('notifications.ejs', $content);
+	}
+
+	/**
+	 * Get support
+	 *
+	 * @param $email
+	 *
+	 * @return array
+	 * @throws \Framework\Alert
+	 * @throws \Exception
+	 */
+	public static function getSupportConversation($email): array
+	{
+		// get the list of messages
+		$tickets = Database::query("
+                        SELECT A.*, B.username 
+                        FROM support_tickets A 
+                        JOIN person B
+                        ON A.from = B.email
+                        WHERE A.from = '$email' 
+                        OR A.requester = '$email' 
+                        ORDER BY A.creation_date ASC");
+
+		// prepare chats for the view
+		$chat = [];
+		foreach ($tickets as $ticket) {
+			$message = new stdClass();
+			$message->class = $ticket->from === $email ? 'me' : 'you';
+			$message->from = $ticket->username;
+			$message->text = preg_replace(
+				'/[\x00-\x1F\x7F]/u',
+				'',
+				$ticket->body
+			);
+			$message->date = date_format((new DateTime($ticket->creation_date)), 'd/m/Y h:i a');
+			$message->status = $ticket->status;
+			$chat[] = $message;
+		}
+
+		return $chat;
 	}
 
 	/**
@@ -501,11 +646,53 @@ class Service
 	 */
 	public function _soporte(Request $request, Response $response)
 	{
-		$chat = Social::getSupportConversation($request->person->email);
-		// TODO change
+		$chat = self::getSupportConversation($request->person->email);
 
 		// send data to the view
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('soporte.ejs', ['messages' => $chat, "myusername" => $request->person->username, "title" => "Soporte"], [], self::font());
+		$response->setTemplate('soporte.ejs', ['messages' => $chat, 'myusername' => $request->person->username, 'title' => 'Soporte'], [], self::font());
+	}
+
+	/**
+	 * Get cache file name
+	 *
+	 * @param $name
+	 *
+	 * @return string
+	 */
+	public static function getCacheFileName($name): string
+	{
+		return TEMP_PATH.'cache/bolita_'.$name.'_'.date('Ymd').'.tmp';
+	}
+
+	/**
+	 * Load cache
+	 *
+	 * @param $name
+	 * @param null $cacheFile
+	 *
+	 * @return bool|mixed
+	 */
+	public static function loadCache($name, &$cacheFile = null)
+	{
+		$data = null;
+		$cacheFile = self::getCacheFileName($name);
+		if (file_exists($cacheFile)) {
+			$data = unserialize(file_get_contents($cacheFile));
+		}
+		return $data;
+	}
+
+	/**
+	 * Save cache
+	 *
+	 * @param $name
+	 * @param $data
+	 * @param null $cacheFile
+	 */
+	public static function saveCache($name, $data, &$cacheFile = null)
+	{
+		$cacheFile = self::getCacheFileName($name);
+		file_put_contents($cacheFile, serialize($data));
 	}
 }
