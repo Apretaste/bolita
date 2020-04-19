@@ -606,7 +606,7 @@ class Service
 	 * @throws \Framework\Alert
 	 * @throws \Exception
 	 */
-	public static function getSupportConversation($email): array
+	public static function getSupportConversation($from_id, $requester_email): array
 	{
 		// get the list of messages
 		$tickets = Database::query("
@@ -614,8 +614,8 @@ class Service
                         FROM support_tickets A 
                         JOIN person B
                         ON A.from = B.email
-                        WHERE A.from = '$email' 
-                        OR A.requester = '$email' 
+                        WHERE A.from_id = $from_id 
+                        OR A.requester = '$requester_email' 
                         ORDER BY A.creation_date ASC");
 
 		// prepare chats for the view
@@ -646,7 +646,7 @@ class Service
 	 */
 	public function _soporte(Request $request, Response $response)
 	{
-		$chat = self::getSupportConversation($request->person->email);
+		$chat = self::getSupportConversation($request->person->id, $request->person->email);
 
 		// send data to the view
 		$response->setLayout('bolita.ejs');
