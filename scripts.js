@@ -245,24 +245,6 @@ function parseResult(number) {
     return parseInt(number == '00' ? '100' : number);
 }
 
-function luckyNumbers(paid) {
-    if (paid) toggleSuerte();
-    else $('#modal').modal('open');
-}
-
-function buyLuckyNumbers() {
-    if (credit < 0.05) {
-        showToast("Credito insuficiente");
-        return;
-    }
-
-    apretaste.send({
-        command: 'BOLITA PAY',
-        redirect: false,
-        callback: {name: 'toggleSuerte'}
-    });
-}
-
 function showToast(text) {
     M.toast({
         html: text

@@ -12,106 +12,106 @@ class Service
 {
 	// charada
 	public const CHARADA = [
-	  'Caballo',
-	  'Mariposa',
-	  'Niñito',
-	  'Gato',
-	  'Monja',
-	  'Tortuga',
-	  'Caracol',
-	  'Muerto',
-	  'Elefante',
-	  'Pescadote',
-	  'Gallo',
-	  'Mujer Santa',
-	  'Pavo Real',
-	  'Tigre',
-	  'Perro',
-	  'Toro',
-	  'San Lázaro',
-	  'Pescadito',
-	  'Lombriz',
-	  'Gato Fino',
-	  'Majá',
-	  'Sapo',
-	  'Vapor',
-	  'Paloma',
-	  'Piedra Fina',
-	  'Anguila',
-	  'Avispa',
-	  'Chivo',
-	  'Ratón',
-	  'Camarón',
-	  'Venado',
-	  'Cochino',
-	  'Tiñosa',
-	  'Mono',
-	  'Araña',
-	  'Cachimba',
-	  'Brujería',
-	  'Dinero',
-	  'Conejo',
-	  'Cura',
-	  'Lagartija',
-	  'Pato',
-	  'Alacrán',
-	  'Año Del Cuero',
-	  'Tiburón',
-	  'Humo Blanco',
-	  'Pájaro',
-	  'Cucaracha',
-	  'Borracho',
-	  'Policía',
-	  'Soldado',
-	  'Bicicleta',
-	  'Luz Eléctrica',
-	  'Flores',
-	  'Cangrejo',
-	  'Merengue',
-	  'Cama',
-	  'Retrato',
-	  'Loco',
-	  'Huevo',
-	  'Caballote',
-	  'Matrimonio',
-	  'Asesino',
-	  'Muerto Grande',
-	  'Comida',
-	  'Par De Yeguas',
-	  'Puñalada',
-	  'Cementerio',
-	  'Relajo Grande',
-	  'Coco',
-	  'Río',
-	  'Collar',
-	  'Maleta',
-	  'Papalote',
-	  'Perro Mediano',
-	  'Bailarina',
-	  'Muleta De Sán Lázaro',
-	  'Sarcófago',
-	  'Tren de carga',
-	  'Médicos',
-	  'Teatro',
-	  'Madre',
-	  'Tragedia',
-	  'Sangre',
-	  'Reloj',
-	  'Tijeras',
-	  'Plátano',
-	  'Espejuelos',
-	  'Agua',
-	  'Viejo',
-	  'Limosnero',
-	  'Globo alto',
-	  'Sortija',
-	  'Machete',
-	  'Guerra',
-	  'Reto',
-	  'Mosquito',
-	  'Piano',
-	  'Serrucho',
-	  'Motel'
+		'Caballo',
+		'Mariposa',
+		'Niñito',
+		'Gato',
+		'Monja',
+		'Tortuga',
+		'Caracol',
+		'Muerto',
+		'Elefante',
+		'Pescadote',
+		'Gallo',
+		'Mujer Santa',
+		'Pavo Real',
+		'Tigre',
+		'Perro',
+		'Toro',
+		'San Lázaro',
+		'Pescadito',
+		'Lombriz',
+		'Gato Fino',
+		'Majá',
+		'Sapo',
+		'Vapor',
+		'Paloma',
+		'Piedra Fina',
+		'Anguila',
+		'Avispa',
+		'Chivo',
+		'Ratón',
+		'Camarón',
+		'Venado',
+		'Cochino',
+		'Tiñosa',
+		'Mono',
+		'Araña',
+		'Cachimba',
+		'Brujería',
+		'Dinero',
+		'Conejo',
+		'Cura',
+		'Lagartija',
+		'Pato',
+		'Alacrán',
+		'Año Del Cuero',
+		'Tiburón',
+		'Humo Blanco',
+		'Pájaro',
+		'Cucaracha',
+		'Borracho',
+		'Policía',
+		'Soldado',
+		'Bicicleta',
+		'Luz Eléctrica',
+		'Flores',
+		'Cangrejo',
+		'Merengue',
+		'Cama',
+		'Retrato',
+		'Loco',
+		'Huevo',
+		'Caballote',
+		'Matrimonio',
+		'Asesino',
+		'Muerto Grande',
+		'Comida',
+		'Par De Yeguas',
+		'Puñalada',
+		'Cementerio',
+		'Relajo Grande',
+		'Coco',
+		'Río',
+		'Collar',
+		'Maleta',
+		'Papalote',
+		'Perro Mediano',
+		'Bailarina',
+		'Muleta De Sán Lázaro',
+		'Sarcófago',
+		'Tren de carga',
+		'Médicos',
+		'Teatro',
+		'Madre',
+		'Tragedia',
+		'Sangre',
+		'Reloj',
+		'Tijeras',
+		'Plátano',
+		'Espejuelos',
+		'Agua',
+		'Viejo',
+		'Limosnero',
+		'Globo alto',
+		'Sortija',
+		'Machete',
+		'Guerra',
+		'Reto',
+		'Mosquito',
+		'Piano',
+		'Serrucho',
+		'Motel'
 	];
 
 	/**
@@ -148,7 +148,7 @@ class Service
 	 * @param String
 	 * @return Boolean
 	 */
-	public function needUpdate(String $lastUpdate)
+	public function needUpdate(string $lastUpdate)
 	{
 		date_default_timezone_set('America/Havana');
 
@@ -320,7 +320,7 @@ class Service
 	 */
 	private static function charada($number)
 	{
-		$number = $number == '00' ? 99 : ((int) $number) - 1;
+		$number = $number == '00' ? 99 : ((int)$number) - 1;
 		return self::CHARADA[$number];
 	}
 
@@ -338,14 +338,14 @@ class Service
 	 */
 	private static function font(): array
 	{
-		return [SERVICE_PATH . 'bolita'.'/resources/Roboto-Medium.ttf'];
+		return [SERVICE_PATH . 'bolita' . '/resources/Roboto-Medium.ttf'];
 	}
 
 	/**
 	 * Charada
 	 *
-	 * @param  Request
-	 * @param  Response
+	 * @param Request
+	 * @param Response
 	 *
 	 * @throws \Framework\Alert
 	 */
@@ -366,7 +366,7 @@ class Service
 	public function _anteriores(Request $request, Response $response)
 	{
 		$date = $request->input->data->date ?? date('m/d/Y', strtotime('-1 day'));
-		$cacheName = 'results_'.str_replace('/', '-', $date);
+		$cacheName = 'results_' . str_replace('/', '-', $date);
 		$data = self::loadCache($cacheName);
 
 		if ($data === null) {
@@ -480,7 +480,7 @@ class Service
 	public function _suerte(Request $request, Response $response)
 	{
 		// get numbers for today
-		$nums = Database::query("SELECT numbers, paid FROM _bolita_suerte WHERE id_person='{$request->person->id}' AND DATE(`date`)=DATE(NOW())");
+		$nums = Database::query("SELECT numbers FROM _bolita_suerte WHERE id_person='{$request->person->id}' AND DATE(`date`)=DATE(NOW())");
 
 		if (!$nums) {
 			// if no numbers, create them
@@ -494,7 +494,6 @@ class Service
 			// save numbers in the db
 			Database::query("INSERT INTO _bolita_suerte (id_person, numbers) VALUES('{$request->person->id}', '$nums')");
 		} else {
-			$paid = $nums[0]->paid;
 			$nums = $nums[0]->numbers;
 		}
 
@@ -504,35 +503,11 @@ class Service
 			'centena' => $nums[0],
 			'corrido1' => $nums[4] . $nums[5],
 			'corrido2' => $nums[6] . $nums[7],
-			'credit' => $request->person->credit,
-			'paid' => $paid
 		];
 
 		$response->setCache(60);
 		$response->setLayout('bolita.ejs');
 		$response->setTemplate('suerte.ejs', $content, self::img(), self::font());
-	}
-
-	/**
-	 * ASYNC Pay for the lucky numbers
-	 * TODO currently if there is an error paying, still shows the lucky numbers
-	 *
-	 * @param Request $request
-	 * @param Response $response
-	 * @return void
-	 * @throws Alert
-	 */
-	public function _pay(Request $request, Response $response)
-	{
-		// pay for the numbers
-		Money::purchase($request->person->id, 'SUERTE');
-
-		// update payment info into the database
-		Database::query("
-			UPDATE _bolita_suerte 
-			SET paid = 1 
-			WHERE id_person = {$request->person->id} 
-			AND DATE(`date`) = DATE(NOW())");
 	}
 
 	/**
@@ -545,6 +520,7 @@ class Service
 	 */
 	public function _reglas(Request $request, Response $response)
 	{
+		$response->setCache('year');
 		$response->setLayout('bolita.ejs');
 		$response->setTemplate('reglas.ejs', ['title' => 'Reglas'], [], self::font());
 	}
@@ -662,7 +638,7 @@ class Service
 	 */
 	public static function getCacheFileName($name): string
 	{
-		return TEMP_PATH.'cache/bolita_'.$name.'_'.date('Ymd').'.tmp';
+		return TEMP_PATH . 'cache/bolita_' . $name . '_' . date('Ymd') . '.tmp';
 	}
 
 	/**

@@ -1,6 +1,6 @@
 <div id="esfera">
 	<div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 center-align">
-		<div id="esfera-out" onclick="return luckyNumbers(<%= paid %>)">
+		<div id="esfera-out" onclick="toggleSuerte()">
 			<div id="esfera-in">
 				<img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
 			</div>
@@ -100,15 +100,5 @@
 				</div>
 			</div>
 		</div>
-	</div>
-</div>
-
-<div id="modal" class="modal">
-	<div class="modal-content bolita-color">
-		<p>Para ver tus números de hoy debes canjear §0.05. Estos números serán válidos por lo que resta de día.</p>
-	</div>
-	<div class="modal-footer bolita-color">
-		<a href="#!" class="modal-close waves-effect waves-light btn-flat bolita-yellow-text">Cancelar</a>
-		<a onclick="buyLuckyNumbers(<%= paid %>)" class="modal-close waves-effect btn-flat bolita-yellow-text">Canjear</a>
 	</div>
 </div>
