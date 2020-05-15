@@ -598,7 +598,7 @@ class Service
 		$chat = [];
 		foreach ($tickets as $ticket) {
 			$message = new stdClass();
-			$message->class = $ticket->from === $email ? 'me' : 'you';
+			$message->class = $ticket->from === $requester_email ? 'me' : 'you';
 			$message->from = $ticket->username;
 			$message->text = preg_replace(
 				'/[\x00-\x1F\x7F]/u',
