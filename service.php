@@ -380,7 +380,7 @@ class Service
 				$date[1] = '0' . $date[1];
 			}
 
-			$crawler = (new Client())->request('GET', "https://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$date[0]}%2F{$date[1]}%2F{$date[2]}");
+			$crawler = (new Client())->request('GET', "http://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$date[0]}%2F{$date[1]}%2F{$date[2]}");
 
 			$data = [
 				'pick3' => [
