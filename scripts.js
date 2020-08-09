@@ -364,3 +364,38 @@ if (!Object.keys) {
         };
     }
 }
+
+$(document).ready(function() {
+    $('.tabs').tabs();
+    $('.modal').modal();
+    $('select').formSelect();
+    $('.sidenav').sidenav();
+});
+
+function share(){
+    apretaste.send({
+        command:'PIZARRA PUBLICAR',
+        redirect: false,
+        callback: {
+            name: 'toast',
+            data: 'Tu chiste fue compartido en Pizarra'
+        },
+        data: {
+            text: $('#message').val(),
+            image: '',
+            link: {
+                command: btoa(JSON.stringify({
+                    command: 'BOLITA ANTERIORES',
+                    data: {
+                        date: data.pick3.Midday.date
+                    }
+                })),
+                icon: 'grin-squint',
+                text: 'N&uacute;meros de la bolita el ' + moment(data.pick3.Midday.date).format('m/D/Y')
+            }
+        }});
+}
+
+function toast(message){
+    M.toast({html: message});
+}

@@ -90,3 +90,24 @@
 </div>
 
 <%- '<serviceImgPath data="{{APP_SERVICE_PATH}}/images"></serviceImgPath>' %>
+
+
+<!-- SHARE MODAL -->
+<div id="shareModal" class="modal">
+    <div class="modal-content">
+        <div class="input-field">
+            <textarea id="message" class="materialize-textarea"></textarea>
+            <label for="message">Escriba un texto para compartir</label>
+        </div>
+        <ul class="collection one-line preview">
+            <li class="collection-item avatar">
+                <i class="fas fa-grin-squint material-icons circle"></i>
+                <span class="title">N&uacute;meros de la bolita el <%= data.pick3.Midday.date %></span>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cerrar</a>
+        <a onclick="share()" class="modal-close waves-effect waves-green green-text btn-flat">Enviar</a>
+    </div>
+</div>
