@@ -391,7 +391,7 @@ function share(){
                     }
                 })),
                 icon: 'grin-squint',
-                text: 'N&uacute;meros de la bolita el ' + moment(data.pick3.Midday.date).format('m/D/Y')
+                text: 'N&uacute;meros de la bolita el ' + moment(data.pick3.Midday.date).format('M/D/Y')
             }
         }});
 }

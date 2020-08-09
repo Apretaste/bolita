@@ -102,7 +102,7 @@
         <ul class="collection one-line preview">
             <li class="collection-item avatar">
                 <i class="fas fa-grin-squint material-icons circle"></i>
-                <span class="title">N&uacute;meros de la bolita el <%= data.pick3.Midday.date %></span>
+                <span class="title">N&uacute;meros de la bolita el <%= moment(data.pick3.Midday.date).format('M/D/Y') %></span>
             </li>
         </ul>
     </div>
@@ -110,4 +110,11 @@
         <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cerrar</a>
         <a onclick="share()" class="modal-close waves-effect waves-green green-text btn-flat">Enviar</a>
     </div>
+</div>
+
+
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large green" href="#!" onclick="share();">
+        <i class="material-icons">share</i>
+    </a>
 </div>
