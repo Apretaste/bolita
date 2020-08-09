@@ -390,7 +390,7 @@ function share(){
                         date: data.pick3.Midday.date
                     }
                 })),
-                icon: 'grin-squint',
+                icon: 'fan',
                 text: 'N&uacute;meros de la bolita el ' + moment(data.pick3.Midday.date).format('M/D/Y')
             }
         }});
