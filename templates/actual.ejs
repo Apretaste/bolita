@@ -91,8 +91,14 @@
 
 <%- '<serviceImgPath data="{{APP_SERVICE_PATH}}/images"></serviceImgPath>' %>
 
+<div class="fixed-action-btn">
+    <a class="btn-floating btn-large green modal-trigger" href="#shareModal">
+        <i class="material-icons">share</i>
+    </a>
+</div>
 
 <!-- SHARE MODAL -->
+<% init(data) %>
 <div id="shareModal" class="modal">
     <div class="modal-content">
         <div class="input-field">
@@ -101,20 +107,13 @@
         </div>
         <ul class="collection one-line preview">
             <li class="collection-item avatar">
-                <i class="fas fa-fan material-icons circle"></i>
-                <span class="title" style="color:black;">N&uacute;meros de la bolita el <%= moment(data.pick3.Midday.date).format('M/D/Y') %></span>
+                <i class="fas fa-<%= share.icon %> material-icons circle"></i>
+                <span class="title"><%= share.text %></span>
             </li>
         </ul>
     </div>
     <div class="modal-footer">
         <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cerrar</a>
-        <a onclick="share()" class="modal-close waves-effect waves-green green-text btn-flat">Enviar</a>
+        <a onclick="share.send()" class="modal-close waves-effect waves-green green-text btn-flat">Enviar</a>
     </div>
-</div>
-
-
-<div class="fixed-action-btn">
-    <a class="btn-floating btn-large green modal-trigger" href="#shareModal">
-        <i class="material-icons">share</i>
-    </a>
 </div>

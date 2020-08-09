@@ -372,28 +372,37 @@ $(document).ready(function() {
     $('.sidenav').sidenav();
 });
 
-function share(){
-    apretaste.send({
-        command:'PIZARRA PUBLICAR',
-        redirect: false,
-        callback: {
-            name: 'toast',
-            data: 'Tu chiste fue compartido en Pizarra'
-        },
-        data: {
-            text: $('#message').val(),
-            image: '',
-            link: {
-                command: btoa(JSON.stringify({
-                    command: 'BOLITA ANTERIORES',
-                    data: {
-                        date: data.pick3.Midday.date
+var share;
+
+function init(data){
+    share = {
+        text: "N&uacute;meros de la bolita el " + moment(data.pick3.Midday.date).format('M/D/Y'),
+        icon: 'fan',
+        send: function () {
+            apretaste.send({
+                command: 'PIZARRA PUBLICAR',
+                redirect: false,
+                callback: {
+                    name: 'toast',
+                    data: 'Tu chiste fue compartido en Pizarra'
+                },
+                data: {
+                    text: $('#message').val(),
+                    image: '',
+                    link: {
+                        command: btoa(JSON.stringify({
+                            command: 'BOLITA ANTERIORES',
+                            data: {
+                                date: data.pick3.Midday.date
+                            }
+                        })),
+                        icon: 'fan',
+                        text: 'N&uacute;meros de la bolita el ' + moment(data.pick3.Midday.date).format('M/D/Y')
                     }
-                })),
-                icon: 'fan',
-                text: 'N&uacute;meros de la bolita el ' + moment(data.pick3.Midday.date).format('M/D/Y')
-            }
-        }});
+                }
+            })
+        }
+    };
 }
 
 function toast(message){
