@@ -284,3 +284,18 @@ html, body {
 	user-select: none; /* Non-prefixed version, currently
                                     supported by Chrome and Opera */
 }
+
+.btn-floating.second {
+	margin-right: -10px;
+	width: 45px;
+	height: 45px;
+	line-height: 58px;
+}
+
+.btn-floating.third {
+	bottom: 45px;
+	left: 87px;
+	width: 45px;
+	height: 45px;
+	line-height: 58px;
+}
