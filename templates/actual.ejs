@@ -91,14 +91,10 @@
 
 <%- '<serviceImgPath data="{{APP_SERVICE_PATH}}/images"></serviceImgPath>' %>
 
-<div class="fixed-action-btn">
-    <a class="btn-floating btn-large green modal-trigger" href="#shareModal">
-        <i class="material-icons">share</i>
-    </a>
-</div>
-
 <!-- SHARE MODAL -->
+<%= shareButtonEnabled = true; %>
 <% init(data) %>
+
 <div id="shareModal" class="modal">
     <div class="modal-content">
         <div class="input-field">
