@@ -1,6 +1,6 @@
 <div class="col s12">
     <h1>Tarde:</h1>
-    <h2><%= results.fijoMidDate %></h2>
+    <h2><%= moment(data.MiddayDate).format('LL') %></h2>
 </div>
 
 <div class="col s4">
@@ -43,7 +43,7 @@
 
 <div class="col s12">
     <h1>Noche:</h1>
-    <h2><%= results.fijoEveDate %></h2>
+    <h2><%= moment(data.EveningDate).format('LL') %></h2>
 </div>
 
 <div class="col s4">
@@ -85,7 +85,8 @@
 </div>
 
 <div class="col s12" style="margin-top: 1.5rem">
-    <small>Los resultados pueden demorar de 2 a 30 minutos en ser publicados en la web oficial de apuestas de Florida, de
+    <small>Los resultados pueden demorar de 2 a 30 minutos en ser publicados en la web oficial de apuestas de Florida,
+        de
         donde salen nuestros números.</small>
 </div>
 

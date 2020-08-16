@@ -127,7 +127,8 @@ class Service
 
 		// load from cache if exists
 		$data = Database::queryFirst("SELECT * FROM _bolita_results WHERE corrida=DATE(NOW())");
-		if (empty($data) || $this->needUpdate($data->corrida)) {
+
+		if (empty($data) || $this->needUpdate($data)) {
 			$data = $this->update();
 			self::saveResults($data);
 		} else $data = $this->formatDataFromDb($data);
@@ -146,10 +147,15 @@ class Service
 	 * @param String
 	 * @return Boolean
 	 */
-	public function needUpdate(string $lastUpdate)
+	public function needUpdate($data)
 	{
 		date_default_timezone_set('America/Havana');
-		$lastUpdate = date('Ymd H:i', strtotime($lastUpdate));
+		$lastUpdate = date('Ymd H:i', strtotime($data->updated));
+
+		$dayUpdated = !empty($data->papeleta_day);
+		$nightUpdated = !empty($data->papeleta_night);
+
+		if ($dayUpdated && $nightUpdated) return false;
 
 		$date = substr($lastUpdate, 0, 8);
 		$h = substr($lastUpdate, 9, 2);
@@ -157,15 +163,19 @@ class Service
 		if ($date == date('Ymd')) {
 			switch (date('H')) {
 				case '13':
+					if ($dayUpdated) return false;
 					return ($h == '13') ? (($m >= 30) and ((date('i') - $m) >= 2)) : true;
 					break;
 				case '14':
+					if ($dayUpdated) return false;
 					return ($h == '14') ? ((date('i') - $m) >= 5) : true;
 					break;
 				case '21':
+					if ($nightUpdated) return false;
 					return ($h == '21') ? (($m >= 45) and ((date('i') - $m) >= 2)) : true;
 					break;
 				case '22':
+					if ($nightUpdated) return false;
 					return ($h == '22') ? ((date('i') - $m) >= 2) : true;
 					break;
 				default:
@@ -239,15 +249,15 @@ class Service
 		if ($data['pick3']['Midday']) {
 			$results['fijoMid'] = $data['pick3']['Midday'][1] . $data['pick3']['Midday'][2];
 			$results['centenaMid'] = $data['pick3']['Midday'][0];
-			$results['fijoMidDate'] = $this->dateToEsp($data['pick3']['Midday']['date']);
+			//$results['fijoMidDate'] = $this->dateToEsp($data['pick3']['Midday']['date']);
 			$results['fijoMidText'] = self::charada($data['pick3']['Midday'][1] . $data['pick3']['Midday'][2]);
 		}
 
 		if ($data['pick4']['Midday']) {
 			$results['Corrido1Mid'] = $data['pick4']['Midday'][0] . $data['pick4']['Midday'][1];
 			$results['Corrido2Mid'] = $data['pick4']['Midday'][2] . $data['pick4']['Midday'][3];
-			$results['Corrido1MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
-			$results['Corrido2MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
+			//$results['Corrido1MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
+			//$results['Corrido2MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
 			$results['Corrido1MidText'] = self::charada($data['pick4']['Midday'][0] . $data['pick4']['Midday'][1]);
 			$results['Corrido2MidText'] = self::charada($data['pick4']['Midday'][2] . $data['pick4']['Midday'][3]);
 		}
@@ -255,15 +265,15 @@ class Service
 		if ($data['pick3']['Evening']) {
 			$results['fijoEve'] = $data['pick3']['Evening'][1] . $data['pick3']['Evening'][2];
 			$results['centenaEve'] = $data['pick3']['Evening'][0];
-			$results['fijoEveDate'] = $this->dateToEsp($data['pick3']['Evening']['date']);
+			//$results['fijoEveDate'] = $this->dateToEsp($data['pick3']['Evening']['date']);
 			$results['fijoEveText'] = self::charada($data['pick3']['Evening'][1] . $data['pick3']['Evening'][2]);
 		}
 
 		if ($data['pick4']['Evening']) {
 			$results['Corrido1Eve'] = $data['pick4']['Evening'][0] . $data['pick4']['Evening'][1];
 			$results['Corrido2Eve'] = $data['pick4']['Evening'][2] . $data['pick4']['Evening'][3];
-			$results['Corrido1EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
-			$results['Corrido2EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
+			//$results['Corrido1EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
+			//$results['Corrido2EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
 			$results['Corrido1EveText'] = self::charada($data['pick4']['Evening'][0] . $data['pick4']['Evening'][1]);
 			$results['Corrido2EveText'] = self::charada($data['pick4']['Evening'][2] . $data['pick4']['Evening'][3]);
 		}
@@ -273,8 +283,6 @@ class Service
 
 	public static function dateToSqlFormat($text)
 	{
-		"Saturday, August 15, 2020";
-
 		$parts = explode(',', $text);
 		$parts2 = explode(' ', trim($parts[1]));
 
@@ -396,7 +404,7 @@ class Service
 				$dateParts[1] = '0' . $dateParts[1];
 			}
 
-			$crawler = (new Client())->request('GET', "http://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$dateParts[2]}%2F{$dateParts[1]}%2F{$dateParts[0]}");
+			$crawler = (new Client())->request('GET', "http://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$dateParts[1]}%2F{$dateParts[2]}%2F{$dateParts[0]}");
 
 			$data = [
 				'pick3' => [
@@ -470,6 +478,9 @@ class Service
 			}
 
 			self::saveResults($data, $date);
+		} else {
+			$data = $data[0];
+			$data = $this->formatDataFromDb($data, false);
 		}
 
 		$results = $this->resultsFromData($data);
@@ -721,17 +732,43 @@ class Service
 		);
 	}
 
-	private function formatDataFromDb($data)
+	private function formatDataFromDb($data, $fillMissing = true)
 	{
+		$dayUpdated = !empty($data->papeleta_day);
+		$nightUpdated = !empty($data->papeleta_night);
+
+		if (!$dayUpdated || !$nightUpdated) {
+			$previousDate = Database::queryFirst("SELECT * FROM _bolita_results WHERE corrida=DATE(DATE_SUB(NOW(), INTERVAL 1 DAY))");
+			if (empty($previousDate)) $fillMissing = false;
+		}
+
+		if ($dayUpdated || !$fillMissing) {
+			$p3Midday = $data->papeleta_day . $data->fijo_day;
+			$p4Midday = $data->corrido1_day . $data->corrido2_day;
+		} else {
+			$p3Midday = $previousDate->papeleta_day . $previousDate->fijo_day;
+			$p4Midday = $previousDate->corrido1_day . $previousDate->corrido2_day;
+		}
+
+		if ($nightUpdated || !$fillMissing) {
+			$p3Night = $data->papeleta_night . $data->fijo_night;
+			$p4Night = $data->corrido1_night . $data->corrido2_night;
+		} else {
+			$p3Night = $previousDate->papeleta_night . $previousDate->fijo_night;
+			$p4Night = $previousDate->corrido1_night . $previousDate->corrido2_night;
+		}
+
 		$newData = [
 			'pick3' => [
-				'Midday' => $data->papeleta_day . $data->fijo_day,
-				'Evening' => $data->papeleta_night . $data->fijo_night
+				'Midday' => $p3Midday,
+				'Evening' => $p3Night,
 			],
 			'pick4' => [
-				'Midday' => $data->corrido1_day . $data->corrido2_day,
-				'Evening' => $data->corrido1_night . $data->corrido2_night
-			]
+				'Midday' => $p4Midday,
+				'Evening' => $p4Night,
+			],
+			'MiddayDate' => $dayUpdated || !$fillMissing ? $data->corrida : $previousDate->corrida,
+			'EveningDate' => $nightUpdated || !$fillMissing ? $data->corrida : $previousDate->corrida,
 		];
 
 		return $newData;
