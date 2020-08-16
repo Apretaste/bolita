@@ -135,7 +135,7 @@ class Service
 
 		$results = $this->resultsFromData($data);
 
-		$response->setCache(360);
+		//$response->setCache(360);
 		$response->setLayout('bolita.ejs');
 		$response->setTemplate('actual.ejs', ['results' => $results, 'data' => $data], self::img(), self::font());
 
