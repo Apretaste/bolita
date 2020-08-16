@@ -391,7 +391,7 @@ class Service
 	public function _anteriores(Request $request, Response $response)
 	{
 		$date = $request->input->data->date ?? date('Y-m-d', strtotime('-1 day'));
-		$data = Database::queryCache("SELECT * FROM _bolita_results WHERE corrida='$date'");
+		$data = Database::queryFirst("SELECT * FROM _bolita_results WHERE corrida='$date'");
 
 		if (empty($data)) {
 			$dateParts = explode('-', $date);
@@ -479,7 +479,6 @@ class Service
 
 			self::saveResults($data, $date);
 		} else {
-			$data = $data[0];
 			$data = $this->formatDataFromDb($data, false);
 		}
 
