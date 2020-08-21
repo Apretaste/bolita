@@ -10,108 +10,7 @@ use Goutte\Client;
 class Service
 {
 	// charada
-	public const CHARADA = [
-		'Caballo',
-		'Mariposa',
-		'Niñito',
-		'Gato',
-		'Monja',
-		'Tortuga',
-		'Caracol',
-		'Muerto',
-		'Elefante',
-		'Pescadote',
-		'Gallo',
-		'Mujer Santa',
-		'Pavo Real',
-		'Tigre',
-		'Perro',
-		'Toro',
-		'San Lázaro',
-		'Pescadito',
-		'Lombriz',
-		'Gato Fino',
-		'Majá',
-		'Sapo',
-		'Vapor',
-		'Paloma',
-		'Piedra Fina',
-		'Anguila',
-		'Avispa',
-		'Chivo',
-		'Ratón',
-		'Camarón',
-		'Venado',
-		'Cochino',
-		'Tiñosa',
-		'Mono',
-		'Araña',
-		'Cachimba',
-		'Brujería',
-		'Dinero',
-		'Conejo',
-		'Cura',
-		'Lagartija',
-		'Pato',
-		'Alacrán',
-		'Año Del Cuero',
-		'Tiburón',
-		'Humo Blanco',
-		'Pájaro',
-		'Cucaracha',
-		'Borracho',
-		'Policía',
-		'Soldado',
-		'Bicicleta',
-		'Luz Eléctrica',
-		'Flores',
-		'Cangrejo',
-		'Merengue',
-		'Cama',
-		'Retrato',
-		'Loco',
-		'Huevo',
-		'Caballote',
-		'Matrimonio',
-		'Asesino',
-		'Muerto Grande',
-		'Comida',
-		'Par De Yeguas',
-		'Puñalada',
-		'Cementerio',
-		'Relajo Grande',
-		'Coco',
-		'Río',
-		'Collar',
-		'Maleta',
-		'Papalote',
-		'Perro Mediano',
-		'Bailarina',
-		'Muleta De Sán Lázaro',
-		'Sarcófago',
-		'Tren de carga',
-		'Médicos',
-		'Teatro',
-		'Madre',
-		'Tragedia',
-		'Sangre',
-		'Reloj',
-		'Tijeras',
-		'Plátano',
-		'Espejuelos',
-		'Agua',
-		'Viejo',
-		'Limosnero',
-		'Globo alto',
-		'Sortija',
-		'Machete',
-		'Guerra',
-		'Reto',
-		'Mosquito',
-		'Piano',
-		'Serrucho',
-		'Motel'
-	];
+	public const CHARADA = ['Caballo','Mariposa','Niñito','Gato','Monja','Tortuga','Caracol','Muerto','Elefante','Pescadote','Gallo','Mujer Santa','Pavo Real','Tigre','Perro','Toro','San Lázaro','Pescadito','Lombriz','Gato Fino','Majá','Sapo','Vapor','Paloma','Piedra Fina','Anguila','Avispa','Chivo','Ratón','Camarón','Venado','Cochino','Tiñosa','Mono','Araña','Cachimba','Brujería','Dinero','Conejo','Cura','Lagartija','Pato','Alacrán','Año Del Cuero','Tiburón','Humo Blanco','Pájaro','Cucaracha','Borracho','Policía','Soldado','Bicicleta','Luz Eléctrica','Flores','Cangrejo','Merengue','Cama','Retrato','Loco','Huevo','Caballote','Matrimonio','Asesino','Muerto Grande','Comida','Par De Yeguas','Puñalada','Cementerio','Relajo Grande','Coco','Río','Collar','Maleta','Papalote','Perro Mediano','Bailarina','Muleta De Sán Lázaro','Sarcófago','Tren de carga','Médicos','Teatro','Madre','Tragedia','Sangre','Reloj','Tijeras','Plátano','Espejuelos','Agua','Viejo','Limosnero','Globo alto','Sortija','Machete','Guerra','Reto','Mosquito','Piano','Serrucho','Motel'];
 
 	/**
 	 * Get results for la bolita
@@ -133,13 +32,15 @@ class Service
 			self::saveResults($data);
 		} else $data = $this->formatDataFromDb($data);
 
+		// format the results
 		$results = $this->resultsFromData($data);
+
+		// complete the challenge
+		Challenges::complete('view-bolita', $request->person->id);
 
 		//$response->setCache(360);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('actual.ejs', ['results' => $results, 'data' => $data], self::img(), self::font());
-
-		Challenges::complete('view-bolita', $request->person->id);
+		$response->setTemplate('actual.ejs', ['results' => $results, 'data' => $data]);
 	}
 
 	/**
@@ -249,15 +150,12 @@ class Service
 		if ($data['pick3']['Midday']) {
 			$results['fijoMid'] = $data['pick3']['Midday'][1] . $data['pick3']['Midday'][2];
 			$results['centenaMid'] = $data['pick3']['Midday'][0];
-			//$results['fijoMidDate'] = $this->dateToEsp($data['pick3']['Midday']['date']);
 			$results['fijoMidText'] = self::charada($data['pick3']['Midday'][1] . $data['pick3']['Midday'][2]);
 		}
 
 		if ($data['pick4']['Midday']) {
 			$results['Corrido1Mid'] = $data['pick4']['Midday'][0] . $data['pick4']['Midday'][1];
 			$results['Corrido2Mid'] = $data['pick4']['Midday'][2] . $data['pick4']['Midday'][3];
-			//$results['Corrido1MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
-			//$results['Corrido2MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
 			$results['Corrido1MidText'] = self::charada($data['pick4']['Midday'][0] . $data['pick4']['Midday'][1]);
 			$results['Corrido2MidText'] = self::charada($data['pick4']['Midday'][2] . $data['pick4']['Midday'][3]);
 		}
@@ -265,15 +163,12 @@ class Service
 		if ($data['pick3']['Evening']) {
 			$results['fijoEve'] = $data['pick3']['Evening'][1] . $data['pick3']['Evening'][2];
 			$results['centenaEve'] = $data['pick3']['Evening'][0];
-			//$results['fijoEveDate'] = $this->dateToEsp($data['pick3']['Evening']['date']);
 			$results['fijoEveText'] = self::charada($data['pick3']['Evening'][1] . $data['pick3']['Evening'][2]);
 		}
 
 		if ($data['pick4']['Evening']) {
 			$results['Corrido1Eve'] = $data['pick4']['Evening'][0] . $data['pick4']['Evening'][1];
 			$results['Corrido2Eve'] = $data['pick4']['Evening'][2] . $data['pick4']['Evening'][3];
-			//$results['Corrido1EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
-			//$results['Corrido2EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
 			$results['Corrido1EveText'] = self::charada($data['pick4']['Evening'][0] . $data['pick4']['Evening'][1]);
 			$results['Corrido2EveText'] = self::charada($data['pick4']['Evening'][2] . $data['pick4']['Evening'][3]);
 		}
@@ -350,23 +245,6 @@ class Service
 	}
 
 	/**
-	 *
-	 */
-	private static function img(): array
-	{
-		$pathToService = SERVICE_PATH . 'bolita';
-		return ["$pathToService/images/results.png", "$pathToService/images/logo.png", "$pathToService/images/esfera-suerte.png"];
-	}
-
-	/**
-	 * Get the font file
-	 */
-	private static function font(): array
-	{
-		return [SERVICE_PATH . 'bolita' . '/resources/Roboto-Medium.ttf'];
-	}
-
-	/**
 	 * Charada
 	 *
 	 * @param Request
@@ -378,7 +256,7 @@ class Service
 	{
 		$response->setCache('year');
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('charada.ejs', ['title' => 'Charada'], self::img(), self::font());
+		$response->setTemplate('charada.ejs', ['title' => 'Charada']);
 	}
 
 	/**
@@ -492,7 +370,7 @@ class Service
 
 		$response->setCache(360);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('anteriores.ejs', $content, self::img(), self::font());
+		$response->setTemplate('anteriores.ejs', $content);
 	}
 
 	/**
@@ -533,7 +411,7 @@ class Service
 
 		$response->setCache(60);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('suerte.ejs', $content, self::img(), self::font());
+		$response->setTemplate('suerte.ejs', $content);
 	}
 
 	/**
@@ -548,55 +426,7 @@ class Service
 	{
 		$response->setCache('year');
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('reglas.ejs', ['title' => 'Reglas'], [], self::font());
-	}
-
-	/**
-	 * Show a list of notifications
-	 *
-	 * @param Request $request
-	 * @param Response $response
-	 * @return Response
-	 * @throws Alert
-	 * @author salvipascual
-	 */
-	public function _notificaciones(Request $request, Response $response)
-	{
-		// get all unread notifications
-		$notifications = Database::query("
-			SELECT id,icon,`text`,link,inserted
-			FROM notification
-			WHERE `to` = {$request->person->id} 
-			AND service = 'bolita'
-			AND `hidden` = 0
-			ORDER BY inserted DESC");
-
-		// if no notifications, let the user know
-		if (empty($notifications)) {
-			$content = [
-				'header' => 'Nada por leer',
-				'icon' => 'notifications_off',
-				'text' => 'Por ahora usted no tiene ninguna notificación por leer.',
-				'title' => 'Notificaciones'
-			];
-
-			$response->setLayout('bolita.ejs');
-			return $response->setTemplate('message.ejs', $content, [], self::font());
-		}
-
-		foreach ($notifications as $noti) {
-			$noti->inserted = strtoupper(date('d/m/Y h:ia', strtotime(($noti->inserted))));
-		}
-
-		// prepare content for the view
-		$content = [
-			'notifications' => $notifications,
-			'title' => 'Notificaciones'
-		];
-
-		// build the response
-		$response->setLayout('bolita.ejs');
-		$response->setTemplate('notifications.ejs', $content);
+		$response->setTemplate('reglas.ejs', ['title' => 'Reglas']);
 	}
 
 	/**
@@ -637,22 +467,6 @@ class Service
 		}
 
 		return $chat;
-	}
-
-	/**
-	 * Show the soporte to ask questions
-	 *
-	 * @param Request $request
-	 * @param Response $response
-	 * @throws Alert
-	 */
-	public function _soporte(Request $request, Response $response)
-	{
-		$chat = self::getSupportConversation($request->person->id, $request->person->email);
-
-		// send data to the view
-		$response->setLayout('bolita.ejs');
-		$response->setTemplate('soporte.ejs', ['messages' => $chat, 'myusername' => $request->person->username, 'title' => 'Soporte'], [], self::font());
 	}
 
 	/**

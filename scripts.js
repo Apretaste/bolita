@@ -1,107 +1,108 @@
 "use strict";
 
-var charada = ["Caballo", "Mariposa", "Ni&ntilde;ito", "Gato", "Monja", "Tortuga", "Caracol", "Muerto", "Elefante", "Pescadote", "Gallo", "Mujer Santa", "Pavo Real", "Tigre", "Perro", "Toro", "San L&aacute;zaro", "Pescadito", "Lombriz", "Gato Fino", "Maj&aacute;", "Sapo", "Vapor", "Paloma", "Piedra Fina", "Anguila", "Avispa", "Chivo", "Rat&oacute;n", "Camar&oacute;n", "Venado", "Cochino", "Ti&ntilde;osa", "Mono", "Ara&ntilde;a", "Cachimba", "Brujer&iacute;a", "Dinero", "Conejo", "Cura", "Lagartija", "Pato", "Alacr&aacute;n", "A&ntilde;o Del Cuero", "Tibur&oacute;n", "Humo Blanco", "P&aacute;jaro", "Cucaracha", "Borracho", "Polic&iacute;a", "Soldado", "Bicicleta", "Luz El&eacute;ctrica", "Flores", "Cangrejo", "Merengue", "Cama", "Retrato", "Loco", "Huevo", "Caballote", "Matrimonio", "Asesino", "Muerto Grande", "Comida", "Par De Yeguas", "Pu&ntilde;alada", "Cementerio", "Relajo Grande", "Coco", "R&iacute;o", "Collar", "Maleta", "Papalote", "Perro Mediano", "Bailarina", "Muleta De S&aacute;n L&aacute;zaro", "Sarc&oacute;fago", "Tren de carga", "M&eacute;dicos", "Teatro", "Madre", "Tragedia", "Sangre", "Reloj", "Tijeras", "Pl&aacute;tano", "Espejuelos", "Agua", "Viejo", "Limosnero", "Globo alto", "Sortija", "Machete", "Guerra", "Reto", "Mosquito", "Piano", "Serrucho", "Motel"];
+var charada = ["Caballo", "Mariposa", "Niñito", "Gato", "Monja", "Tortuga", "Caracol", "Muerto", "Elefante", "Pescadote", "Gallo", "Mujer Santa", "Pavo Real", "Tigre", "Perro", "Toro", "San Lázaro", "Pescadito", "Lombriz", "Gato Fino", "Majá", "Sapo", "Vapor", "Paloma", "Piedra Fina", "Anguila", "Avispa", "Chivo", "Ratón", "Camarón", "Venado", "Cochino", "Tiñosa", "Mono", "Araña", "Cachimba", "Brujería", "Dinero", "Conejo", "Cura", "Lagartija", "Pato", "Alacrán", "Año Del Cuero", "Tiburón", "Humo Blanco", "Pájaro", "Cucaracha", "Borracho", "Policía", "Soldado", "Bicicleta", "Luz Eléctrica", "Flores", "Cangrejo", "Merengue", "Cama", "Retrato", "Loco", "Huevo", "Caballote", "Matrimonio", "Asesino", "Muerto Grande", "Comida", "Par De Yeguas", "Puñalada", "Cementerio", "Relajo Grande", "Coco", "Río", "Collar", "Maleta", "Papalote", "Perro Mediano", "Bailarina", "Muleta De Sán Lázaro", "Sarcófago", "Tren de carga", "Médicos", "Teatro", "Madre", "Tragedia", "Sangre", "Reloj", "Tijeras", "Plátano", "Espejuelos", "Agua", "Viejo", "Limosnero", "Globo alto", "Sortija", "Machete", "Guerra", "Reto", "Mosquito", "Piano", "Serrucho", "Motel"];
 
-var charadaDescription = ['Es posible que gane una suma importante de dinero y disfrutar una vida feliz y pr&oacute;spera.',
-	'Habla de ciertas indecisiones y humor inconstante, as&iacute; como posible infidelidad afectiva o amistosa.',
-	'Nuevas oportunidades o un s&iacute;ntoma de inocencia. Si en tu sue&ntilde;o aparece un ni&ntilde;o llorando significa enfermedad.',
-	'Si le ataca en el sue&ntilde;o representa sus enemigos. Si logra ganar, superar&aacute; en la vida real grandes obst&aacute;culos y lograr&aacute; fortuna y fama.',
-	'Insatisfacci&oacute;n con las labores cotidianas, al que adem&aacute;s se le atribuye un gran sentimiento de culpabilidad.',
-	'Va a progresar de forma lenta pero segura. Es aconsejable que no vaya tan r&aacute;pido, para poder lograr sus objetivos.',
+var charadaDescription = [
+	'Es posible que gane una suma importante de dinero y disfrutar una vida feliz y próspera.',
+	'Habla de ciertas indecisiones y humor inconstante, así como posible infidelidad afectiva o amistosa.',
+	'Nuevas oportunidades o un síntoma de inocencia. Si en tu sueño aparece un niño llorando significa enfermedad.',
+	'Si le ataca en el sueño representa sus enemigos. Si logra ganar, superará en la vida real grandes obstáculos y logrará fortuna y fama.',
+	'Insatisfacción con las labores cotidianas, al que además se le atribuye un gran sentimiento de culpabilidad.',
+	'Va a progresar de forma lenta pero segura. Es aconsejable que no vaya tan rápido, para poder lograr sus objetivos.',
 	'Anuncia celos y un ambiente hostil entre los que nos rodean en nuestro trabajo. Hay envidias y competencia.',
-	'Puede ser que ha sentido el fallecimiento de alguien. Si este sue&ntilde;o es recurrente puede ser s&iacute;ntoma de un trastorno.',
-	'Sabidur&iacute;a, memoria y el poder de la persistencia. Representa un sue&ntilde;o favorable que le aportar&aacute; dignidad y reconocimiento.',
-	'Es un s&iacute;mbolo de fertilidad, por tanto so&ntilde;ar con peces para las mujeres significa un embarazo seguro.',
-	'Le puede estar avisando de la agresi&oacute;n que va a sufrir por parte de alguien, que tiene dichas caracter&iacute;sticas.',
-	'Hay alguien desde el m&aacute;s all&aacute; que cuida de ti y te protege. Encontrar&aacute; a alguien que le consuele o a algo que le de fuerzas renovadas',
-	'Habla de confianza en una misma, de belleza y de capacidades, pero tambi&eacute;n de vanidad',
-	'Poder, belleza salvaje y fuerza sexual. Superar&aacute; dificultades y lograr&aacute; lujos y placer.',
-	'Simboliza intuici&oacute;n, lealtad, generosidad, protecci&oacute;n y fidelidad. El sue&ntilde;o indica que sus fuertes valores y buenas intenciones le ayudar&aacute;n a avanzar en la vida.',
+	'Puede ser que ha sentido el fallecimiento de alguien. Si este sueño es recurrente puede ser síntoma de un trastorno.',
+	'Sabiduría, memoria y el poder de la persistencia. Representa un sueño favorable que le aportará dignidad y reconocimiento.',
+	'Es un símbolo de fertilidad, por tanto soñar con peces para las mujeres significa un embarazo seguro.',
+	'Le puede estar avisando de la agresión que va a sufrir por parte de alguien, que tiene dichas características.',
+	'Hay alguien desde el más allá que cuida de ti y te protege. Encontrará a alguien que le consuele o a algo que le de fuerzas renovadas',
+	'Habla de confianza en una misma, de belleza y de capacidades, pero también de vanidad',
+	'Poder, belleza salvaje y fuerza sexual. Superará dificultades y logrará lujos y placer.',
+	'Simboliza intuición, lealtad, generosidad, protección y fidelidad. El sueño indica que sus fuertes valores y buenas intenciones le ayudarán a avanzar en la vida.',
 	'Puede tener sus connotaciones sexuales y hablarle de fertilidad, virilidad, de necesidad de sexo.',
-	'Fue revivido por Jes&uacute;s. A partir de esta historia su nombre es utilizado frecuentemente como sin&oacute;nimo de resurrecci&oacute;n.',
-	'Sus creencias, sus forma de pensar, su espiritualidad y su fuerza, le llevar&aacute;n al &eacute;xito en la vida.',
-	'Simboliza la preocupaci&oacute;n por alguien muy querido para ti que esta enfermo.',
-	'Si le ataca en el sue&ntilde;o representa sus enemigos. Si logra ganar la lucha, superar&aacute; en la vida real grandes obst&aacute;culos.',
-	'Traici&oacute;n de la persona menos esperada. Si logra matarla, supone una victoria contra sus enemigos.',
-	'Intenta esconder su verdadera identidad y car&aacute;cter. Debe tener m&aacute;s confianza en si mismo y dejar que su belleza interior se vea.',
-	'Refleja el estado emocional en el que se encuentra. Est&aacute; obcecado en la forma de actuar con un tema y su actitud testaruda es inamovible.',
-	'Uni&oacute;n feliz, alegr&iacute;as con la familia, anuncia un pr&oacute;ximo nacimiento y los negocios.',
-	'Le alabar&aacute;n y le reconocer&aacute;n su trabajo, pero no sobrepase los l&iacute;mites llevado por la sobre excitaci&oacute;n del momento.',
+	'Fue revivido por Jesús. A partir de esta historia su nombre es utilizado frecuentemente como sinónimo de resurrección.',
+	'Sus creencias, sus forma de pensar, su espiritualidad y su fuerza, le llevarán al éxito en la vida.',
+	'Simboliza la preocupación por alguien muy querido para ti que esta enfermo.',
+	'Si le ataca en el sueño representa sus enemigos. Si logra ganar la lucha, superará en la vida real grandes obstáculos.',
+	'Traición de la persona menos esperada. Si logra matarla, supone una victoria contra sus enemigos.',
+	'Intenta esconder su verdadera identidad y carácter. Debe tener más confianza en si mismo y dejar que su belleza interior se vea.',
+	'Refleja el estado emocional en el que se encuentra. Está obcecado en la forma de actuar con un tema y su actitud testaruda es inamovible.',
+	'Unión feliz, alegrías con la familia, anuncia un próximo nacimiento y los negocios.',
+	'Le alabarán y le reconocerán su trabajo, pero no sobrepase los límites llevado por la sobre excitación del momento.',
 	'Es bueno siempre y cuando logremos mantenerla en nuestras manos, de otra manera es presagio que la fortuna venidera es pasajera.',
-	'Significa traici&oacute;n, penas y contrariedades. Obst&aacute;culos a nivel financiero y exigencias familiares.',
-	'Es necesario liberar su energ&iacute;a sexual, fuertemente manifestada en usted.',
-	'Posibilidad de problemas dom&eacute;sticos. Los asuntos relacionados con el trabajo podr&aacute;n deteriorarse.',
+	'Significa traición, penas y contrariedades. Obstáculos a nivel financiero y exigencias familiares.',
+	'Es necesario liberar su energía sexual, fuertemente manifestada en usted.',
+	'Posibilidad de problemas domésticos. Los asuntos relacionados con el trabajo podrán deteriorarse.',
 	'Representa los placeres, objetos o productos que deseas tener en un momento determinado de tu vida o meta que desees alcanzar.',
 	'Es un buen augurio. Una amistad duradera, y buena suerte en los negocios y el amor.',
-	'Simbolizan sus instintos m&aacute;s bajos; asuntos sucios, ego&iacute;smo, reveld&iacute;a, codicia.',
+	'Simbolizan sus instintos más bajos; asuntos sucios, egoísmo, reveldía, codicia.',
 	'Sus experiencias pasadas le proporcionaron todo lo necesario, para afrontar correctamente todo lo que aparezca en su vida.',
-	'Es una advertencia ante la existencia de amigos falsos que le halagar&aacute;n para satisfacer sus propios intereses. Problemas en el amor.',
-	'Gracias a sus grandes esfuerzos y a la energ&iacute;a que pone en su trabajo y en su vida, lograr&aacute; ganar dinero y felicidad.',
-	'Se relaciona con pensamientos obsesivos o constante en el so&ntilde;ador.',
-	'Indica que algo o alguien le est&aacute; manipulando, con el fin de conseguir sus fines.',
+	'Es una advertencia ante la existencia de amigos falsos que le halagarán para satisfacer sus propios intereses. Problemas en el amor.',
+	'Gracias a sus grandes esfuerzos y a la energía que pone en su trabajo y en su vida, logrará ganar dinero y felicidad.',
+	'Se relaciona con pensamientos obsesivos o constante en el soñador.',
+	'Indica que algo o alguien le está manipulando, con el fin de conseguir sus fines.',
 	'Sin causa aparente representa un riesgo de caer en actitudes indebidas y hasta peligrosas.',
-	'Fidelidad en el amor y una gran amistad. &Eacutexito en los negocios.',
-	'Problemas con jueces, abogados... Y debe desconfiar de alg&uacute;n amigo que se ofrezca a ayudar.',
-	'Te est&aacute; diciendo que tengas cuidado con la gente que no conoces.',
-	'Viajes felices. Logros econ&oacute;micos o buena cosecha. Matrimonio y hijos en un nuevo hogar.',
-	'Problemas sentimentales, ya que &eacute;stos est&aacute;n relacionados con sentimientos, pensamientos o palabras destructivas.',
+	'Fidelidad en el amor y una gran amistad. Éxito en los negocios.',
+	'Problemas con jueces, abogados... Y debe desconfiar de algún amigo que se ofrezca a ayudar.',
+	'Te está diciendo que tengas cuidado con la gente que no conoces.',
+	'Viajes felices. Logros económicos o buena cosecha. Matrimonio y hijos en un nuevo hogar.',
+	'Problemas sentimentales, ya que éstos están relacionados con sentimientos, pensamientos o palabras destructivas.',
 	'Representa su falta de fuerza y resistencia. Se intenta proteger por los elementos, que le rodean. T',
-	'Fuerte le amenaza, pero lograr&aacute; superar las dificultades.',
-	'Algo est&aacute; creciendo en su subconsciente y en su sabidur&iacute;a. Tambi&eacute;n significa, que existe una situaci&oacute;n que requiere su atenci&oacute;n.',
-	'Se&ntilde;al de prosperidad para el so&ntilde;ador. Sentido de libertad. Liberaci&oacute;n del peso de las responsabilidades.',
-	'Representa su propia necesidad de renovar, limpiar y rejuvenecer su ser psicol&oacute;gico, emocional o espiritual.',
-	'Es de mal augurio, le anuncia depresi&oacute;n o enfermedad mental, problemas, trabas importantes ante las que se siente incapaz de reaccionar.',
-	'Ha cometido alguna fechor&iacute;a o algo, que sabe que est&aacute; mal y se siente culpable.',
-	'Su actitud incondicional e intransigente y la forma, que tiene de imponer su opini&oacute;n y sus sentimientos a los dem&aacute;s.',
+	'Fuerte le amenaza, pero logrará superar las dificultades.',
+	'Algo está creciendo en su subconsciente y en su sabiduría. También significa, que existe una situación que requiere su atención.',
+	'Señal de prosperidad para el soñador. Sentido de libertad. Liberación del peso de las responsabilidades.',
+	'Representa su propia necesidad de renovar, limpiar y rejuvenecer su ser psicológico, emocional o espiritual.',
+	'Es de mal augurio, le anuncia depresión o enfermedad mental, problemas, trabas importantes ante las que se siente incapaz de reaccionar.',
+	'Ha cometido alguna fechoría o algo, que sabe que está mal y se siente culpable.',
+	'Su actitud incondicional e intransigente y la forma, que tiene de imponer su opinión y sus sentimientos a los demás.',
 	'Representa su deseo de conseguir un equilibrio en la vida real.',
-	'Representa iluminaci&oacute;n, claridad, gu&iacute;a, un completo entendimiento y perspicacia.',
-	'Simboliza la amabilidad, la compasi&oacute;n, la sensibilidad, el placer, la belleza y las ganancias.',
-	'Relacionado con relaciones amorosas, el cangrejo advierte sobre una relaci&oacute;n larga y dif&iacute;cil. Evita los rivales.',
-	'Significa que vivir&aacute; grandes desilusiones, por hacerse ideas falsas sobre algo importante. Confiar&aacute; en quien no debe y le aconsejar&aacute;n mal.',
-	'Representa su ser &iacute;ntimo y el descubrimiento de su propia sexualidad.',
-	'Fotos antiguas o retratos, es porque piensa que el pasado fue mejor y le gusta recordarlo, volver a vivir lo que vivi&oacute; en el pasado.',
-	'So&ntilde;ar con la locura o demencia propia o la de otra persona representa su deseo de evadir la realidad.',
+	'Representa iluminación, claridad, guía, un completo entendimiento y perspicacia.',
+	'Simboliza la amabilidad, la compasión, la sensibilidad, el placer, la belleza y las ganancias.',
+	'Relacionado con relaciones amorosas, el cangrejo advierte sobre una relación larga y difícil. Evita los rivales.',
+	'Significa que vivirá grandes desilusiones, por hacerse ideas falsas sobre algo importante. Confiará en quien no debe y le aconsejarán mal.',
+	'Representa su ser íntimo y el descubrimiento de su propia sexualidad.',
+	'Fotos antiguas o retratos, es porque piensa que el pasado fue mejor y le gusta recordarlo, volver a vivir lo que vivió en el pasado.',
+	'Soñar con la locura o demencia propia o la de otra persona representa su deseo de evadir la realidad.',
 	'Un cambio muy favorable a tu vida con grandes sorpresas en todos los niveles.',
-	'Es posible que gane una suma importante de dinero y disfrutar una vida feliz y pr&oacute;spera.',
-	'Representa compromiso, armon&iacute;a o transici&oacute;n. Simboliza la unificaci&oacute;n de aspectos opuestos de su car&aacute;cter.',
-	'Representa que est&aacute; viviendo un momento muy deprimente, que necesita ser resuelto cuanto antes.',
-	'Suelen representar sentimientos que nos preparan para la aceptaci&oacute;n de la muerte.',
-	'Discusiones, as&iacute; como significa felicidad y armon&iacute;a entre los tuyos.',
-	' Suele ser indicador de que el c&oacute;nyuge, novio o novia son personas buenas y agradecidas.',
-	'Es indicativo de muchas energ&iacute;as negativas reprimidas tales como ira, envidia o venganzas.',
-	'Significa enfermedad. Es una premonici&oacute;n que le anuncia la muerte de un familiar, del cual va a recibir una herencia.',
+	'Es posible que gane una suma importante de dinero y disfrutar una vida feliz y próspera.',
+	'Representa compromiso, armonía o transición. Simboliza la unificación de aspectos opuestos de su carácter.',
+	'Representa que está viviendo un momento muy deprimente, que necesita ser resuelto cuanto antes.',
+	'Suelen representar sentimientos que nos preparan para la aceptación de la muerte.',
+	'Discusiones, así como significa felicidad y armonía entre los tuyos.',
+	'Suele ser indicador de que el cónyuge, novio o novia son personas buenas y agradecidas.',
+	'Es indicativo de muchas energías negativas reprimidas tales como ira, envidia o venganzas.',
+	'Significa enfermedad. Es una premonición que le anuncia la muerte de un familiar, del cual va a recibir una herencia.',
 	'Es necesario que aprendas a vivir con cierta estabilidad y equilibrio en tu vida.',
-	'Una premonici&oacute;n de un regalo sorpresa de dinero.',
-	'Los r&iacute;os en los sue&ntilde;os simbolizan el deslizar de la vida que se va.',
-	'So&ntilde;ar que ve o lleva un collar, representan sus deseos insatisfechos.',
+	'Una premonición de un regalo sorpresa de dinero.',
+	'Los ríos en los sueños simbolizan el deslizar de la vida que se va.',
+	'Soñar que ve o lleva un collar, representan sus deseos insatisfechos.',
 	'Representa los deseos, las necesidades y las preocupaciones que siente y que le pesan en la vida real.',
 	'Puede representar tu deseo de ser independiente o tomar tus propias decisiones.',
-	'El sue&ntilde;o indica que sus fuertes valores y buenas intenciones le ayudar&aacute;n a avanzar en la vida y le traer&aacute;n el &eacute;xito.',
-	'Significa que controla perfectamente su vida. Incluso que est&aacute; siendo demasiado agresiva, energica y autoritaria con los dem&aacute;s.',
-	'Realizar una petici&oacute;n por la salud propio o de alg&uacute;n familiar.',
-	'En los sue&ntilde;os un ata&uacute;d o feretro o sarc&oacute;fago, representa el &uacute;tero o seno materno.',
-	'Significa seguridad en s&iacute; mismo en todos los aspectos, conclusi&oacute;n positiva de sus negocios en curso.',
-	'Es de muy buen augurio, significa prosperidad, riquezas y buena posici&oacute;n.',
-	'Est&aacute;s mal contigo mismo, con mucha desconfianza en ti y haces cosas para llamar la atenci&oacute;n.',
-	'Representa esos aspectos de tu personalidad m&aacute;s fr&aacute;giles, como pueden ser la necesidad de protecci&oacute;n.',
-	'So&ntilde;arse en una tragedia de cualquier tipo es anuncio de problemas, malos entendidos, ofensas por nimiedades.',
-	'Puede interpretarse como sensaci&oacute;n de peligro o traici&oacute;n.',
-	'Te est&aacute; diciendo que el tiempo vuela y no dejes pasar m&aacute;s y aprov&eacute;chalo.',
+	'El sueño indica que sus fuertes valores y buenas intenciones le ayudarán a avanzar en la vida y le traerán el éxito.',
+	'Significa que controla perfectamente su vida. Incluso que está siendo demasiado agresiva, energica y autoritaria con los demás.',
+	'Realizar una petición por la salud propio o de algún familiar.',
+	'En los sueños un ataúd o feretro o sarcófago, representa el útero o seno materno.',
+	'Significa seguridad en sí mismo en todos los aspectos, conclusión positiva de sus negocios en curso.',
+	'Es de muy buen augurio, significa prosperidad, riquezas y buena posición.',
+	'Estás mal contigo mismo, con mucha desconfianza en ti y haces cosas para llamar la atención.',
+	'Representa esos aspectos de tu personalidad más frágiles, como pueden ser la necesidad de protección.',
+	'Soñarse en una tragedia de cualquier tipo es anuncio de problemas, malos entendidos, ofensas por nimiedades.',
+	'Puede interpretarse como sensación de peligro o traición.',
+	'Te está diciendo que el tiempo vuela y no dejes pasar más y aprovéchalo.',
 	'Sugiere, que necesita acabar de una vez, con un tema recurrente en su vida.',
-	'Est&aacute; relacionado con la sexualidad y la masculinidad, puesto que el pl&aacute;tano es un s&iacute;mbolo f&aacute;lico.',
-	' Los espejos simbolizan la imaginaci&oacute;n y el punto de conexi&oacute;n entre el consciente y el subconsciente.',
-	'Representa un s&iacute;mbolo de nueva vida, renovaci&oacute;n y fuerza.',
-	'So&ntilde;ar con un anciano, significa que tiene gran simplicidad, honestidad y discreci&oacute;n.',
-	'Indica que en lo &iacute;ntimo hay un descontento que no puede resolver.',
+	'Está relacionado con la sexualidad y la masculinidad, puesto que el plátano es un símbolo fálico.',
+	'Los espejos simbolizan la imaginación y el punto de conexión entre el consciente y el subconsciente.',
+	'Representa un símbolo de nueva vida, renovación y fuerza.',
+	'Soñar con un anciano, significa que tiene gran simplicidad, honestidad y discreción.',
+	'Indica que en lo íntimo hay un descontento que no puede resolver.',
 	'Indica que sus esperanzas para lograr el amor pueden sufrir un contratiempo.',
-	'So&ntilde;ar que ve un anillo en su dedo, significa su compromiso total a una relaci&oacute;n o al &eacute;xito de su nuevo intento.',
-	' Representa una extrema hostilidad hacia alguien o hacia una situaci&oacute;n que le molesta much&iacute;simo.',
-	'Puede significar que est&aacute; trabajando demasiado. Deber&iacute;a darse un respiro y descansar.',
-	' Se&ntilde;al de que nuestra timidez en ocasiones nos hace perder importantes situaciones.',
-	'Si ha matado a un mosquito en su sue&ntilde;o, quiere decir que superar&aacute; obst&aacute;culos y disfrutar fortuna y felicidad dom&eacute;stica.',
-	'Significa confianza en s&iacute; mismo y en su futuro. Conf&iacute;a mucho en sus posibilidades y as&iacute; ser&aacute;, el futuro le depara felicidad y suerte.',
-	'S&iacute;mbolo del deseo de terminar de una manera radical y definitiva con alguna situaci&oacute;n o conflicto.',
-	'Significa las posibilidades que tiene para alcanzar sus objetivos. Se encuentra en una fase de transici&oacute;n.']
+	'Soñar que ve un anillo en su dedo, significa su compromiso total a una relación o al éxito de su nuevo intento.',
+	'Representa una extrema hostilidad hacia alguien o hacia una situación que le molesta muchísimo.',
+	'Puede significar que está trabajando demasiado. Debería darse un respiro y descansar.',
+	'Señal de que nuestra timidez en ocasiones nos hace perder importantes situaciones.',
+	'Si ha matado a un mosquito en su sueño, quiere decir que superará obstáculos y disfrutar fortuna y felicidad doméstica.',
+	'Significa confianza en sí mismo y en su futuro. Confía mucho en sus posibilidades y así será, el futuro le depara felicidad y suerte.',
+	'Símbolo del deseo de terminar de una manera radical y definitiva con alguna situación o conflicto.',
+	'Significa las posibilidades que tiene para alcanzar sus objetivos. Se encuentra en una fase de transición.'];
 
 var serviceImgPath;
 $(function () {
@@ -132,8 +133,7 @@ $(function () {
 	yesterday.setDate(yesterday.getDate() - 1);
 
 	var internationalization = {
-		months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-			'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+		months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
 		monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
 		weekdaysAbbrev: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
 	};
@@ -170,41 +170,8 @@ function messageLengthValidate(max) {
 	if (message.length <= max) {
 		$('.helper-text').html('Restante: ' + (max - message.length));
 	} else {
-		$('.helper-text').html('Limite excedido');
+		$('.helper-text').html('Límite excedido');
 	}
-}
-
-function sendMessage() {
-	var message = $('#message').val().trim();
-
-	if (message.length >= 30) {
-		apretaste.send({
-			'command': "AYUDA ESCRIBIR",
-			'data': {
-				'message': message
-			},
-			'redirect': false,
-			'callback': {
-				'name': 'sendMessageCallback',
-				'data': message
-			}
-		});
-	} else {
-		showToast("Por favor describanos mejor su solicitud");
-	}
-}
-
-function sendMessageCallback(message) {
-	if (messages.length === 0) {
-		// Jquery Bug, fixed in 1.9, insertBefore or After deletes the element and inserts nothing
-		// $('#messageField').insertBefore("<div class=\"chat\"></div>");
-		$('#nochats').remove();
-		$('#chat-row').append("<div class=\"chat\"></div>");
-	}
-
-	$('.chat').append("<div class=\"bubble me\" id=\"last\">" + message + "<br>" + "<small>" + new Date().toLocaleString('es-ES') + "</small>" + "</div>");
-
-	$('#message').val('');
 }
 
 function openMenu() {
@@ -240,77 +207,6 @@ function getImage(index, serviceImgPath, size) {
 	var x = index * size;
 	return "background-image: url(" + serviceImgPath + "/results.png);" + "background-size: " + size * 100 + "px " + size + "px;" + "background-position: -" + x + "px 0;";
 }
-
-function parseResult(number) {
-	return parseInt(number == '00' ? '100' : number);
-}
-
-function showToast(text) {
-	M.toast({
-		html: text
-	});
-}
-
-function deleteNotification(id) {
-	// delete from the backend
-	apretaste.send({
-		command: 'NOTIFICACIONES LEER',
-		data: {
-			id: id
-		},
-		redirect: false
-	}); // remove from the view
-
-	$('#' + id).fadeOut(function () {
-		$(this).remove(); // show message if all notifications were deleted
-
-		var count = $("ul.collection li").length;
-
-		if (count <= 0) {
-			var parent = $('#noti-list').parent();
-			$('ul.collection').remove();
-			parent.append("<div class=\"col s12 center\"><h1 class=\"white-text\">Nada por leer</h1><i class=\"material-icons large\">notifications_off</i><p>Por ahora usted no tiene ninguna notificaci\xF3n por leer.</p></div>");
-		}
-	});
-}
-
-/*function htmlEncode(s){
-	var htmlEscapes = {
-		'á': '&aacute;', 'é': '&eacute;', 'í': '&iacute;', 'ó': '&oacute;',
-		'ú': '&uacute;', 'Á': '&Aacute;', 'É': '&Eacute', 'Í': '&Iacute',
-		'Ó': '&Oacute', 'Ú': '&Uacute', 'ñ': '&ntilde;', 'Ñ': '&Ntilde;'
-	};
-
-	var htmlEscaper = /[áéíóúÁÉÍÓÚñÑ/]/g;
-	return ('' + s).replace(htmlEscaper, function (match) {
-		return htmlEscapes[match];
-	});
-}
-
-function htmlEncode(s){
-	if(s === null || s === "") return "";
-
-	var a = [];
-	var l = s.length;
-
-	for (var i=0;i<l;i++){
-		var c = s.charAt(i);
-		if (c < " " || c > "~"){
-			a.push("&#");
-			a.push(c.charCodeAt()); //numeric value of code point
-			a.push(";");
-		}else{
-			a.push(c);
-		}
-	}
-
-	s = a.join("");
-
-	// replace any malformed entities
-	s = s.replace(/&#\d*([^\d;]|$)/g, "$1");
-	console.log(s);
-	return s;
-}*/
 
 // POLYFILL
 
@@ -376,7 +272,7 @@ var share;
 
 function init(data) {
 	share = {
-		text: "N&uacute;meros de la bolita el " + moment(data.pick3.Midday.date).format('M/D/Y'),
+		text: "Números de la bolita el " + moment(data.pick3.Midday.date).format('M/D/Y'),
 		icon: 'fan',
 		send: function () {
 			apretaste.send({
@@ -384,7 +280,7 @@ function init(data) {
 				redirect: false,
 				callback: {
 					name: 'toast',
-					data: 'Tu chiste fue compartido en Pizarra'
+					data: 'La Bolita fue compartida en Pizarra'
 				},
 				data: {
 					text: $('#message').val(),
@@ -392,12 +288,10 @@ function init(data) {
 					link: {
 						command: btoa(JSON.stringify({
 							command: 'BOLITA ANTERIORES',
-							data: {
-								date: data.pick3.Midday.date
-							}
+							data: {date: data.pick3.Midday.date}
 						})),
 						icon: 'fan',
-						text: 'N&uacute;meros de la bolita el ' + moment(data.pick3.Midday.date).format('M/D/Y')
+						text: 'Números de la bolita el ' + moment(data.pick3.Midday.date).format('M/D/Y')
 					}
 				}
 			})

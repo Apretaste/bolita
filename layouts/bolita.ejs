@@ -22,8 +22,7 @@
 				<ul class="right hide-on-med-only">
 					<% menu.forEach(function(e) { %>
 						<li>
-							<a
-							   onclick="apretaste.send({'command':'BOLITA <%= e.link %>'})">
+							<a onclick="apretaste.send({'command':'BOLITA <%= e.link %>'})">
 								<i class="material-icons white-text"><%= e.icon %></i>
 							</a>
 						</li>
@@ -46,26 +45,22 @@
 	</ul>
 </div>
 
-<% var shareButtonEnabled = false; %>
-
 <!-- CONTENT -->
 <div class="row">
 	{{APP_TEMPLATE_CODE}}
 </div>
 
-<div style="margin-bottom:80px" class="hide-on-unique"></div>
+<div style="margin-bottom:80px"></div>
 
 <!-- FLOATING MOBILE BTN -->
-<% if(title != "Soporte") { %>
-	<div class="fixed-action-btn">
-		<% if (shareButtonEnabled) { %>
-			<a class="btn-floating waves-effect waves-light grey second modal-trigger" href="#shareModal">
-				<i class="material-icons">share</i>
-			</a>
-		<% } %>
-		<a class="btn-floating btn-large waves-effect waves-light right bolita-color acent"
-		   onclick="openMenu();">
-			<i class="material-icons">menu</i>
-		</a>
-	</div>
-<% } %>
+
+<div class="fixed-action-btn">
+	<% if(title == 'Tiradas') { %>
+	<a class="btn-floating waves-effect waves-light grey second modal-trigger" href="#shareModal">
+		<i class="material-icons">share</i>
+	</a>
+	<% } %>
+	<a class="btn-floating btn-large waves-effect waves-light right bolita-color acent" onclick="openMenu();">
+		<i class="material-icons">menu</i>
+	</a>
+</div>
