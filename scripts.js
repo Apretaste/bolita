@@ -196,7 +196,7 @@ function resizeImages() {
 		element.css({
 			'width': size + 'px',
 			'height': size + 'px',
-			"background-image": "url(" + serviceImgPath + "/results.png)",
+			"background-image": "url(" + serviceImgPath + "/bolita-icons.png)",
 			"background-size": size * 100 + "px " + size + "px",
 			"background-position": "-" + x + "px 0"
 		});
@@ -205,7 +205,7 @@ function resizeImages() {
 
 function getImage(index, serviceImgPath, size) {
 	var x = index * size;
-	return "background-image: url(" + serviceImgPath + "/results.png);" + "background-size: " + size * 100 + "px " + size + "px;" + "background-position: -" + x + "px 0;";
+	return "background-image: url(" + serviceImgPath + "/bolita-icons.png);" + "background-size: " + size * 100 + "px " + size + "px;" + "background-position: -" + x + "px 0;";
 }
 
 // POLYFILL
