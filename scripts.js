@@ -372,11 +372,15 @@ $(document).ready(function() {
     $('.sidenav').sidenav();
 });
 
+function teaser(text) {
+    return text.length <= 50 ? text : text.substr(0, 50) + "...";
+}
+
 var share;
 
 function init(data){
     share = {
-        text: "N&uacute;meros de la bolita el " + moment(data.pick3.Midday.date).format('M/D/Y'),
+        text: teaser("N&uacute;meros de la bolita el " + moment(data.pick3.Midday.date).format('M/D/Y')),
         icon: 'fan',
         send: function () {
             apretaste.send({
