@@ -1,102 +1,102 @@
 <div class="row">
-    <div class="input-field center-align">
-        <i class="material-icons prefix">date_range</i>
-        <input type="text" class="datepicker white-text" style="width: 100px; border-bottom: none !important;" onkeypress="return false;">
-    </div>
+	<div class="input-field center-align">
+		<i class="material-icons prefix">date_range</i>
+		<input type="text" class="datepicker white-text" style="width: 100px; border-bottom: none !important;" onkeypress="return false;">
+	</div>
 
-    <% if(results){ %>
-    <div class="col s12">
-        <h1>Tarde:</h1>
-    </div>
+	<% if(results){ %>
+	<div class="col s12">
+		<h1>Tarde:</h1>
+	</div>
 
-    <div class="col s4">
-        <div class="card">
-            <div class="card-image">
-                <div class="img-container">
-                    <div class="img" data-index="<%= results.fijoMid %>"></div>
-                </div>
-                <div class="card-content center-align">
-                    <span class="name">Fijo</span><br><span
-                            class="result"><%= results.centenaMid %>-<%= results.fijoMid %></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s4">
-        <div class="card">
-            <div class="card-image">
-                <div class="img-container">
-                    <div class="img" data-index="<%= results.Corrido1Mid %>"></div>
-                </div>
-                <div class="card-content center-align">
-                    <span class="name">Corrido<br>1:</span><span class="result"><%= results.Corrido1Mid %></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s4">
-        <div class="card">
-            <div class="card-image">
-                <div class="img-container">
-                    <div class="img" data-index="<%= results.Corrido2Mid %>"></div>
-                </div>
-                <div class="card-content center-align">
-                    <span class="name">Corrido<br>2:</span><span class="result"><%= results.Corrido2Mid %></span>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="col s4">
+		<div class="card">
+			<div class="card-image">
+				<div class="img-container">
+					<div class="img" data-index="<%= results.fijoMid %>"></div>
+				</div>
+				<div class="card-content center-align">
+					<span class="name">Fijo</span><br>
+					<span class="result"><%= results.centenaMid %>-<%= results.fijoMid %></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col s4">
+		<div class="card">
+			<div class="card-image">
+				<div class="img-container">
+					<div class="img" data-index="<%= results.Corrido1Mid %>"></div>
+				</div>
+				<div class="card-content center-align">
+					<span class="name">Corrido<br>1:</span><span class="result"><%= results.Corrido1Mid %></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col s4">
+		<div class="card">
+			<div class="card-image">
+				<div class="img-container">
+					<div class="img" data-index="<%= results.Corrido2Mid %>"></div>
+				</div>
+				<div class="card-content center-align">
+					<span class="name">Corrido<br>2:</span><span class="result"><%= results.Corrido2Mid %></span>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
 
 <% if(typeof results.fijoEve != "undefined"){ %>
 <div class="row">
-    <div class="col s12">
-        <h1>Noche:</h1>
-    </div>
+	<div class="col s12">
+		<h1>Noche:</h1>
+	</div>
 
-    <div class="col s4">
-        <div class="card">
-            <div class="card-image">
-                <div class="img-container">
-                    <div class="img" data-index="<%= results.fijoEve %>"></div>
-                </div>
-                <div class="card-content center-align">
-                    <span class="name">Fijo</span><br><span
-                            class="result"><%= results.centenaEve %>-<%= results.fijoEve %></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s4">
-        <div class="card">
-            <div class="card-image">
-                <div class="img-container">
-                    <div class="img" data-index="<%= results.Corrido1Eve %>"></div>
-                </div>
-                <div class="card-content center-align">
-                    <span class="name">Corrido<br>1:</span><span class="result"><%= results.Corrido1Eve %></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col s4">
-        <div class="card">
-            <div class="card-image">
-                <div class="img-container">
-                    <div class="img" data-index="<%= results.Corrido2Eve %>"></div>
-                </div>
-                <div class="card-content center-align">
-                    <span class="name">Corrido<br>2:</span><span class="result"><%= results.Corrido2Eve %></span>
-                </div>
-            </div>
-        </div>
-    </div>
-    <% } else { %>
-        <div class="col s12">
-            <h1>Ese dia solo hubo una tirada</h1>
-        </div>
-    <% } %>
-    <% } %>
+	<div class="col s4">
+		<div class="card">
+			<div class="card-image">
+				<div class="img-container">
+					<div class="img" data-index="<%= results.fijoEve %>"></div>
+				</div>
+				<div class="card-content center-align">
+					<span class="name">Fijo</span><br><span
+							class="result"><%= results.centenaEve %>-<%= results.fijoEve %></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col s4">
+		<div class="card">
+			<div class="card-image">
+				<div class="img-container">
+					<div class="img" data-index="<%= results.Corrido1Eve %>"></div>
+				</div>
+				<div class="card-content center-align">
+					<span class="name">Corrido<br>1:</span><span class="result"><%= results.Corrido1Eve %></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col s4">
+		<div class="card">
+			<div class="card-image">
+				<div class="img-container">
+					<div class="img" data-index="<%= results.Corrido2Eve %>"></div>
+				</div>
+				<div class="card-content center-align">
+					<span class="name">Corrido<br>2:</span><span class="result"><%= results.Corrido2Eve %></span>
+				</div>
+			</div>
+		</div>
+	</div>
+	<% } else { %>
+		<div class="col s12">
+			<h1>Ese dia solo hubo una tirada</h1>
+		</div>
+	<% } %>
+	<% } %>
 </div>
 
 <%- '<serviceImgPath data="{{APP_SERVICE_PATH}}/images"></serviceImgPath>' %>

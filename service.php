@@ -10,108 +10,7 @@ use Goutte\Client;
 class Service
 {
 	// charada
-	public const CHARADA = [
-		'Caballo',
-		'Mariposa',
-		'Niñito',
-		'Gato',
-		'Monja',
-		'Tortuga',
-		'Caracol',
-		'Muerto',
-		'Elefante',
-		'Pescadote',
-		'Gallo',
-		'Mujer Santa',
-		'Pavo Real',
-		'Tigre',
-		'Perro',
-		'Toro',
-		'San Lázaro',
-		'Pescadito',
-		'Lombriz',
-		'Gato Fino',
-		'Majá',
-		'Sapo',
-		'Vapor',
-		'Paloma',
-		'Piedra Fina',
-		'Anguila',
-		'Avispa',
-		'Chivo',
-		'Ratón',
-		'Camarón',
-		'Venado',
-		'Cochino',
-		'Tiñosa',
-		'Mono',
-		'Araña',
-		'Cachimba',
-		'Brujería',
-		'Dinero',
-		'Conejo',
-		'Cura',
-		'Lagartija',
-		'Pato',
-		'Alacrán',
-		'Año Del Cuero',
-		'Tiburón',
-		'Humo Blanco',
-		'Pájaro',
-		'Cucaracha',
-		'Borracho',
-		'Policía',
-		'Soldado',
-		'Bicicleta',
-		'Luz Eléctrica',
-		'Flores',
-		'Cangrejo',
-		'Merengue',
-		'Cama',
-		'Retrato',
-		'Loco',
-		'Huevo',
-		'Caballote',
-		'Matrimonio',
-		'Asesino',
-		'Muerto Grande',
-		'Comida',
-		'Par De Yeguas',
-		'Puñalada',
-		'Cementerio',
-		'Relajo Grande',
-		'Coco',
-		'Río',
-		'Collar',
-		'Maleta',
-		'Papalote',
-		'Perro Mediano',
-		'Bailarina',
-		'Muleta De Sán Lázaro',
-		'Sarcófago',
-		'Tren de carga',
-		'Médicos',
-		'Teatro',
-		'Madre',
-		'Tragedia',
-		'Sangre',
-		'Reloj',
-		'Tijeras',
-		'Plátano',
-		'Espejuelos',
-		'Agua',
-		'Viejo',
-		'Limosnero',
-		'Globo alto',
-		'Sortija',
-		'Machete',
-		'Guerra',
-		'Reto',
-		'Mosquito',
-		'Piano',
-		'Serrucho',
-		'Motel'
-	];
+	public const CHARADA = ['Caballo','Mariposa','Niñito','Gato','Monja','Tortuga','Caracol','Muerto','Elefante','Pescadote','Gallo','Mujer Santa','Pavo Real','Tigre','Perro','Toro','San Lázaro','Pescadito','Lombriz','Gato Fino','Majá','Sapo','Vapor','Paloma','Piedra Fina','Anguila','Avispa','Chivo','Ratón','Camarón','Venado','Cochino','Tiñosa','Mono','Araña','Cachimba','Brujería','Dinero','Conejo','Cura','Lagartija','Pato','Alacrán','Año Del Cuero','Tiburón','Humo Blanco','Pájaro','Cucaracha','Borracho','Policía','Soldado','Bicicleta','Luz Eléctrica','Flores','Cangrejo','Merengue','Cama','Retrato','Loco','Huevo','Caballote','Matrimonio','Asesino','Muerto Grande','Comida','Par De Yeguas','Puñalada','Cementerio','Relajo Grande','Coco','Río','Collar','Maleta','Papalote','Perro Mediano','Bailarina','Muleta De Sán Lázaro','Sarcófago','Tren de carga','Médicos','Teatro','Madre','Tragedia','Sangre','Reloj','Tijeras','Plátano','Espejuelos','Agua','Viejo','Limosnero','Globo alto','Sortija','Machete','Guerra','Reto','Mosquito','Piano','Serrucho','Motel'];
 
 	/**
 	 * Get results for la bolita
@@ -124,22 +23,24 @@ class Service
 	public function _main(Request $request, Response $response)
 	{
 		date_default_timezone_set('America/Havana');
-		$pathToService = SERVICE_PATH . $response->service;
 
 		// load from cache if exists
-		$data = self::loadCache('today');
-		if ($data === null || $this->needUpdate($data['date'] ?? '1900-01-01')) {
-			$data = $this->update();
-			self::saveCache('today', $data);
-		}
+		$data = Database::queryFirst("SELECT * FROM _bolita_results WHERE corrida=DATE(NOW())");
 
+		if (empty($data) || $this->needUpdate($data)) {
+			$data = $this->update();
+			self::saveResults($data);
+		} else $data = $this->formatDataFromDb($data);
+
+		// format the results
 		$results = $this->resultsFromData($data);
+
+		// complete the challenge
+		Challenges::complete('view-bolita', $request->person->id);
 
 		//$response->setCache(360);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('actual.ejs', ['results' => $results, 'data' => $data], self::img(), self::font());
-
-		Challenges::complete('view-bolita', $request->person->id);
+		$response->setTemplate('actual.ejs', ['results' => $results, 'data' => $data]);
 	}
 
 	/**
@@ -147,9 +48,15 @@ class Service
 	 * @param String
 	 * @return Boolean
 	 */
-	public function needUpdate(string $lastUpdate)
+	public function needUpdate($data)
 	{
 		date_default_timezone_set('America/Havana');
+		$lastUpdate = date('Ymd H:i', strtotime($data->updated));
+
+		$dayUpdated = !empty($data->papeleta_day);
+		$nightUpdated = !empty($data->papeleta_night);
+
+		if ($dayUpdated && $nightUpdated) return false;
 
 		$date = substr($lastUpdate, 0, 8);
 		$h = substr($lastUpdate, 9, 2);
@@ -157,15 +64,19 @@ class Service
 		if ($date == date('Ymd')) {
 			switch (date('H')) {
 				case '13':
+					if ($dayUpdated) return false;
 					return ($h == '13') ? (($m >= 30) and ((date('i') - $m) >= 2)) : true;
 					break;
 				case '14':
+					if ($dayUpdated) return false;
 					return ($h == '14') ? ((date('i') - $m) >= 5) : true;
 					break;
 				case '21':
+					if ($nightUpdated) return false;
 					return ($h == '21') ? (($m >= 45) and ((date('i') - $m) >= 2)) : true;
 					break;
 				case '22':
+					if ($nightUpdated) return false;
 					return ($h == '22') ? ((date('i') - $m) >= 2) : true;
 					break;
 				default:
@@ -191,15 +102,15 @@ class Service
 		$crawler = $client->request('GET', 'http://flalottery.com/pick3');
 		$pick3 = [
 			'Midday' => [
-				1 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
-				2 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
-				3 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
+				0 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
+				1 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
+				2 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
 				'date' => $crawler->filter('#gameContentLeft > div:nth-child(2) > p:nth-child(5)')->text()
 			],
 			'Evening' => [
-				1 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
-				2 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
-				3 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
+				0 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
+				1 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
+				2 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
 				'date' => $crawler->filter('#gameContentLeft > div:nth-child(3) > p:nth-child(5)')->text()
 			]
 		];
@@ -207,17 +118,17 @@ class Service
 		$crawler = $client->request('GET', 'http://flalottery.com/pick4');
 		$pick4 = [
 			'Midday' => [
-				1 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
-				2 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
-				3 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
-				4 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(7)')->text(),
+				0 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
+				1 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
+				2 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
+				3 => $crawler->filter('#gameContentLeft > div:nth-child(2) > div.gamePageBalls > p:nth-child(1) > span:nth-child(7)')->text(),
 				'date' => $crawler->filter('#gameContentLeft > div:nth-child(2) > p:nth-child(5)')->text()
 			],
 			'Evening' => [
-				1 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
-				2 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
-				3 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
-				4 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(7)')->text(),
+				0 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(1)')->text(),
+				1 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(3)')->text(),
+				2 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(5)')->text(),
+				3 => $crawler->filter('#gameContentLeft > div:nth-child(3) > div.gamePageBalls > p:nth-child(1) > span:nth-child(7)')->text(),
 				'date' => $crawler->filter('#gameContentLeft > div:nth-child(3) > p:nth-child(5)')->text()
 			]
 		];
@@ -225,8 +136,8 @@ class Service
 		$data = [
 			'pick3' => $pick3,
 			'pick4' => $pick4,
-			'date' => date('Ymd H:i')
 		];
+
 		return $data;
 	}
 
@@ -237,38 +148,48 @@ class Service
 	{
 		$results = [];
 		if ($data['pick3']['Midday']) {
-			$results['fijoMid'] = $data['pick3']['Midday'][2] . $data['pick3']['Midday'][3];
-			$results['centenaMid'] = $data['pick3']['Midday'][1];
-			$results['fijoMidDate'] = $this->dateToEsp($data['pick3']['Midday']['date']);
-			$results['fijoMidText'] = self::charada($data['pick3']['Midday'][2] . $data['pick3']['Midday'][3]);
+			$results['fijoMid'] = $data['pick3']['Midday'][1] . $data['pick3']['Midday'][2];
+			$results['centenaMid'] = $data['pick3']['Midday'][0];
+			$results['fijoMidText'] = self::charada($data['pick3']['Midday'][1] . $data['pick3']['Midday'][2]);
 		}
 
 		if ($data['pick4']['Midday']) {
-			$results['Corrido1Mid'] = $data['pick4']['Midday'][1] . $data['pick4']['Midday'][2];
-			$results['Corrido2Mid'] = $data['pick4']['Midday'][3] . $data['pick4']['Midday'][4];
-			$results['Corrido1MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
-			$results['Corrido2MidDate'] = $this->dateToEsp($data['pick4']['Midday']['date']);
-			$results['Corrido1MidText'] = self::charada($data['pick4']['Midday'][1] . $data['pick4']['Midday'][2]);
-			$results['Corrido2MidText'] = self::charada($data['pick4']['Midday'][3] . $data['pick4']['Midday'][4]);
+			$results['Corrido1Mid'] = $data['pick4']['Midday'][0] . $data['pick4']['Midday'][1];
+			$results['Corrido2Mid'] = $data['pick4']['Midday'][2] . $data['pick4']['Midday'][3];
+			$results['Corrido1MidText'] = self::charada($data['pick4']['Midday'][0] . $data['pick4']['Midday'][1]);
+			$results['Corrido2MidText'] = self::charada($data['pick4']['Midday'][2] . $data['pick4']['Midday'][3]);
 		}
 
 		if ($data['pick3']['Evening']) {
-			$results['fijoEve'] = $data['pick3']['Evening'][2] . $data['pick3']['Evening'][3];
-			$results['centenaEve'] = $data['pick3']['Evening'][1];
-			$results['fijoEveDate'] = $this->dateToEsp($data['pick3']['Evening']['date']);
-			$results['fijoEveText'] = self::charada($data['pick3']['Evening'][2] . $data['pick3']['Evening'][3]);
+			$results['fijoEve'] = $data['pick3']['Evening'][1] . $data['pick3']['Evening'][2];
+			$results['centenaEve'] = $data['pick3']['Evening'][0];
+			$results['fijoEveText'] = self::charada($data['pick3']['Evening'][1] . $data['pick3']['Evening'][2]);
 		}
 
 		if ($data['pick4']['Evening']) {
-			$results['Corrido1Eve'] = $data['pick4']['Evening'][1] . $data['pick4']['Evening'][2];
-			$results['Corrido2Eve'] = $data['pick4']['Evening'][3] . $data['pick4']['Evening'][4];
-			$results['Corrido1EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
-			$results['Corrido2EveDate'] = $this->dateToEsp($data['pick4']['Evening']['date']);
-			$results['Corrido1EveText'] = self::charada($data['pick4']['Evening'][1] . $data['pick4']['Evening'][2]);
-			$results['Corrido2EveText'] = self::charada($data['pick4']['Evening'][3] . $data['pick4']['Evening'][4]);
+			$results['Corrido1Eve'] = $data['pick4']['Evening'][0] . $data['pick4']['Evening'][1];
+			$results['Corrido2Eve'] = $data['pick4']['Evening'][2] . $data['pick4']['Evening'][3];
+			$results['Corrido1EveText'] = self::charada($data['pick4']['Evening'][0] . $data['pick4']['Evening'][1]);
+			$results['Corrido2EveText'] = self::charada($data['pick4']['Evening'][2] . $data['pick4']['Evening'][3]);
 		}
 
 		return $results;
+	}
+
+	public static function dateToSqlFormat($text)
+	{
+		$parts = explode(',', $text);
+		$parts2 = explode(' ', trim($parts[1]));
+
+		$months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+		$month = $parts2[0];
+		$day = $parts2[1];
+		$year = trim($parts[2]);
+
+		$month = array_search(substr($month, 0, 3), $months) + 1;
+
+		return "$year-$month-$day";
 	}
 
 	/**
@@ -319,25 +240,8 @@ class Service
 	 */
 	private static function charada($number)
 	{
-		$number = $number == '00' ? 99 : ((int) $number) - 1;
+		$number = $number == '00' ? 99 : ((int)$number) - 1;
 		return self::CHARADA[$number];
-	}
-
-	/**
-	 *
-	 */
-	private static function img(): array
-	{
-		$pathToService = SERVICE_PATH . 'bolita';
-		return ["$pathToService/images/results.png", "$pathToService/images/logo.png", "$pathToService/images/esfera-suerte.png"];
-	}
-
-	/**
-	 * Get the font file
-	 */
-	private static function font(): array
-	{
-		return [SERVICE_PATH . 'bolita' . '/resources/Roboto-Medium.ttf'];
 	}
 
 	/**
@@ -352,7 +256,7 @@ class Service
 	{
 		$response->setCache('year');
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('charada.ejs', ['title' => 'Charada'], self::img(), self::font());
+		$response->setTemplate('charada.ejs', ['title' => 'Charada']);
 	}
 
 	/**
@@ -364,22 +268,21 @@ class Service
 	 */
 	public function _anteriores(Request $request, Response $response)
 	{
-		$date = $request->input->data->date ?? date('m/d/Y', strtotime('-1 day'));
-		$cacheName = 'results_' . str_replace('/', '-', $date);
-		$data = self::loadCache($cacheName);
+		$date = $request->input->data->date ?? date('Y-m-d', strtotime('-1 day'));
+		$data = Database::queryFirst("SELECT * FROM _bolita_results WHERE corrida='$date'");
 
-		if ($data === null) {
-			$date = explode('/', $date);
+		if (empty($data)) {
+			$dateParts = explode('-', $date);
 
-			if (strlen($date[0]) < 2) {
-				$date[0] = '0' . $date[0];
+			if (strlen($dateParts[2]) < 2) {
+				$dateParts[2] = '0' . $dateParts[2];
 			}
 
-			if (strlen($date[1]) < 2) {
-				$date[1] = '0' . $date[1];
+			if (strlen($dateParts[1]) < 2) {
+				$dateParts[1] = '0' . $dateParts[1];
 			}
 
-			$crawler = (new Client())->request('GET', "http://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$date[0]}%2F{$date[1]}%2F{$date[2]}");
+			$crawler = (new Client())->request('GET', "http://www.flalottery.com/site/winningNumberSearch?searchTypeIn=date&gameNameIn=AllGames&singleDateIn={$dateParts[1]}%2F{$dateParts[2]}%2F{$dateParts[0]}");
 
 			$data = [
 				'pick3' => [
@@ -397,34 +300,34 @@ class Service
 				if ($item->filter('.balls')->count() == 3) {
 					if ($item->filter('img[alt="Midday"]')->count() == 1) {
 						$data['pick3']['Midday'] = [
-							1 => $item->filter('.balls:nth-child(2)')->text(),
-							2 => $item->filter('.balls:nth-child(4)')->text(),
-							3 => $item->filter('.balls:nth-child(6)')->text(),
+							0 => $item->filter('.balls:nth-child(2)')->text(),
+							1 => $item->filter('.balls:nth-child(4)')->text(),
+							2 => $item->filter('.balls:nth-child(6)')->text(),
 							'date' => $date
 						];
 					} else {
 						$data['pick3']['Evening'] = [
-							1 => $item->filter('.balls:nth-child(2)')->text(),
-							2 => $item->filter('.balls:nth-child(4)')->text(),
-							3 => $item->filter('.balls:nth-child(6)')->text(),
+							0 => $item->filter('.balls:nth-child(2)')->text(),
+							1 => $item->filter('.balls:nth-child(4)')->text(),
+							2 => $item->filter('.balls:nth-child(6)')->text(),
 							'date' => $date
 						];
 					}
 				} elseif ($item->filter('.balls')->count() === 4) {
 					if ($item->filter('img[alt="Midday"]')->count() === 1) {
 						$data['pick4']['Midday'] = [
-							1 => $item->filter('.balls:nth-child(2)')->text(),
-							2 => $item->filter('.balls:nth-child(4)')->text(),
-							3 => $item->filter('.balls:nth-child(6)')->text(),
-							4 => $item->filter('.balls:nth-child(8)')->text(),
+							0 => $item->filter('.balls:nth-child(2)')->text(),
+							1 => $item->filter('.balls:nth-child(4)')->text(),
+							2 => $item->filter('.balls:nth-child(6)')->text(),
+							3 => $item->filter('.balls:nth-child(8)')->text(),
 							'date' => $date
 						];
 					} else {
 						$data['pick4']['Evening'] = [
-							1 => $item->filter('.balls:nth-child(2)')->text(),
-							2 => $item->filter('.balls:nth-child(4)')->text(),
-							3 => $item->filter('.balls:nth-child(6)')->text(),
-							4 => $item->filter('.balls:nth-child(8)')->text(),
+							0 => $item->filter('.balls:nth-child(2)')->text(),
+							1 => $item->filter('.balls:nth-child(4)')->text(),
+							2 => $item->filter('.balls:nth-child(6)')->text(),
+							3 => $item->filter('.balls:nth-child(8)')->text(),
 							'date' => $date
 						];
 					}
@@ -435,24 +338,26 @@ class Service
 				$crawler->filter('.winningNumbers')->each(function ($item) use ($date, &$data) {
 					if ($item->filter('.balls')->count() == 3) {
 						$data['pick3']['Midday'] = [
-							1 => $item->filter('.balls:nth-child(1)')->text(),
-							2 => $item->filter('.balls:nth-child(3)')->text(),
-							3 => $item->filter('.balls:nth-child(5)')->text(),
+							0 => $item->filter('.balls:nth-child(1)')->text(),
+							1 => $item->filter('.balls:nth-child(3)')->text(),
+							2 => $item->filter('.balls:nth-child(5)')->text(),
 							'date' => $date
 						];
 					} elseif ($item->filter('.balls')->count() == 4) {
 						$data['pick4']['Midday'] = [
-							1 => $item->filter('.balls:nth-child(1)')->text(),
-							2 => $item->filter('.balls:nth-child(3)')->text(),
-							3 => $item->filter('.balls:nth-child(5)')->text(),
-							4 => $item->filter('.balls:nth-child(7)')->text(),
+							0 => $item->filter('.balls:nth-child(1)')->text(),
+							1 => $item->filter('.balls:nth-child(3)')->text(),
+							2 => $item->filter('.balls:nth-child(5)')->text(),
+							3 => $item->filter('.balls:nth-child(7)')->text(),
 							'date' => $date
 						];
 					}
 				});
 			}
 
-			self::saveCache($cacheName, $data);
+			self::saveResults($data, $date);
+		} else {
+			$data = $this->formatDataFromDb($data, false);
 		}
 
 		$results = $this->resultsFromData($data);
@@ -465,7 +370,7 @@ class Service
 
 		$response->setCache(360);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('anteriores.ejs', $content, self::img(), self::font());
+		$response->setTemplate('anteriores.ejs', $content);
 	}
 
 	/**
@@ -506,7 +411,7 @@ class Service
 
 		$response->setCache(60);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('suerte.ejs', $content, self::img(), self::font());
+		$response->setTemplate('suerte.ejs', $content);
 	}
 
 	/**
@@ -521,55 +426,7 @@ class Service
 	{
 		$response->setCache('year');
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('reglas.ejs', ['title' => 'Reglas'], [], self::font());
-	}
-
-	/**
-	 * Show a list of notifications
-	 *
-	 * @param Request $request
-	 * @param Response $response
-	 * @return Response
-	 * @throws Alert
-	 * @author salvipascual
-	 */
-	public function _notificaciones(Request $request, Response $response)
-	{
-		// get all unread notifications
-		$notifications = Database::query("
-			SELECT id,icon,`text`,link,inserted
-			FROM notification
-			WHERE `to` = {$request->person->id} 
-			AND service = 'bolita'
-			AND `hidden` = 0
-			ORDER BY inserted DESC");
-
-		// if no notifications, let the user know
-		if (empty($notifications)) {
-			$content = [
-				'header' => 'Nada por leer',
-				'icon' => 'notifications_off',
-				'text' => 'Por ahora usted no tiene ninguna notificación por leer.',
-				'title' => 'Notificaciones'
-			];
-
-			$response->setLayout('bolita.ejs');
-			return $response->setTemplate('message.ejs', $content, [], self::font());
-		}
-
-		foreach ($notifications as $noti) {
-			$noti->inserted = strtoupper(date('d/m/Y h:ia', strtotime(($noti->inserted))));
-		}
-
-		// prepare content for the view
-		$content = [
-			'notifications' => $notifications,
-			'title' => 'Notificaciones'
-		];
-
-		// build the response
-		$response->setLayout('bolita.ejs');
-		$response->setTemplate('notifications.ejs', $content);
+		$response->setTemplate('reglas.ejs', ['title' => 'Reglas']);
 	}
 
 	/**
@@ -613,22 +470,6 @@ class Service
 	}
 
 	/**
-	 * Show the soporte to ask questions
-	 *
-	 * @param Request $request
-	 * @param Response $response
-	 * @throws Alert
-	 */
-	public function _soporte(Request $request, Response $response)
-	{
-		$chat = self::getSupportConversation($request->person->id, $request->person->email);
-
-		// send data to the view
-		$response->setLayout('bolita.ejs');
-		$response->setTemplate('soporte.ejs', ['messages' => $chat, 'myusername' => $request->person->username, 'title' => 'Soporte'], [], self::font());
-	}
-
-	/**
 	 * Get cache file name
 	 *
 	 * @param $name
@@ -661,13 +502,89 @@ class Service
 	/**
 	 * Save cache
 	 *
-	 * @param $name
-	 * @param $data
-	 * @param null $cacheFile
+	 * array $data
+	 * string $date
 	 */
-	public static function saveCache($name, $data, &$cacheFile = null)
+	public static function saveResults($data, $date = null)
 	{
-		$cacheFile = self::getCacheFileName($name);
-		file_put_contents($cacheFile, serialize($data));
+		$papeleta_day = $data['pick3']['Midday'][0];
+		$fijo_day = $data['pick3']['Midday'][1] . $data['pick3']['Midday'][2];
+		$corrido1_day = $data['pick4']['Midday'][0] . $data['pick4']['Midday'][1];
+		$corrido2_day = $data['pick4']['Midday'][2] . $data['pick4']['Midday'][3];
+		$papeleta_night = $data['pick3']['Evening'][0];
+		$fijo_night = $data['pick3']['Evening'][1] . $data['pick3']['Evening'][2];
+		$corrido1_night = $data['pick4']['Evening'][0] . $data['pick4']['Evening'][1];
+		$corrido2_night = $data['pick4']['Evening'][2] . $data['pick4']['Evening'][3];
+
+		// Midday first
+		$middayDate = $date ?? self::dateToSqlFormat($data['pick3']['Midday']['date']);
+		$eveningDate = $date ?? self::dateToSqlFormat($data['pick3']['Evening']['date']);
+
+		// Day
+		Database::query(
+			"INSERT INTO _bolita_results(
+				corrida, papeleta_day, fijo_day, corrido1_day, corrido2_day, updated
+				) VALUES(
+				'$middayDate', '$papeleta_day', '$fijo_day', '$corrido1_day', '$corrido2_day', NOW()
+				) 
+				ON DUPLICATE KEY UPDATE 
+				corrida='$middayDate', papeleta_day='$papeleta_day', fijo_day='$fijo_day', corrido1_day='$corrido1_day', 
+				corrido2_day='$corrido2_day', updated=NOW()"
+		);
+
+		// Night
+		Database::query(
+			"INSERT INTO _bolita_results(
+				corrida, papeleta_night, fijo_night, corrido1_night, corrido2_night, updated
+				) VALUES(
+				'$eveningDate', '$papeleta_night', '$fijo_night', '$corrido1_night', '$corrido2_night', NOW()
+				) 
+				ON DUPLICATE KEY UPDATE 
+				corrida='$eveningDate', papeleta_night='$papeleta_night', fijo_night='$fijo_night', 
+				corrido1_night='$corrido1_night', corrido2_night='$corrido2_night', updated=NOW()"
+		);
 	}
+
+	private function formatDataFromDb($data, $fillMissing = true)
+	{
+		$dayUpdated = !empty($data->papeleta_day);
+		$nightUpdated = !empty($data->papeleta_night);
+
+		if (!$dayUpdated || !$nightUpdated) {
+			$previousDate = Database::queryFirst("SELECT * FROM _bolita_results WHERE corrida=DATE(DATE_SUB(NOW(), INTERVAL 1 DAY))");
+			if (empty($previousDate)) $fillMissing = false;
+		}
+
+		if ($dayUpdated || !$fillMissing) {
+			$p3Midday = $data->papeleta_day . $data->fijo_day;
+			$p4Midday = $data->corrido1_day . $data->corrido2_day;
+		} else {
+			$p3Midday = $previousDate->papeleta_day . $previousDate->fijo_day;
+			$p4Midday = $previousDate->corrido1_day . $previousDate->corrido2_day;
+		}
+
+		if ($nightUpdated || !$fillMissing) {
+			$p3Night = $data->papeleta_night . $data->fijo_night;
+			$p4Night = $data->corrido1_night . $data->corrido2_night;
+		} else {
+			$p3Night = $previousDate->papeleta_night . $previousDate->fijo_night;
+			$p4Night = $previousDate->corrido1_night . $previousDate->corrido2_night;
+		}
+
+		$newData = [
+			'pick3' => [
+				'Midday' => $p3Midday,
+				'Evening' => $p3Night,
+			],
+			'pick4' => [
+				'Midday' => $p4Midday,
+				'Evening' => $p4Night,
+			],
+			'MiddayDate' => $dayUpdated || !$fillMissing ? $data->corrida : $previousDate->corrida,
+			'EveningDate' => $nightUpdated || !$fillMissing ? $data->corrida : $previousDate->corrida,
+		];
+
+		return $newData;
+	}
+
 }
