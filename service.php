@@ -1,7 +1,6 @@
 <?php
 
 use Apretaste\Challenges;
-use Apretaste\Money;
 use Apretaste\Request;
 use Apretaste\Response;
 use Framework\Alert;
@@ -136,9 +135,9 @@ class Service
 
 		$results = $this->resultsFromData($data);
 
-		$response->setCache(360);
+		//$response->setCache(360);
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('actual.ejs', ['results' => $results], self::img(), self::font());
+		$response->setTemplate('actual.ejs', ['results' => $results, 'data' => $data], self::img(), self::font());
 
 		Challenges::complete('view-bolita', $request->person->id);
 	}
@@ -320,7 +319,7 @@ class Service
 	 */
 	private static function charada($number)
 	{
-		$number = $number == '00' ? 99 : ((int)$number) - 1;
+		$number = $number == '00' ? 99 : ((int) $number) - 1;
 		return self::CHARADA[$number];
 	}
 

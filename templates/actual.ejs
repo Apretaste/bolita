@@ -90,3 +90,26 @@
 </div>
 
 <%- '<serviceImgPath data="{{APP_SERVICE_PATH}}/images"></serviceImgPath>' %>
+
+<!-- SHARE MODAL -->
+<% shareButtonEnabled = true; %>
+<% init(data) %>
+
+<div id="shareModal" class="modal">
+    <div class="modal-content">
+        <div class="input-field">
+            <textarea id="message" class="materialize-textarea" style="color:black;"></textarea>
+            <label for="message">Escriba un texto para compartir</label>
+        </div>
+        <ul class="collection one-line preview">
+            <li class="collection-item avatar">
+                <i class="fas fa-<%= share.icon %> material-icons circle"></i>
+                <span class="title" style="color:black;"><%- share.text %></span>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-light btn-flat">Cerrar</a>
+        <a onclick="share.send()" class="modal-close waves-effect waves-green green-text btn-flat">Enviar</a>
+    </div>
+</div>
