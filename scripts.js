@@ -268,6 +268,10 @@ $(document).ready(function () {
 	$('.sidenav').sidenav();
 });
 
+function teaser(text) {
+    return text.length <= 50 ? text : text.substr(0, 50) + "...";
+}
+
 var share;
 
 function init(data) {

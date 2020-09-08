@@ -170,3 +170,10 @@ h2 {
 	height: 45px;
 	line-height: 58px;
 }
+
+/* PREVIEW COLLECTION */
+
+.collection.preview {
+	margin: 20px 0px 0px 0px;
+	min-height: 65px;
+}
