@@ -10,7 +10,7 @@ use Goutte\Client;
 class Service
 {
 	// charada
-	public const CHARADA = ['Caballo','Mariposa','Niñito','Gato','Monja','Tortuga','Caracol','Muerto','Elefante','Pescadote','Gallo','Mujer Santa','Pavo Real','Tigre','Perro','Toro','San Lázaro','Pescadito','Lombriz','Gato Fino','Majá','Sapo','Vapor','Paloma','Piedra Fina','Anguila','Avispa','Chivo','Ratón','Camarón','Venado','Cochino','Tiñosa','Mono','Araña','Cachimba','Brujería','Dinero','Conejo','Cura','Lagartija','Pato','Alacrán','Año Del Cuero','Tiburón','Humo Blanco','Pájaro','Cucaracha','Borracho','Policía','Soldado','Bicicleta','Luz Eléctrica','Flores','Cangrejo','Merengue','Cama','Retrato','Loco','Huevo','Caballote','Matrimonio','Asesino','Muerto Grande','Comida','Par De Yeguas','Puñalada','Cementerio','Relajo Grande','Coco','Río','Collar','Maleta','Papalote','Perro Mediano','Bailarina','Muleta De Sán Lázaro','Sarcófago','Tren de carga','Médicos','Teatro','Madre','Tragedia','Sangre','Reloj','Tijeras','Plátano','Espejuelos','Agua','Viejo','Limosnero','Globo alto','Sortija','Machete','Guerra','Reto','Mosquito','Piano','Serrucho','Motel'];
+	public const CHARADA = ['Caballo', 'Mariposa', 'Niñito', 'Gato', 'Monja', 'Tortuga', 'Caracol', 'Muerto', 'Elefante', 'Pescadote', 'Gallo', 'Mujer Santa', 'Pavo Real', 'Tigre', 'Perro', 'Toro', 'San Lázaro', 'Pescadito', 'Lombriz', 'Gato Fino', 'Majá', 'Sapo', 'Vapor', 'Paloma', 'Piedra Fina', 'Anguila', 'Avispa', 'Chivo', 'Ratón', 'Camarón', 'Venado', 'Cochino', 'Tiñosa', 'Mono', 'Araña', 'Cachimba', 'Brujería', 'Dinero', 'Conejo', 'Cura', 'Lagartija', 'Pato', 'Alacrán', 'Año Del Cuero', 'Tiburón', 'Humo Blanco', 'Pájaro', 'Cucaracha', 'Borracho', 'Policía', 'Soldado', 'Bicicleta', 'Luz Eléctrica', 'Flores', 'Cangrejo', 'Merengue', 'Cama', 'Retrato', 'Loco', 'Huevo', 'Caballote', 'Matrimonio', 'Asesino', 'Muerto Grande', 'Comida', 'Par De Yeguas', 'Puñalada', 'Cementerio', 'Relajo Grande', 'Coco', 'Río', 'Collar', 'Maleta', 'Papalote', 'Perro Mediano', 'Bailarina', 'Muleta De Sán Lázaro', 'Sarcófago', 'Tren de carga', 'Médicos', 'Teatro', 'Madre', 'Tragedia', 'Sangre', 'Reloj', 'Tijeras', 'Plátano', 'Espejuelos', 'Agua', 'Viejo', 'Limosnero', 'Globo alto', 'Sortija', 'Machete', 'Guerra', 'Reto', 'Mosquito', 'Piano', 'Serrucho', 'Motel'];
 
 	/**
 	 * Get results for la bolita
@@ -269,6 +269,10 @@ class Service
 	public function _anteriores(Request $request, Response $response)
 	{
 		$date = $request->input->data->date ?? date('Y-m-d', strtotime('-1 day'));
+		if (count(explode('-', $date)) !== 3) {
+			$date = self::dateToSqlFormat($date);
+		}
+
 		$data = Database::queryFirst("SELECT * FROM _bolita_results WHERE corrida='$date'");
 
 		if (empty($data)) {
