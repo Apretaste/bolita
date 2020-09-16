@@ -1,105 +1,105 @@
-<div id="esfera">
-    <div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 center-align">
-        <div id="esfera-out" onclick="toggleSuerte()">
-            <div id="esfera-in">
-                <img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
-            </div>
-        </div>
-    </div>
-    <div class="col s12" style="padding: 2rem;">
-        <h1 style="font-size: 2rem">Pulsa la bola de cristal para consultar tus números de la suerte el día de hoy</h1>
-    </div>
+<div class="row" id="esfera">
+	<div class="col s10 offset-s1 m6 offset-m3 l4 offset-l4 center-align">
+		<div id="esfera-out" onclick="toggleSuerte()">
+			<div id="esfera-in">
+				<img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
+			</div>
+		</div>
+	</div>
+	<div class="col s12" style="padding: 2rem;">
+		<h1 style="font-size: 2rem">Pulsa la bola de cristal para consultar tus números de la suerte el día de hoy</h1>
+	</div>
 </div>
 
-<div id="suerte" style="display:none;">
-    <div class="col s6 offset-s3 m4 offset-m4 l2 offset-l5 center-align" style="margin-bottom:2rem">
-        <div id="esfera-in">
-            <img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
-        </div>
-    </div>
+<div class="row" id="suerte" style="display:none;">
+	<div class="col s6 offset-s3 m4 offset-m4 l2 offset-l5 center-align" style="margin-bottom:2rem">
+		<div id="esfera-in">
+			<img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
+		</div>
+	</div>
 
-    <div class="col s12">
-        <div class="charada-item left-align">
-            <div class="charada-container">
-                <div class="front">
-                    <div class="col s3">
-                        <div class="img-container">
-                            <div class="img" style="<%= getImage(fijo - 1, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
-                        </div>
-                    </div>
-                    <div class="col s8">
-                        <h1>Fijo: <%= centena + '-' + fijo %></h1>
-                    </div>
+	<div class="col s12">
+		<div class="charada-item left-align">
+			<div class="charada-container">
+				<div class="front">
+					<div class="col s3">
+						<div class="img-container">
+							<div class="img" style="<%= getImage(fijo, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+						</div>
+					</div>
+					<div class="col s8">
+						<h1>Fijo: <%= centena + '-' + fijo %></h1>
+					</div>
 
-                    <div class="col s1">
-                        <i class="material-icons right">more_vert</i>
-                    </div>
-                </div>
-                <div class="back" style="display: none;">
-                    <div class="col s11">
-                        <p><b><%- charada[fijo - 1] %></b>: <%- charadaDescription[fijo - 1] %></p>
-                    </div>
-                    <div class="col s1">
-                        <i class="material-icons right">more_vert</i>
-                    </div>
-                </div>
-            </div>
-        </div>
+					<div class="col s1">
+						<i class="material-icons right" onclick="toggleCharadaText(this)">more_vert</i>
+					</div>
+				</div>
+				<div class="back" style="display: none;">
+					<div class="col s11">
+						<p><b><%- charada[fijo - 1] %></b>: <%- charadaDescription[fijo - 1] %></p>
+					</div>
+					<div class="col s1">
+						<i class="material-icons right" onclick="toggleCharadaText(this)">more_vert</i>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <div class="charada-item left-align">
-            <div class="charada-container">
-                <div class="front">
-                    <div class="col s3">
-                        <div class="img-container">
-                            <div class="img"
-                                 style="<%= getImage(corrido1 - 1, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
-                        </div>
-                    </div>
-                    <div class="col s8">
-                        <h1>Corrido1: <%= corrido1 %></h1>
-                    </div>
+		<div class="charada-item left-align">
+			<div class="charada-container">
+				<div class="front">
+					<div class="col s3">
+						<div class="img-container">
+							<div class="img"
+								 style="<%= getImage(corrido1 - 1, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+						</div>
+					</div>
+					<div class="col s8">
+						<h1>Corrido1: <%= corrido1 %></h1>
+					</div>
 
-                    <div class="col s1">
-                        <i class="material-icons right">more_vert</i>
-                    </div>
-                </div>
-                <div class="back" style="display: none;">
-                    <div class="col s11">
-                        <p><b><%- charada[corrido1 - 1] %></b>: <%- charadaDescription[corrido1 - 1] %></p>
-                    </div>
-                    <div class="col s1">
-                        <i class="material-icons right">more_vert</i>
-                    </div>
-                </div>
-            </div>
-        </div>
+					<div class="col s1">
+						<i class="material-icons right" onclick="toggleCharadaText(this)">more_vert</i>
+					</div>
+				</div>
+				<div class="back" style="display: none;">
+					<div class="col s11">
+						<p><b><%- charada[corrido1 - 1] %></b>: <%- charadaDescription[corrido1 - 1] %></p>
+					</div>
+					<div class="col s1">
+						<i class="material-icons right" onclick="toggleCharadaText(this)">more_vert</i>
+					</div>
+				</div>
+			</div>
+		</div>
 
-        <div class="charada-item left-align">
-            <div class="charada-container">
-                <div class="front">
-                    <div class="col s3">
-                        <div class="img-container">
-                            <div class="img"
-                                 style="<%= getImage(corrido2 - 1, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
-                        </div>
-                    </div>
-                    <div class="col s8">
-                        <h1>Corrido2: <%= corrido2 %></h1>
-                    </div>
+		<div class="charada-item left-align">
+			<div class="charada-container">
+				<div class="front">
+					<div class="col s3">
+						<div class="img-container">
+							<div class="img"
+								 style="<%= getImage(corrido2, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+						</div>
+					</div>
+					<div class="col s8">
+						<h1>Corrido2: <%= corrido2 %></h1>
+					</div>
 
-                    <div class="col s1">
-                        <i class="material-icons right">more_vert</i>
-                    </div>
-                </div>
-                <div class="back" style="display: none;">
-                    <div class="col s11">
-                        <p><b><%- charada[corrido2 - 1] %></b>: <%- charadaDescription[corrido2 - 1] %></p>
-                    </div>
-                    <div class="col s1">
-                        <i class="material-icons right">more_vert</i>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+					<div class="col s1">
+						<i class="material-icons right" onclick="toggleCharadaText(this)">more_vert</i>
+					</div>
+				</div>
+				<div class="back" style="display: none;">
+					<div class="col s11">
+						<p><b><%- charada[corrido2 - 1] %></b>: <%- charadaDescription[corrido2 - 1] %></p>
+					</div>
+					<div class="col s1">
+						<i class="material-icons right" onclick="toggleCharadaText(this)">more_vert</i>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

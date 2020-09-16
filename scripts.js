@@ -1,7 +1,7 @@
-"use strict";
-
+// items of la charada
 var charada = ["Caballo", "Mariposa", "Niñito", "Gato", "Monja", "Tortuga", "Caracol", "Muerto", "Elefante", "Pescadote", "Gallo", "Mujer Santa", "Pavo Real", "Tigre", "Perro", "Toro", "San Lázaro", "Pescadito", "Lombriz", "Gato Fino", "Majá", "Sapo", "Vapor", "Paloma", "Piedra Fina", "Anguila", "Avispa", "Chivo", "Ratón", "Camarón", "Venado", "Cochino", "Tiñosa", "Mono", "Araña", "Cachimba", "Brujería", "Dinero", "Conejo", "Cura", "Lagartija", "Pato", "Alacrán", "Año Del Cuero", "Tiburón", "Humo Blanco", "Pájaro", "Cucaracha", "Borracho", "Policía", "Soldado", "Bicicleta", "Luz Eléctrica", "Flores", "Cangrejo", "Merengue", "Cama", "Retrato", "Loco", "Huevo", "Caballote", "Matrimonio", "Asesino", "Muerto Grande", "Comida", "Par De Yeguas", "Puñalada", "Cementerio", "Relajo Grande", "Coco", "Río", "Collar", "Maleta", "Papalote", "Perro Mediano", "Bailarina", "Muleta De Sán Lázaro", "Sarcófago", "Tren de carga", "Médicos", "Teatro", "Madre", "Tragedia", "Sangre", "Reloj", "Tijeras", "Plátano", "Espejuelos", "Agua", "Viejo", "Limosnero", "Globo alto", "Sortija", "Machete", "Guerra", "Reto", "Mosquito", "Piano", "Serrucho", "Motel"];
 
+// description for la charada
 var charadaDescription = [
 	'Es posible que gane una suma importante de dinero y disfrutar una vida feliz y próspera.',
 	'Habla de ciertas indecisiones y humor inconstante, así como posible infidelidad afectiva o amistosa.',
@@ -104,58 +104,39 @@ var charadaDescription = [
 	'Símbolo del deseo de terminar de una manera radical y definitiva con alguna situación o conflicto.',
 	'Significa las posibilidades que tiene para alcanzar sus objetivos. Se encuentra en una fase de transición.'];
 
-var serviceImgPath;
-$(function () {
-	serviceImgPath = $('serviceImgPath').attr('data');
-	resizeImages();
-	$(window).resize(resizeImages);
+// on start
+$(document).ready(function () {
+	// start navigation component
+	$('.sidenav').sidenav();
 
-	$('.modal').modal();
+	if(title == 'Tiradas') {
+		// start share modal
+		$('.modal').modal();
 
-	$('.charada-item i').click(function (e) {
-		var item = $(e.target).parent().parent().parent();
-		var front = item.children('.front');
-		var back = item.children('.back')
+		// translate datepicker to Spanish
+		var internationalization = {
+			months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+			monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
+			weekdaysAbbrev: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
+		};
 
-		if (front.css('display') !== 'none') {
-			front.fadeToggle(function () {
-				back.fadeToggle()
-			});
-		} else {
-			back.fadeToggle(function () {
-				front.fadeToggle()
-			});
-		}
-	});
-
-	var initDate = typeof date != "undefined" ? new Date(date) : new Date();
-	var yesterday = new Date();
-	yesterday.setDate(yesterday.getDate() - 1);
-
-	var internationalization = {
-		months: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-		monthsShort: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
-		weekdaysAbbrev: ['D', 'L', 'M', 'M', 'J', 'V', 'S']
-	};
-
-	$('.datepicker').datepicker({
-		autoClose: true,
-		format: 'mm/dd/yyyy',
-		defaultDate: initDate,
-		setDefaultDate: true,
-		yearRange: [1990, (new Date()).getFullYear()],
-		maxDate: yesterday,
-		firstDay: 1,
-		i18n: internationalization,
-		onSelect: function (value) {
-			apretaste.send({
-				command: 'BOLITA ANTERIORES',
-				data: {
-					'date': value.getFullYear() + '-' + (value.getMonth() + 1) + '-' + value.getDate()
-				}
-			})
-		}
-	});
+		// create datepicker
+		$('.datepicker').datepicker({
+			autoClose: true,
+			format: 'dd/mm/yyyy',
+			defaultDate: moment(corrida).toDate(),
+			setDefaultDate: true,
+			maxDate: new Date(),
+			firstDay: 1,
+			i18n: internationalization,
+			onSelect: function (value) {
+				apretaste.send({
+					command: 'BOLITA',
+					data: {'date': moment(value).format('YYYY-MM-DD')}
+				})
+			}
+		});
+	}
 });
 
 function toggleSuerte() {
@@ -164,145 +145,51 @@ function toggleSuerte() {
 	});
 }
 
-function messageLengthValidate(max) {
-	var message = $('#message').val().trim();
-
-	if (message.length <= max) {
-		$('.helper-text').html('Restante: ' + (max - message.length));
-	} else {
-		$('.helper-text').html('Límite excedido');
-	}
-}
-
 function openMenu() {
 	$('.sidenav').sidenav();
 	$('.sidenav').sidenav('open');
 }
 
-function resizeImages() {
-	$('.card-image > .img-container > .img').each(function () {
-		var element = $(this)
-		var size = element.parent().width() * 0.7;
-		var parentSize = element.parent().width();
-
-		var index = parseInt(element.attr("data-index")) - 1;
-		if (index === -1) index = 99;
-		var x = index * size;
-
-		element.parent().css({
-			'height': parentSize + 'px',
-		});
-
-		element.css({
-			'width': size + 'px',
-			'height': size + 'px',
-			"background-image": "url(" + serviceImgPath + "/bolita-icons.png)",
-			"background-size": size * 100 + "px " + size + "px",
-			"background-position": "-" + x + "px 0"
-		});
-	});
-}
-
 function getImage(index, serviceImgPath, size) {
-	var x = index * size;
-	return "background-image: url(" + serviceImgPath + "/bolita-icons.png);" + "background-size: " + size * 100 + "px " + size + "px;" + "background-position: -" + x + "px 0;";
+	var x = (index-1) * size;
+	return "background-image: url(" + serviceImgPath + "/bolita-icons.png); background-size: " + size * 100 + "px " + size + "px; background-position: -" + x + "px 0;";
 }
 
-// POLYFILL
+function toggleCharadaText (element) {
+	var item = $(element).parent().parent().parent();
+	var front = item.children('.front');
+	var back = item.children('.back')
 
-function _typeof(obj) {
-	if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") {
-		_typeof = function _typeof(obj) {
-			return typeof obj;
-		};
+	if (front.css('display') !== 'none') {
+		front.fadeToggle(function () {
+			back.fadeToggle()
+		});
 	} else {
-		_typeof = function _typeof(obj) {
-			return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj;
-		};
-	}
-	return _typeof(obj);
-}
-
-if (!Object.keys) {
-	Object.keys = function () {
-		'use strict';
-
-		var hasOwnProperty = Object.prototype.hasOwnProperty,
-			hasDontEnumBug = !{
-				toString: null
-			}.propertyIsEnumerable('toString'),
-			dontEnums = ['toString', 'toLocaleString', 'valueOf', 'hasOwnProperty', 'isPrototypeOf', 'propertyIsEnumerable', 'constructor'],
-			dontEnumsLength = dontEnums.length;
-		return function (obj) {
-			if (_typeof(obj) !== 'object' && (typeof obj !== 'function' || obj === null)) {
-				throw new TypeError('Object.keys called on non-object');
-			}
-
-			var result = [],
-				prop,
-				i;
-
-			for (prop in obj) {
-				if (hasOwnProperty.call(obj, prop)) {
-					result.push(prop);
-				}
-			}
-
-			if (hasDontEnumBug) {
-				for (i = 0; i < dontEnumsLength; i++) {
-					if (hasOwnProperty.call(obj, dontEnums[i])) {
-						result.push(dontEnums[i]);
-					}
-				}
-			}
-
-			return result;
-		};
+		back.fadeToggle(function () {
+			front.fadeToggle()
+		});
 	}
 }
 
-$(document).ready(function () {
-	$('.tabs').tabs();
-	$('.modal').modal();
-	$('select').formSelect();
-	$('.sidenav').sidenav();
-});
-
-function teaser(text) {
-    return text.length <= 50 ? text : text.substr(0, 50) + "...";
-}
-
-var share;
-
-function init(data) {
-	share = {
-		text: "Números de la bolita el " + moment(data.pick3.Midday.date).format('M/D/Y'),
-		icon: 'fan',
-		send: function () {
-			apretaste.send({
-				command: 'PIZARRA PUBLICAR',
-				redirect: false,
-				callback: {
-					name: 'toast',
-					data: 'La Bolita fue compartida en Pizarra'
-				},
-				data: {
-					text: $('#message').val(),
-					image: '',
-					link: {
-						command: btoa(JSON.stringify({
-							command: 'BOLITA ANTERIORES',
-							data: {date: data.pick3.Midday.date}
-						})),
-						icon: 'fan',
-						text: 'Números de la bolita el ' + moment(data.pick3.Midday.date).format('M/D/Y')
-					}
-				}
-			})
+function share() {
+	// share in Pizarra 
+	apretaste.send({
+		command: 'PIZARRA PUBLICAR',
+		redirect: false,
+		data: {
+			text: $('#message').val(),
+			image: '',
+			link: {
+				command: btoa(JSON.stringify({
+					command: 'BOLITA ANTERIORES',
+					data: {date: corrida}
+				})),
+				icon: 'fan',
+				text: 'Números de la bolita el ' + moment(corrida).format('M/D/Y')
+			}
 		}
-	};
-}
+	});
 
-function toast(message) {
-	M.toast({html: message});
+	// display message
+	M.toast({html: 'La Bolita fue compartida en Pizarra'});
 }

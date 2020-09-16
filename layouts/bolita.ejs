@@ -1,64 +1,45 @@
-<%
-	if (typeof title == 'undefined') var title = 'Tiradas';
-	var menu = [
-		{link: '', icon: 'star', caption: 'Tiradas'},
-		{link: 'ANTERIORES', icon: 'alarm', caption: 'Anteriores'},
-		{link: 'CHARADA', icon: 'casino', caption: 'Charada'},
-		{link: 'SUERTE', icon: 'toys', caption: 'Suerte'},
-		{link: 'REGLAS', icon: 'help', caption: 'Reglas'}
-	];
-%>
-
 <!-- MENU -->
-<div class="row">
-	<div class="navbar hide-on-small-only hide-on-unique">
-		<nav>
-			<div class="nav-wrapper bolita-color acent">
-				<a class="brand-logo left" style="margin-left: 1rem;">
-					<i class="waves-effect waves-light hide-on-large-only material-icons" onclick="openMenu();">menu</i>
-					<%= typeof title != 'undefined' ? title : 'Tiradas' %>
-				</a>
-				<!-- ICONS ON THE MENU -->
-				<ul class="right hide-on-med-only">
-					<% menu.forEach(function(e) { %>
-						<li>
-							<a onclick="apretaste.send({'command':'BOLITA <%= e.link %>'})">
-								<i class="material-icons white-text"><%= e.icon %></i>
-							</a>
-						</li>
-					<% }); %>
-				</ul>
-			</div>
-		</nav>
-	</div>
 
-	<!-- SIDE BAR TO BE OPENED ON MOBILE -->
-	<ul class="sidenav hide-on-large-only bolita-color white-text">
-		<% menu.forEach(function(e) { %>
-			<li>
-				<a class="grey-text text-lighten-2"
-				   onclick="apretaste.send({'command':'BOLITA <%= e.link %>'})">
-					<i class="material-icons grey-text text-lighten-2"><%= e.icon %></i> <%= e.caption %>
-				</a>
-			</li>
-		<% }); %>
+<div class="row">
+	<ul class="sidenav bolita-color white-text" style="padding-top:20px;">
+		<li>
+			<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA'})">
+				<i class="material-icons grey-text text-lighten-2">star</i> Tiradas
+			</a>
+		</li>
+		<li>
+			<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA CHARADA'})">
+				<i class="material-icons grey-text text-lighten-2">casino</i> Charada
+			</a>
+		</li>
+		<li>
+			<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA SUERTE'})">
+				<i class="material-icons grey-text text-lighten-2">toys</i> Suerte
+			</a>
+		</li>
+		<li>
+			<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA REGLAS'})">
+				<i class="material-icons grey-text text-lighten-2">help</i> Reglas
+			</a>
+		</li>
 	</ul>
 </div>
 
 <!-- CONTENT -->
+
 <div class="row">
 	{{APP_TEMPLATE_CODE}}
 </div>
 
-<div style="margin-bottom:80px"></div>
+<div class="bottom-space"></div>
 
 <!-- FLOATING MOBILE BTN -->
 
 <div class="fixed-action-btn">
 	<% if(title == 'Tiradas') { %>
-	<a class="btn-floating waves-effect waves-light grey second modal-trigger" href="#shareModal">
-		<i class="material-icons">share</i>
-	</a>
+		<a class="btn-floating waves-effect waves-light grey second modal-trigger" href="#shareModal">
+			<i class="material-icons">share</i>
+		</a>
 	<% } %>
 	<a class="btn-floating btn-large waves-effect waves-light right bolita-color acent" onclick="openMenu();">
 		<i class="material-icons">menu</i>

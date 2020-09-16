@@ -17,11 +17,18 @@ body{
 	color: white;
 }
 
-.datepicker-modal{
+/* DATEPICKER */
+
+.datepicker {
+	width: 100px !important;
+	border-bottom: none !important;
+}
+
+.datepicker-modal {
 	max-width: 325px;
 }
 
-body, .datepicker-container, .datepicker-container button:focus{
+body, .datepicker-container, .datepicker-container button:focus {
 	background: #263238;
 }
 
@@ -84,12 +91,15 @@ h2 {
 
 .img{
 	margin: auto;
+	width: 35px;
+	height: 35px;
 }
 
 .img-container{
 	border-radius: 50% !important;
 	background-color: #FFA420;
 	max-width: 150px;
+	height: 65px;
 }
 
 /* CHARADA */
@@ -101,17 +111,13 @@ h2 {
 
 .card-image > .img-container{
 	margin: 10% auto;
-	width: 70%;
+	width: 80px;
+	height: 80px;
 }
 
 .charada-item .img-container{
 	width: 65px;
 	height: 65px;
-}
-
-.charada-item .img{
-	width: 35px;
-	height: 35px;
 }
 
 .charada-item h1, .charada-item h2{
@@ -155,9 +161,13 @@ h2 {
 
 /* BUTTONS */
 
+.bottom-space {
+	margin-bottom: 80px;
+}
+
 .btn-floating.second {
 	margin-right: -10px;
-	margin-top: 7px;
+	margin-top: 6px;
 	width: 45px;
 	height: 45px;
 	line-height: 58px;
