@@ -4,106 +4,120 @@
 	<div class="col s12">
 		<div class="input-field center-align">
 			<i class="material-icons prefix">date_range</i>
-			<input type="text" class="datepicker white-text" onkeypress="return false;">
+			<input type="text" class="datepicker" onkeypress="return false;">
 		</div>
 	</div>
 </div>
-
-<!-- AFTERNOON -->
 
 <div class="row">
 	<div class="col s12">
-		<h1>Tarde</h1>
+		<span class="chip tiny yellow lighten-1"><i class="far fa-sun"></i> Día</span>
 	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container">
-					<div class="img" style="<%= getImage(fijo_day, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+
+	<!-- DIA FIJO -->
+
+	<div class="col s4 m2">
+		<div class="card user-card center-align">
+			<div class="content">
+				<div class="img-container actual orange">
+					<div class="img" style="<%= getImage(fijo_day-1, "{{APP_SERVICE_PATH}}/images") %>"></div>
 				</div>
-				<div class="card-content center-align">
-					<span class="name">Fijo<br></span>
-					<span class="result"><%= papeleta_day %>-<%= fijo_day %></span>
-				</div>
+				<span class="blue-grey-text"><%= getName(fijo_day-1) %></span>
+			</div>
+			<div class="action grey lighten-2 green-text">
+				Fijo: <%= papeleta_day %>-<%= fijo_day %>
 			</div>
 		</div>
 	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container">
-					<div class="img" style="<%= getImage(corrido1_day, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+
+	<!-- DIA CORRIDO #1 -->
+
+	<div class="col s4 m2">
+		<div class="card user-card center-align">
+			<div class="content">
+				<div class="img-container actual orange">
+					<div class="img" style="<%= getImage(corrido1_day-1, "{{APP_SERVICE_PATH}}/images") %>"></div>
 				</div>
-				<div class="card-content center-align">
-					<span class="name">Corrido1<br></span>
-					<span class="result"><%= corrido1_day %></span>
-				</div>
+				<span class="blue-grey-text"><%= getName(corrido1_day-1) %></span>
+			</div>
+			<div class="action grey lighten-2 green-text">
+				Corrido1: <%= corrido1_day %>
 			</div>
 		</div>
 	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container">
-					<div class="img" style="<%= getImage(corrido2_day, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+
+	<!-- DIA CORRIDO #2 -->
+
+	<div class="col s4 m2">
+		<div class="card user-card center-align">
+			<div class="content">
+				<div class="img-container actual orange">
+					<div class="img" style="<%= getImage(corrido2_day-1, "{{APP_SERVICE_PATH}}/images") %>"></div>
 				</div>
-				<div class="card-content center-align">
-					<span class="name">Corrido2<br></span>
-					<span class="result"><%= corrido2_day %></span>
-				</div>
+				<span class="blue-grey-text"><%= getName(corrido2_day-1) %></span>
+			</div>
+			<div class="action grey lighten-2 green-text">
+				Corrido2: <%= corrido2_day %>
 			</div>
 		</div>
 	</div>
 </div>
 
-<!-- EVENING -->
 
 <% if(fijo_night) { %>
-<div class="row">
-	<div class="col s12">
-		<h1>Noche</h1>
+	<div class="row">
+		<div class="col s12">
+			<span class="chip tiny black white-text"><i class="far fa-moon"></i> Noche</span>
+		</div>
+
+	<!-- NOCHE FIJO -->
+
+	<div class="col s4 m2">
+		<div class="card user-card center-align">
+			<div class="content">
+				<div class="img-container actual orange">
+					<div class="img" style="<%= getImage(fijo_night-1, "{{APP_SERVICE_PATH}}/images") %>"></div>
+				</div>
+				<span class="blue-grey-text"><%= getName(fijo_night-1) %></span>
+			</div>
+			<div class="action grey lighten-2 green-text">
+				Fijo: <%= papeleta_night %>-<%= fijo_night %>
+			</div>
+		</div>
 	</div>
 
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container">
-					<div class="img" style="<%= getImage(papeleta_night, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+	<!-- NOCHE CORRIDO #1 -->
+
+	<div class="col s4 m2">
+		<div class="card user-card center-align">
+			<div class="content">
+				<div class="img-container actual orange">
+					<div class="img" style="<%= getImage(corrido1_night-1, "{{APP_SERVICE_PATH}}/images") %>"></div>
 				</div>
-				<div class="card-content center-align">
-					<span class="name">Fijo<br></span>
-					<span class="result"><%= papeleta_night %>-<%= fijo_night %></span>
-				</div>
+				<span class="blue-grey-text"><%= getName(corrido1_night-1) %></span>
+			</div>
+			<div class="action grey lighten-2 green-text">
+				Corrido1: <%= corrido1_night %>
 			</div>
 		</div>
 	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container">
-					<div class="img" style="<%= getImage(corrido1_night, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
+
+	<!-- NOCHE CORRIDO #2 -->
+
+	<div class="col s4 m2">
+		<div class="card user-card center-align">
+			<div class="content">
+				<div class="img-container actual orange">
+					<div class="img" style="<%= getImage(corrido2_night-1, "{{APP_SERVICE_PATH}}/images") %>"></div>
 				</div>
-				<div class="card-content center-align">
-					<span class="name">Corrido1<br></span>
-					<span class="result"><%= corrido1_night %></span>
-				</div>
+				<span class="blue-grey-text"><%= getName(corrido2_night-1) %></span>
+			</div>
+			<div class="action grey lighten-2 green-text">
+				Corrido2: <%= corrido2_night %>
 			</div>
 		</div>
 	</div>
-	<div class="col s4">
-		<div class="card">
-			<div class="card-image">
-				<div class="img-container">
-					<div class="img" style="<%= getImage(corrido2_night, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
-				</div>
-				<div class="card-content center-align">
-					<span class="name">Corrido2<br></span>
-					<span class="result"><%= corrido2_night %></span>
-				</div>
-			</div>
-		</div>
 	</div>
-</div>
 <% } %>
 
 <!-- MESSAGE -->

@@ -150,25 +150,19 @@ function openMenu() {
 	$('.sidenav').sidenav('open');
 }
 
-function getImage(index, serviceImgPath, size) {
-	var x = (index-1) * size;
+function getImage(index, serviceImgPath, size=35) {
+	var x = (index) * size;
 	return "background-image: url(" + serviceImgPath + "/bolita-icons.png); background-size: " + size * 100 + "px " + size + "px; background-position: -" + x + "px 0;";
 }
 
-function toggleCharadaText (element) {
-	var item = $(element).parent().parent().parent();
-	var front = item.children('.front');
-	var back = item.children('.back')
+function getName(index) {
+	var name = charada[index];
 
-	if (front.css('display') !== 'none') {
-		front.fadeToggle(function () {
-			back.fadeToggle()
-		});
-	} else {
-		back.fadeToggle(function () {
-			front.fadeToggle()
-		});
+	if(name.length > 9) {
+		name = name.substring(0, 6) + '...';
 	}
+
+	return name;
 }
 
 function share() {

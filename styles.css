@@ -1,20 +1,60 @@
-/* GENERAL */
+/* USER CARDS */
 
-.bolita-color.acent{
-	background: #455A64;
+.card.user-card .content {
+	padding: 10px 5px 5px 5px;
 }
 
-.bolita-yellow-text{
-	color: #FFA420;
+.card.user-card .action {
+	padding: 5px 0px;
 }
 
-.bolita-color{
-	background: #263238 !important;
+.card.user-card .action a {
+	color: inherit;
 }
 
-body{
-	font-family: 'Roboto', sans-serif;
-	color: white;
+/* BOLITA IMAGE */
+
+.img-container {
+	margin: auto;
+	border-radius: 50%;
+	display: flex !important;
+}
+
+.img-container.actual {
+	width: 65px;
+	height: 65px;
+	margin-bottom: 5px;
+}
+
+.img {
+	margin: auto;
+	width: 35px;
+	height: 35px;
+}
+
+.img.small {
+	width: 25px;
+	height: 25px;
+}
+
+/* TAGS */
+
+.chip .icon {
+	float: left;
+	font-size: 16px;
+	line-height: 32px;
+	padding-right: 5px;
+}
+
+.chip.tiny {
+	height: 20px;
+	padding: 0 10px;
+	line-height: 20px;
+	font-size: x-small;
+}
+
+.chip.tiny .icon {
+	line-height: 20px;
 }
 
 /* DATEPICKER */
@@ -28,127 +68,52 @@ body{
 	max-width: 325px;
 }
 
-body, .datepicker-container, .datepicker-container button:focus {
-	background: #263238;
-}
-
 .datepicker-table td.is-selected{
-	background: #FFA420;
 	border-radius: 0;
-}
-
-.confirmation-btns > button, .datepicker-table td.is-today{
-	color: #FFA420;
 }
 
 .datepicker-date-display, .confirmation-btns > button{
 	display: none;
 }
 
-.selects-container input{
-	color: white;
+/* FLOAT BUTTON */
+
+.bottom-space {
+	margin-bottom: 80px;
 }
 
-.month-next, .month-before{
-	fill: white;
+.btn-floating.second {
+	margin-right: -10px;
+	width: 45px;
+	height: 45px;
+	line-height: 58px;
 }
 
-@media screen and (max-width: 420px){
-	.sidenav{
-		max-width: 240px;
-	}
+/* MENU */
+
+.sidenav{
+	padding-top: 20px;
+	max-width: 240px;
 }
 
-h1, h2 {
-	color: white;
-	text-align: center;
+/* NUMBERS LIST */
+
+.collection.number-list .collection-item {
+	padding-left: 50px;
 }
 
-h1 {
-	font-size: 27px;
-	margin: 0;
-}
-
-h2 {
-	font-size: 20px;
-	margin-top: .5rem;
-}
-
-.name{ font-size: 18px }
-.result { font-size: 18px }
-
-.card{
-	box-shadow: none;
-	background: #455A64;
-}
-
-.btn-floating:focus, .btn-floating:hover{
-	background: #455A64;
-}
-
-.card-image{ padding-top: 1px }
-.card-content { padding: 0 0 10% 0 !important }
-
-.img{
-	margin: auto;
-	width: 35px;
-	height: 35px;
-}
-
-.img-container{
-	border-radius: 50% !important;
-	background-color: #FFA420;
-	max-width: 150px;
-	height: 65px;
-}
-
-/* CHARADA */
-
-.img-container, .charada-container > div{
-	display: flex;
-	align-items: center;
-}
-
-.card-image > .img-container{
-	margin: 10% auto;
-	width: 80px;
-	height: 80px;
-}
-
-.charada-item .img-container{
-	width: 65px;
-	height: 65px;
-}
-
-.charada-item h1, .charada-item h2{
-	margin: 0;
-}
-
-.charada-item h1{ font-size: 2rem }
-.charada-item h2{ font-size: 1.5rem }
-
-.charada-item i{
-	position: relative;
-	top: -20px;
-	right: -5px;
-}
-
-.charada-container, .charada-container > div{
-	height: inherit;
-}
-
-.charada-item{
-	background-color: #455A64;
-	width: 100%;
-	height: 90px;
-	margin-bottom: 20px;
-	border-radius: 8px;
+.collection.number-list .number {
+	width: 30px !important;
+	height: 30px !important;
+	line-height: 30px !important;
+	top: 15px  !important;
+	left: 10px !important;
+	font-style: normal;
 }
 
 /* BOLA DE LA SUERTE */
 
 #esfera-in{
-	background: #FFA420;
 	padding: 20%;
 	border-radius: 50%;
 }
@@ -157,33 +122,4 @@ h2 {
 	border-radius: 50%;
 	padding: 10px;
 	border: 5px solid #FFA420;
-}
-
-/* BUTTONS */
-
-.bottom-space {
-	margin-bottom: 80px;
-}
-
-.btn-floating.second {
-	margin-right: -10px;
-	margin-top: 6px;
-	width: 45px;
-	height: 45px;
-	line-height: 58px;
-}
-
-.btn-floating.third {
-	bottom: 45px;
-	left: 87px;
-	width: 45px;
-	height: 45px;
-	line-height: 58px;
-}
-
-/* PREVIEW COLLECTION */
-
-.collection.preview {
-	margin: 20px 0px 0px 0px;
-	min-height: 65px;
 }

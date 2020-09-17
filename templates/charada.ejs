@@ -1,35 +1,15 @@
 <div class="row">
 	<div class="col s12">
-		<% for(var i = 0; i < charada.length; i++) { %>
-			<% var n = i < 9 ? "0" + (i + 1) : (i + 1); %>
-			<div class="charada-item left-align">
-				<div class="charada-container">
-					<div class="front">
-						<div class="col s3">
-							<div class="img-container">
-								<div class="img" style="<%= getImage(n, "{{APP_SERVICE_PATH}}/images", 35) %>"></div>
-							</div>
-						</div>
-						<div class="col s4">
-							<h1>#<%= n < 100 ? n : '100' %></h1>
-						</div>
-						<div class="col s4">
-							<h2><%= charada[i] %></h2>
-						</div>
-						<div class="col s1">
-							<i class="material-icons right" onclick="toggleCharadaText(this)">more_vert</i>
-						</div>
+		<ul class="collection one-line">
+			<% charada.forEach(function(item, i) { %>
+				<li class="collection-item avatar">
+					<div class="tiny material-icons orange circle img-container">
+						<div class="img small" style="<%= getImage(i, "{{APP_SERVICE_PATH}}/images", 25) %>"></div>
 					</div>
-					<div class="back" style="display:none;">
-						<div class="col s11">
-							<p><b><%= charada[i] %></b>: <%= charadaDescription[i] %></p>
-						</div>
-						<div class="col s1">
-							<i class="material-icons right" onclick="toggleCharadaText(this)">more_vert</i>
-						</div>
-					</div>
-				</div>
-			</div>
-		<% } %>
+					<span class="title"><b>#<%= i+1 %> <%= item %></b></span>
+					<p class="blue-grey-text"><%= charadaDescription[i] %></p>
+				</li>
+			<% }) %>
+		</ul>
 	</div>
 </div>
