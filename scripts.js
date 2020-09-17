@@ -132,7 +132,7 @@ $(document).ready(function () {
 			onSelect: function (value) {
 				apretaste.send({
 					command: 'BOLITA',
-					data: {'date': moment(value).format('YYYY-MM-DD')}
+					data: {'dt': moment(value).format('YYYY-MM-DD')}
 				})
 			}
 		});

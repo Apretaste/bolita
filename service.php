@@ -16,8 +16,8 @@ class Service
 	public function _main(Request $request, Response $response)
 	{
 		// get the date and filters
-		$date = $request->input->data->date ?? false;
-		$where = empty($date) ? "" : "WHERE corrida = '$date'";
+		$dt = $request->input->data->dt ?? false;
+		$where = empty($dt) ? "" : "WHERE corrida = '$dt'";
 
 		// get latest corrida, or search by date
 		$corrida = Database::queryFirst("

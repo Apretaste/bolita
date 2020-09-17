@@ -1,39 +1,12 @@
-<!-- MENU -->
-
-<div class="row">
-	<ul class="sidenav bolita-color white-text" style="padding-top:20px;">
-		<li>
-			<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA'})">
-				<i class="material-icons grey-text text-lighten-2">star</i> Tiradas
-			</a>
-		</li>
-		<li>
-			<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA CHARADA'})">
-				<i class="material-icons grey-text text-lighten-2">casino</i> Charada
-			</a>
-		</li>
-		<li>
-			<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA SUERTE'})">
-				<i class="material-icons grey-text text-lighten-2">toys</i> Suerte
-			</a>
-		</li>
-		<li>
-			<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA REGLAS'})">
-				<i class="material-icons grey-text text-lighten-2">help</i> Reglas
-			</a>
-		</li>
-	</ul>
-</div>
-
 <!-- CONTENT -->
 
 <div class="row">
 	{{APP_TEMPLATE_CODE}}
 </div>
 
-<div class="bottom-space"></div>
-
 <!-- FLOATING MOBILE BTN -->
+
+<div class="bottom-space"></div>
 
 <div class="fixed-action-btn">
 	<% if(title == 'Tiradas') { %>
@@ -45,3 +18,28 @@
 		<i class="material-icons">menu</i>
 	</a>
 </div>
+
+<!-- MENU -->
+
+<ul class="sidenav bolita-color white-text" style="padding-top:20px;">
+	<li>
+		<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA'})">
+			<i class="material-icons grey-text text-lighten-2">star</i> Tiradas
+		</a>
+	</li>
+	<li>
+		<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA CHARADA'})">
+			<i class="material-icons grey-text text-lighten-2">casino</i> Charada
+		</a>
+	</li>
+	<li>
+		<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA SUERTE'})">
+			<i class="material-icons grey-text text-lighten-2">toys</i> Suerte
+		</a>
+	</li>
+	<li>
+		<a class="grey-text text-lighten-2" onclick="apretaste.send({'command':'BOLITA REGLAS'})">
+			<i class="material-icons grey-text text-lighten-2">help</i> Reglas
+		</a>
+	</li>
+</ul>
