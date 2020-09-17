@@ -113,13 +113,26 @@
 
 /* BOLA DE LA SUERTE */
 
-#esfera-in{
+#suerte {
+	display: none;
+}
+
+.esfera-in{
 	padding: 20%;
 	border-radius: 50%;
 }
 
-#esfera-out{
+.esfera-out{
 	border-radius: 50%;
 	padding: 10px;
 	border: 5px solid #FFA420;
+	width: 80%;
+	margin: auto;
+}
+
+.esfera-out.small{
+	border: 0px;
+	width: 40%;
+	margin: auto;
+	margin-bottom: 40px;
 }

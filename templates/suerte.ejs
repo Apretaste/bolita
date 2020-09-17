@@ -1,24 +1,27 @@
-<div class="row" id="esfera">
-	<div class="col s12 center-align">
-		<div id="esfera-out" onclick="toggleSuerte()">
-			<div id="esfera-in" class="orange">
+<div class="row">
+	<div class="bottom-space"></div>
+
+	<!-- ESFERA -->
+
+	<div id="esfera" class="col s12 center-align">
+		<div class="esfera-out" onclick="toggleSuerte()">
+			<div class="esfera-in orange">
 				<img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
 			</div>
 		</div>
-	</div>
-	<div class="col s12 center-align" style="padding: 2rem;">
+
 		<p><b>Pulsa la bola de cristal para consultar tus números de la suerte el día de hoy</b></p>
 	</div>
-</div>
 
-<div class="row" id="suerte" style="display:none;">
-	<div class="col s6 offset-s3 m4 offset-m4 l2 offset-l5 center-align" style="margin-bottom:2rem">
-		<div id="esfera-in" class="orange">
-			<img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
+	<!-- SUERTE -->
+
+	<div id="suerte" class="col s12">
+		<div class="esfera-out small">
+			<div class="esfera-in orange center-align">
+				<img src="{{APP_SERVICE_PATH}}/images/esfera-suerte.png" class="responsive-img">
+			</div>
 		</div>
-	</div>
 
-	<div class="col s12">
 		<ul class="collection one-line">
 			<!-- FIJO -->
 
