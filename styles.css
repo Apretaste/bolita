@@ -78,6 +78,10 @@
 
 /* FLOAT BUTTON */
 
+.top-space {
+	margin-bottom: 40px;
+}
+
 .bottom-space {
 	margin-bottom: 80px;
 }
@@ -128,11 +132,11 @@
 	border: 5px solid #FFA420;
 	width: 80%;
 	margin: auto;
+	margin-bottom: 20px;
 }
 
 .esfera-out.small{
 	border: 0px;
 	width: 40%;
 	margin: auto;
-	margin-bottom: 40px;
 }
