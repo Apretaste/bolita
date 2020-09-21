@@ -39,6 +39,7 @@ class Service
 
 		// add screen title
 		$corrida->title = "Tiradas";
+		$corrida->hasNightResults = !empty($corrida->fijo_night);
 
 		// send data to the view
 		$response->setCache(360);
