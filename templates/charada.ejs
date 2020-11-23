@@ -6,8 +6,8 @@
 					<div class="tiny material-icons orange circle img-container">
 						<div class="img small" style="<%= getImage(i, "{{APP_SERVICE_PATH}}/images", 25) %>"></div>
 					</div>
-					<span class="title"><b>#<%= i+1 %> <%= item %></b></span>
-					<p class="blue-grey-text"><%= charadaDescription[i] %></p>
+					<span class="title"><b>#<%= item.number %> <%= item.names.join(', ') %></b></span>
+					<p class="blue-grey-text"><%= item.desc %></p>
 				</li>
 			<% }) %>
 		</ul>

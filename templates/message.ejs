@@ -1,8 +1,10 @@
 <div class="row">
 	<div class="col s12 center">
-		<h1>No hay resultados</h1>
-		<i class="material-icons large">mood_bad</i>
-		<p class="flow-text">No hemos encontrado resultados para este día. Por favor vire hacia atrás y escoja otra fecha.</p>
-		<a class="waves-effect waves-light btn green" href="#!" onclick="apretaste.send({'command':'BOLITA'})">Ir atrás</a>
+		<h1><%= header %></h1>
+		<i class="material-icons large"><%= icon %></i>
+		<p class="flow-text"><%= text %></p>
+		<a class="waves-effect waves-light btn green" href="#!" onclick="apretaste.send({'command':'<%= btnLink %>'})">
+			<%= btnCaption %>
+		</a>
 	</div>
 </div>

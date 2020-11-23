@@ -1,0 +1,44 @@
+<div class="row">
+	<% if(bets.length <= 0) { %>
+		<div class="col s12 center">
+			<p class="middle-center grey-text">No tiene ninguna apuesta. Cree una apuesta para la próxima tirada.</p>
+		</div>
+	<% } else { %>
+		<div class="col s12">
+			<!-- apretin -->
+			<div class="col s12 speech-bubble-space">
+				<div class="speech-bubble">
+					<div class="arrow"></div>
+					Estas apuestas están pendientes para la próxima tirada.
+				</div>
+				<div class="person-avatar circle" face="apretin" color="verde" size="60"></div>
+			</div>
+
+			<!-- list of bets -->
+			<ul class="collection one-line">
+				<% bets.forEach(function(item){ %>
+					<li class="collection-item avatar">
+						<div class="tiny material-icons orange circle img-container">
+							<div class="img small" style="<%= getImage(item.bet_1-1, "{{APP_SERVICE_PATH}}/images", 25) %>"></div>
+						</div>
+
+						<p class="title">
+							<span class="chip medium clear orange-text text-lighten-2"><i class="fas fa-award"></i> 
+								<%= formatBetType(item.type) %>
+								<%= item.bet_1 %>
+								<% if(item.type == 'PARLE') { %>
+									<%= item.bet_3 %>
+									<%= item.bet_2 %>
+								<% } %>
+							</span>
+						</p>
+
+						<span class="chip tiny grey-text text-darken-2 clear"><i class="fas fa-calendar"></i> <%= moment(item.inserted).format("d [de] MMMM [del] YYYY") %></span>
+
+						<a href="#!" class="secondary-content large">§<%= Number(item.bet_amount).toFixed(2) %></a>
+					</li>
+				<% }) %>
+			</ul>
+		</div>
+	<% } %>
+</div>

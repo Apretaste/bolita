@@ -1,0 +1,71 @@
+<div class="row">
+	<!-- apretin -->
+	<div class="col s12 speech-bubble-space">
+		<div class="speech-bubble">
+			<div class="arrow"></div>
+			Cree una nueva apuesta para la próxima tirada. Una apuesta creada no podrá ser retirada.
+		</div>
+		<div class="person-avatar circle" face="apretin" color="verde" size="60"></div>
+	</div>
+
+	<!-- select bet type -->
+	<div class="col s12 input-field">
+		<select id="type" onchange="selectBetType()">
+			<option value="CORRIDO">Corrido</option>
+			<option value="FIJO">Fijo</option>
+			<option value="PARLE">Parlé</option>
+		</select>
+		<label for="type">Tipo de apuesta</label>
+	</div>
+
+	<!-- select first  bet -->
+	<div class="col s12 small input-field">
+		<select id="bet1">
+			<option value="" selected></option>
+			<% charada.forEach(function(item) { %>
+				<option value="<%= item.number %>">#<%= item.number %> - <%= item.names.join(', ') %></option>
+			<% }) %>
+		</select>
+		<label for="bet1">Número primario</label>
+	</div>
+
+	<!-- select second bet -->
+	<div class="col s12 small input-field hidden parle">
+		<select id="bet2">
+			<option value="" selected></option>
+			<% charada.forEach(function(item) { %>
+				<option value="<%= item.number %>">#<%= item.number %> - <%= item.names.join(', ') %></option>
+			<% }) %>
+		</select>
+		<label for="bet2">Segundo corrido</label>
+	</div>
+
+	<!-- select third bet -->
+	<div class="col s12 small input-field hidden parle">
+		<select id="bet3">
+			<option value="" disabled selected></option>
+			<% charada.forEach(function(item) { %>
+				<option value="<%= item.number %>">#<%= item.number %> - <%= item.names.join(', ') %></option>
+			<% }) %>
+		</select>
+		<label for="bet3">Segundo corrido</label>
+	</div>
+
+	<!-- bet amount -->
+	<div class="col s12 input-field">
+		<input id="amount" type="number" min="1" max="100">
+		<label for="amount">¿Cúantos créditos desea apostar?</label>
+	</div>
+</div>
+
+<div class="bottom-space"></div>
+
+<!-- BUTTON -->
+<div id="btn" class="fixed-action-btn">
+	<a class="btn-floating waves-effect waves-light grey second" href="#!" onclick="apretaste.send({'command':'BOLITA APUESTAS'})">
+		<i class="material-icons">arrow_back</i>
+	</a>
+	<a class="btn-floating btn-large waves-effect waves-light green" href="#!" onclick="bet()">
+		<i class="material-icons">save</i>
+	</a>
+</div>

@@ -14,9 +14,18 @@
 			<i class="material-icons">share</i>
 		</a>
 	<% } %>
-	<a class="btn-floating btn-large waves-effect waves-light bolita-color green" onclick="openMenu();">
-		<i class="material-icons">menu</i>
-	</a>
+
+	<% if(title == 'Apuestas') { %>
+		<a class="btn-floating waves-effect waves-light grey second" onclick="apretaste.send({'command':'BOLITA APOSTAR'})">
+			<i class="large material-icons">add</i>
+		</a>
+	<% } %>
+
+	<% if(title != 'Apostar') { %>
+		<a class="btn-floating btn-large waves-effect waves-light bolita-color green" onclick="openMenu();">
+			<i class="material-icons">menu</i>
+		</a>
+	<% } %>
 </div>
 
 <!-- MENU -->
@@ -24,22 +33,36 @@
 <ul class="sidenav">
 	<li>
 		<a onclick="apretaste.send({'command':'BOLITA'})">
-			<i class="material-icons">star</i> Tiradas
+			<i class="fas fa-calendar-day fa-lg"></i> Tiradas
 		</a>
 	</li>
 	<li>
 		<a onclick="apretaste.send({'command':'BOLITA CHARADA'})">
-			<i class="material-icons">casino</i> Charada
+			<i class="fas fa-list fa-lg"></i> Charada
 		</a>
 	</li>
 	<li>
 		<a onclick="apretaste.send({'command':'BOLITA SUERTE'})">
-			<i class="material-icons">toys</i> Suerte
+			<i class="fas fa-dice fa-lg"></i> Suerte
+		</a>
+	</li>
+	<li>
+		<a class="right-icon" onclick="apretaste.send({'command':'BOLITA APOSTAR'})">
+			<i class="fas fa-plus-circle fa-lg"></i>
+		</a>
+
+		<a onclick="apretaste.send({'command':'BOLITA APUESTAS'})">
+			<i class="fas fa-coins fa-lg"></i> Apuestas
+		</a>
+	</li>
+	<li>
+		<a onclick="apretaste.send({'command':'BOLITA GANADORES'})">
+			<i class="fas fa-crown fa-lg"></i> Ganadores
 		</a>
 	</li>
 	<li>
 		<a onclick="apretaste.send({'command':'BOLITA REGLAS'})">
-			<i class="material-icons">help</i> Reglas
+			<i class="fas fa-question-circle fa-lg"></i> Reglas
 		</a>
 	</li>
 </ul>

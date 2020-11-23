@@ -29,8 +29,8 @@
 				<div class="tiny material-icons orange circle img-container">
 					<div class="img small" style="<%= getImage(fijo-1, "{{APP_SERVICE_PATH}}/images", 25) %>"></div>
 				</div>
-				<span class="title"><b>#<%= fijo %> <%= charada[fijo-1] %></b></span>
-				<p class="blue-grey-text"><%= charadaDescription[fijo-1] %></p>
+				<span class="title"><b>#<%= fijo %> <%= charada[fijo-1].names.join(', ') %></b></span>
+				<p class="blue-grey-text"><%= charada[fijo-1].desc %></p>
 			</li>
 
 			<!-- CORRIDO #1 -->
@@ -39,8 +39,8 @@
 				<div class="tiny material-icons orange circle img-container">
 					<div class="img small" style="<%= getImage(corrido1-1, "{{APP_SERVICE_PATH}}/images", 25) %>"></div>
 				</div>
-				<span class="title"><b>#<%= corrido1 %> <%= charada[corrido1-1] %></b></span>
-				<p class="blue-grey-text"><%= charadaDescription[corrido1-1] %></p>
+				<span class="title"><b>#<%= corrido1 %> <%= charada[corrido1-1].names.join(', ') %></b></span>
+				<p class="blue-grey-text"><%= charada[corrido1-1].desc %></p>
 			</li>
 
 			<!-- CORRIDO #2 -->
@@ -49,8 +49,8 @@
 				<div class="tiny material-icons orange circle img-container">
 					<div class="img small" style="<%= getImage(corrido2-1, "{{APP_SERVICE_PATH}}/images", 25) %>"></div>
 				</div>
-				<span class="title"><b>#<%= corrido2 %> <%= charada[corrido2-1] %></b></span>
-				<p class="blue-grey-text"><%= charadaDescription[corrido2-1] %></p>
+				<span class="title"><b>#<%= corrido2 %> <%= charada[corrido2-1].names.join(', ') %></b></span>
+				<p class="blue-grey-text"><%= charada[corrido2-1].desc %></p>
 			</li>
 		</ul>
 	</div>
