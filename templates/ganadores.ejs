@@ -1,38 +1,44 @@
 <div class="row">
-	<div class="col s12">
-		<!-- apretin -->
-		<div class="col s12 speech-bubble-space">
-			<div class="speech-bubble">
-				<div class="arrow"></div>
-				Estos son los últimos 30 ganadores de la bolita. ¡Muchas felicidades!
-			</div>
-			<div class="person-avatar circle" face="apretin" color="verde" size="60"></div>
+	<% if(winners.length <= 0) { %>
+		<div class="col s12 center">
+			<p class="middle-center grey-text">Aún no tenemos ganadores. Cree una apuesta y quizás la suerte lo sonría.</p>
 		</div>
+	<% } else { %>
+		<div class="col s12">
+			<!-- apretin -->
+			<div class="col s12 speech-bubble-space">
+				<div class="speech-bubble">
+					<div class="arrow"></div>
+					Estos son los últimos 30 ganadores de la bolita. ¡Muchas felicidades!
+				</div>
+				<div class="person-avatar circle" face="apretin" color="verde" size="60"></div>
+			</div>
 
-		<!-- winners -->
-		<ul class="collection">
-			<% winners.forEach(function(item){ %>
-				<li class="collection-item avatar">
-					<div class="person-avatar circle" face="<%= item.avatar %>" color="<%= item.avatarColor %>" size="42"></div>
-					<p class="title">
-						<a class="<%= item.gender %>" href="#!" onclick="apretaste.send({command:'PERFIL', data:{username:'<%= item.username %>'}});">@<%= item.username %></a>
-					</p>
-					<span class="chip tiny grey-text text-darken-2 clear"><i class="fas fa-calendar"></i> <%= moment(item.updated).format("d [de] MMMM [del] YYYY") %></span>
+			<!-- winners -->
+			<ul class="collection">
+				<% winners.forEach(function(item){ %>
+					<li class="collection-item avatar">
+						<div class="person-avatar circle" face="<%= item.avatar %>" color="<%= item.avatarColor %>" size="42"></div>
+						<p class="title">
+							<a class="<%= item.gender %>" href="#!" onclick="apretaste.send({command:'PERFIL', data:{username:'<%= item.username %>'}});">@<%= item.username %></a>
+						</p>
+						<span class="chip tiny grey-text text-darken-2 clear"><i class="fas fa-calendar"></i> <%= moment(item.updated).format("d [de] MMMM [del] YYYY") %></span>
 
-					<div>
-						<span class="chip medium clear orange-text text-lighten-2"><i class="fas fa-award"></i> 
-							<%= formatBetType(item.type) %>
-							<%= item.bet_1 %>
-							<% if(item.type == 'PARLE') { %>
-								<%= item.bet_3 %>
-								<%= item.bet_2 %>
-							<% } %>
-						</span>
-					</div>
+						<div>
+							<span class="chip medium clear orange-text text-lighten-2"><i class="fas fa-award"></i> 
+								<%= formatBetType(item.type) %>
+								<%= item.bet_1 %>
+								<% if(item.type == 'PARLE') { %>
+									<%= item.bet_3 %>
+									<%= item.bet_2 %>
+								<% } %>
+							</span>
+						</div>
 
-					<a href="#!" class="secondary-content large">§<%= Number(item.earned).toFixed(2) %></a>
-				</li>
-			<% }) %>
-		</ul>
-	</div>
+						<a href="#!" class="secondary-content large">§<%= Number(item.earned).toFixed(2) %></a>
+					</li>
+				<% }) %>
+			</ul>
+		</div>
+	<% } %>
 </div>
