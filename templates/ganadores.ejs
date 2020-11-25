@@ -19,19 +19,17 @@
 				<% winners.forEach(function(item){ %>
 					<li class="collection-item avatar">
 						<div class="person-avatar circle" face="<%= item.avatar %>" color="<%= item.avatarColor %>" size="42"></div>
+
 						<p class="title">
 							<a class="<%= item.gender %>" href="#!" onclick="apretaste.send({command:'PERFIL', data:{username:'<%= item.username %>'}});">@<%= item.username %></a>
 						</p>
-						<span class="chip tiny grey-text text-darken-2 clear"><i class="fas fa-calendar"></i> <%= moment(item.updated).format("d [de] MMMM [del] YYYY") %></span>
+
+						<span class="chip tiny grey-text text-darken-2 clear"><i class="fas fa-calendar"></i> <%= moment(item.updated).format("D [de] MMMM [del] YYYY") %></span>
 
 						<div>
 							<span class="chip medium clear orange-text text-lighten-2"><i class="fas fa-award"></i> 
-								<%= formatBetType(item.type) %>
-								<%= item.bet_1 %>
-								<% if(item.type == 'PARLE') { %>
-									<%= item.bet_3 %>
-									<%= item.bet_2 %>
-								<% } %>
+								<%= formatBetType(item.type) %>: 
+								<b><%= (item.type == 'PARLE') ? item.bet_1 + '-' + item.bet_2 + '-' + item.bet_3 : item.bet_1 %></b>
 							</span>
 						</div>
 

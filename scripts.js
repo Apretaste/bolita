@@ -203,7 +203,8 @@ function bet() {
 	var bet1 = $('#bet1').val();
 	var bet2 = $('#bet2').val();
 	var bet3 = $('#bet3').val();
-	var amount = $('#amount').val();
+	var amount = Number($('#amount').val());
+	var credit = Number($('#credit').val());
 
 	// validate first number
 	if(bet1 < 1 || bet1 > 100) {
@@ -212,8 +213,14 @@ function bet() {
 	}
 
 	// validate amount
-	if(Number(amount) != amount || amount <= 0) {
-		M.toast({html: 'La cantidad a apostar es inválida'});
+	if(amount < 1) {
+		M.toast({html: 'Debe apostar al menos 1 crédito'});
+		return false;
+	}
+
+	// validate enough credits
+	if(amount > credit) {
+		M.toast({html: 'No tiene suficiente crédito'});
 		return false;
 	}
 

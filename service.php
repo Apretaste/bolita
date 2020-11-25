@@ -114,7 +114,7 @@ class Service
 	 * @param Request $request
 	 * @param Response $response
 	 */
-	public function _apuestas (Request $request, Response $response)
+	public function _apuestas(Request $request, Response $response)
 	{
 		// get all the open bets
 		$bets = Database::query("
@@ -139,7 +139,7 @@ class Service
 	{
 		$response->setCache('year');
 		$response->setLayout('bolita.ejs');
-		$response->setTemplate('apostar.ejs', ['title' => 'Apostar']);
+		$response->setTemplate('apostar.ejs', ['title' => 'Apostar', 'credit' => $request->person->credit]);
 	}
 
 	/**
@@ -201,7 +201,7 @@ class Service
 		// validate data and funds
 		if(
 			!in_array($type, ['CORRIDO','FIJO','PARLE']) ||
-			!is_numeric($amount) || $amount <= 0 || $amount > $request->person->credit || 
+			!is_numeric($amount) || $amount < 1 || $amount > $request->person->credit || 
 			!is_numeric($bet1) || ($bet1 < 1 || $bet1 > 100) || 
 			$type == 'PARLE' && (
 				!is_numeric($bet2) || ($bet2 < 1 || $bet2 > 100) || 
@@ -245,7 +245,7 @@ class Service
 		// add bet to the database
 		Database::query("
 			INSERT INTO _bolita_bets(person_id, type, bet_1, bet_2, bet_3, bet_amount) 
-			VALUES ({$request->person->id}, '$type', '$bet1', NULLIF('$bet2', ''), NULLIF('$bet2', ''), $amount)");
+			VALUES ({$request->person->id}, '$type', '$bet1', NULLIF('$bet2', ''), NULLIF('$bet3', ''), $amount)");
 
 		// display OK message
 		$response->setTemplate('message.ejs', [

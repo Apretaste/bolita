@@ -23,17 +23,13 @@
 						</div>
 
 						<p class="title">
-							<span class="chip medium clear orange-text text-lighten-2"><i class="fas fa-award"></i> 
-								<%= formatBetType(item.type) %>
-								<%= item.bet_1 %>
-								<% if(item.type == 'PARLE') { %>
-									<%= item.bet_3 %>
-									<%= item.bet_2 %>
-								<% } %>
+							<span class="chip medium clear orange-text text-lighten-2">
+								<%= formatBetType(item.type) %>: 
+								<b><%= (item.type == 'PARLE') ? item.bet_1 + '-' + item.bet_2 + '-' + item.bet_3 : item.bet_1 %></b>
 							</span>
 						</p>
 
-						<span class="chip tiny grey-text text-darken-2 clear"><i class="fas fa-calendar"></i> <%= moment(item.inserted).format("d [de] MMMM [del] YYYY") %></span>
+						<span class="chip tiny grey-text text-darken-2 clear"><i class="fas fa-calendar"></i> <%= moment(item.inserted).format("D [de] MMMM [del] YYYY") %></span>
 
 						<a href="#!" class="secondary-content large">§<%= Number(item.bet_amount).toFixed(2) %></a>
 					</li>
