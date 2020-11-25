@@ -76,33 +76,35 @@ class Service
 	public function _suerte(Request $request, Response $response)
 	{
 		// get numbers for today
-		$nums = Database::query("SELECT numbers FROM _bolita_suerte WHERE id_person='{$request->person->id}' AND DATE(`date`)=DATE(NOW())");
+		$luckyNumbers = Database::queryFirst("
+			SELECT fijo, corrido1, corrido2
+			FROM _bolita_suerte 
+			WHERE person_id = {$request->person->id}
+			AND inserted >= CURRENT_DATE");
 
-		if (!$nums) {
-			// if no numbers, create them
-			$pick3 = [rand(0, 9), rand(0, 9), rand(0, 9)];
-			$pick4 = [rand(0, 9), rand(0, 9), rand(0, 9), rand(0, 9)];
-			$pick3 = implode($pick3);
-			$pick4 = implode($pick4);
-			$nums = "$pick3 $pick4";
-			$paid = 0;
+		// if first time visiting today...
+		if (empty($luckyNumbers)) {
+			// create your lucky numbers
+			$luckyNumbers = new stdClass();
+			$luckyNumbers->fijo = mt_rand(1 ,100);
+			$luckyNumbers->corrido1 = mt_rand(1 ,100);
+			$luckyNumbers->corrido2 = mt_rand(1 ,100);
 
-			// save lucky numbers in the db
+			// save your lucky numbers
 			Database::query("
-				INSERT INTO _bolita_suerte (id_person, numbers)
-				VALUES('{$request->person->id}', '$nums')");
-		} else {
-			$nums = $nums[0]->numbers;
+				INSERT INTO _bolita_suerte (person_id, fijo, corrido1, corrido2) 
+				VALUES({$request->person->id}, {$luckyNumbers->fijo}, {$luckyNumbers->corrido1}, {$luckyNumbers->corrido2})");
 		}
 
+		// create data for the view
 		$content = [
 			'title' => 'Suerte',
-			'fijo' => $nums[1] . $nums[2],
-			'centena' => $nums[0],
-			'corrido1' => $nums[4] . $nums[5],
-			'corrido2' => $nums[6] . $nums[7],
+			'fijo' => $luckyNumbers->fijo,
+			'corrido1' => $luckyNumbers->corrido1,
+			'corrido2' => $luckyNumbers->corrido2
 		];
 
+		// send data to the view
 		$response->setCache(360);
 		$response->setLayout('bolita.ejs');
 		$response->setTemplate('suerte.ejs', $content);
