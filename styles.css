@@ -8,6 +8,10 @@
 	display: none;
 }
 
+.text-small {
+	font-size: smaller;
+}
+
 /* GENDER COLORS */
 
 .M {
